@@ -1,7 +1,15 @@
 package com.example.web.models.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "offices")
 public class OfficeEntity extends BaseEntity {
@@ -29,50 +37,5 @@ public class OfficeEntity extends BaseEntity {
         return user;
     }
 
-    public OfficeEntity() {
-    }
 
-    public OfficeEntity(String country, String city, String address, String phoneNumber, RegularUserEntity user) {
-        this.country = country;
-        this.city = city;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.user = user;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public OfficeEntity setCountry(String country) {
-        this.country = country;
-        return this;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public OfficeEntity setCity(String city) {
-        this.city = city;
-        return this;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public OfficeEntity setAddress(String address) {
-        this.address = address;
-        return this;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public OfficeEntity setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-        return this;
-    }
 }
