@@ -7,16 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.Set;
-
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "regular_users")
-public class RegularUserEntity extends BaseUserEntity {
+@Table(name = "users")
+public class UserEntity extends BaseUserEntity {
 
     /**
      * Step 2:
@@ -44,8 +42,8 @@ public class RegularUserEntity extends BaseUserEntity {
     @OneToMany(targetEntity = OfficeEntity.class, mappedBy = "user")
     private List<OfficeEntity> offices;
 
-    @OneToMany(targetEntity = ExcursionOfferEntity.class, mappedBy = "user")
-    private List<ExcursionOfferEntity> offers;
+    @OneToMany(targetEntity = TourOfferEntity.class, mappedBy = "user")
+    private List<TourOfferEntity> offers;
 
     @OneToOne
     private RoleEntity role;

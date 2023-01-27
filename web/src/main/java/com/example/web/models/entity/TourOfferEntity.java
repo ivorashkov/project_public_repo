@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Entity
 @Table(name = "offers")
-public class ExcursionOfferEntity extends BaseEntity {
+public class TourOfferEntity extends BaseEntity {
 
     @Column(nullable = false, name = "country")
     private String targetCountry;
