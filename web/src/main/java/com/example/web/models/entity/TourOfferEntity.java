@@ -27,7 +27,7 @@ public class TourOfferEntity extends BaseEntity {
     @Column(nullable = false, name = "city")
     private String targetCity;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "duration_in_days")
     @Min(1)
     @Max(365)
     private int durationInDays;
@@ -44,10 +44,10 @@ public class TourOfferEntity extends BaseEntity {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = true)
+    @Column
     private double discount;
 
     @ManyToOne
-    private RegularUserEntity user;
+    private UserEntity user;
 
 }

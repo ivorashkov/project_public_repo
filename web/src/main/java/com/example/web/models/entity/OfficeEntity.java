@@ -27,15 +27,6 @@ public class OfficeEntity extends BaseEntity {
     private String phoneNumber;
 
     @ManyToOne
-    private RegularUserEntity user;
-
-    public void setUser(RegularUserEntity user) {
-        this.user = user;
-    }
-
-    public RegularUserEntity getUser() {
-        return user;
-    }
-
+    private UserEntity user;
 
 }

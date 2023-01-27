@@ -16,30 +16,13 @@ import java.util.List;
 @Table(name = "users")
 public class UserEntity extends BaseUserEntity {
 
-    /**
-     * Step 2:
-     *  2 ID pictures and 1 selfie
-     */
-
-    /**
-     * Step 3:
-     */
     @Column(nullable = false)
     private boolean isActive;
 
-    @Column(nullable = false, unique = true, name = "credendial_number")
-    private String credentialNumber;
+    @Column
+    private int approvedBy;
 
-    @Column(nullable = false, unique = true, name = "company")
-    private String companyName;
-
-    @Column(nullable = false, unique = true, name = "identifier_number")
-    private String uniqueIdentifier;
-
-    @Column(nullable = false)
-    private String addressRegistration;
-
-    @OneToMany(targetEntity = OfficeEntity.class, mappedBy = "user")
+    @OneToMany(targetEntity = OfficeEntity.class, mappedBy = "id")
     private List<OfficeEntity> offices;
 
     @OneToMany(targetEntity = TourOfferEntity.class, mappedBy = "user")
@@ -47,5 +30,8 @@ public class UserEntity extends BaseUserEntity {
 
     @OneToOne
     private RoleEntity role;
+
+    @OneToOne
+    private AdditionalInfoEntity additionalInfo;
 
 }
