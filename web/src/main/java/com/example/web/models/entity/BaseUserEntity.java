@@ -1,16 +1,12 @@
 package com.example.web.models.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.MappedSuperclass;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @MappedSuperclass
 public abstract class BaseUserEntity extends BaseEntity {
 
@@ -21,6 +17,7 @@ public abstract class BaseUserEntity extends BaseEntity {
     private String password;
 
     @Column(nullable = false, unique = true, name = "email_address")
+    @Email
     private String emailAddress;
 
     @Column(nullable = false, name = "first_name")
@@ -32,4 +29,13 @@ public abstract class BaseUserEntity extends BaseEntity {
     @Column(nullable = false, unique = true, name = "phone_number")
     private String phoneNumber;
 
+    @OneToOne
+    @Enumerated(EnumType.STRING)
+    private RoleEntity role;
+
+    //todo check if should be here or in the UserEntity
+    public BaseUserEntity addRole(RoleEntity userRole){
+        this.role = userRole;
+        return this;
+    }
 }

@@ -29,9 +29,6 @@ public class UserEntity extends BaseUserEntity {
     private List<TourOfferEntity> offers;
 
     @OneToOne
-    private RoleEntity role;
-
-    @OneToOne
     private AdditionalInfoEntity additionalInfo;
 
 }

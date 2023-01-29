@@ -34,4 +34,5 @@ public class AdditionalInfoEntity extends BaseEntity {
     @Column(name = "unique_company_identifier", nullable = false, unique = true)
     private String uniqueCompanyIdentifier;
 
+    //TODO should I set names in that class or different one
 }

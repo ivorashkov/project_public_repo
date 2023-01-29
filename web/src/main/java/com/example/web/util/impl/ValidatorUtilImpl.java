@@ -1,5 +1,6 @@
-package com.example.web.util;
+package com.example.web.util.impl;
 
+import com.example.web.util.ValidatorUtil;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import org.springframework.stereotype.Component;

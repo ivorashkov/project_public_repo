@@ -1,4 +1,4 @@
-package com.example.web.util;
+package com.example.web.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

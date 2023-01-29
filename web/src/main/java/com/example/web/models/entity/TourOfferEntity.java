@@ -1,9 +1,7 @@
 package com.example.web.models.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.example.web.models.enums.TransportType;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -50,4 +48,7 @@ public class TourOfferEntity extends BaseEntity {
     @ManyToOne
     private UserEntity user;
 
+    @Column(name = "transport_type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TransportType transportType;
 }
