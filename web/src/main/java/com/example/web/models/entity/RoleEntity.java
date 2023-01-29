@@ -1,6 +1,6 @@
 package com.example.web.models.entity;
 
-import com.example.web.models.constants.enums.Roles;
+import com.example.web.models.enums.Roles;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

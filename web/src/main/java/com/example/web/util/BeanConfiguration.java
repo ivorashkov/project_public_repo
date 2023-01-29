@@ -1,4 +1,4 @@
-package com.example.web.models.utils;
+package com.example.web.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

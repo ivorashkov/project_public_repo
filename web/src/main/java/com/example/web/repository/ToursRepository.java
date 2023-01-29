@@ -1,4 +1,4 @@
-package com.example.web.models.repository;
+package com.example.web.repository;
 
 import com.example.web.models.entity.TourOfferEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

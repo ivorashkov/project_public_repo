@@ -1,4 +1,4 @@
-package com.example.web.models.utils;
+package com.example.web.util;
 
 public interface ValidatorUtil {
 

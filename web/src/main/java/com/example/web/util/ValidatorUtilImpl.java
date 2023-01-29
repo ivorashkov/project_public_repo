@@ -1,4 +1,4 @@
-package com.example.web.models.utils;
+package com.example.web.util;
 
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

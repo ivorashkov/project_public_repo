@@ -1,4 +1,4 @@
-package com.example.web.models.constants.enums;
+package com.example.web.models.enums;
 
 public enum Roles {
     ADMIN_USER,
