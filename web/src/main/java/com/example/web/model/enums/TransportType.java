@@ -1,4 +1,4 @@
-package com.example.web.models.enums;
+package com.example.web.model.enums;
 
 public enum TransportType {
     BUS,

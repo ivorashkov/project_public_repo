@@ -1,4 +1,4 @@
-package com.example.web.models.dto;
+package com.example.web.model.dto;
 
 public class RegistrationUserDTO {
 }

@@ -1,6 +1,6 @@
-package com.example.web.models.entity;
+package com.example.web.model.entity;
 
-import com.example.web.models.enums.TransportType;
+import com.example.web.model.enums.TransportType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
