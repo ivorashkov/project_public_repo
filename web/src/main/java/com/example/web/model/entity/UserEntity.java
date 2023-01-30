@@ -16,6 +16,10 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class UserEntity extends BaseEntity {
+
+    @Column(name = "user_star")
+    private boolean userStar;
+
     @Column(nullable = false)
     private boolean isActive;
 

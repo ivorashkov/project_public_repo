@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -18,6 +19,10 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "offers")
 public class TourOfferEntity extends BaseEntity {
+
+    //todo: check if thats how should be done
+    @Column(name = "creation_date")
+    private LocalDateTime creationDate = LocalDateTime.now();
 
     @Column(nullable = false, name = "country")
     private String targetCountry;
