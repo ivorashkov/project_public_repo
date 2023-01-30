@@ -1,5 +1,7 @@
 package com.example.web.util.impl;
 
+import com.example.web.model.entity.UserEntity;
+import com.example.web.model.enums.RoleType;
 import com.example.web.util.ValidatorUtil;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ValidatorUtilImpl implements ValidatorUtil {
+
     private final Validator validator;
 
     public ValidatorUtilImpl() {
@@ -15,20 +18,23 @@ public class ValidatorUtilImpl implements ValidatorUtil {
                 .getValidator();
     }
 
+    /**Works**/
     @Override
     public <E> boolean isValid(E entity) {
         return this.validator.validate(entity).isEmpty();
     }
 
+    /**Works**/
     @Override
-    public <E> boolean isAdmin(E entity) {
-        //todo: should I make this method static or call it through constructor
-        return false;
+    public <E extends UserEntity> boolean isAdmin(E entity) {
+        //validatorUtil.isAdmin(userRepository.findUserEntityByFirstName("ivo").orElse(null));
+        return entity.getRole().getRoleName().equals(RoleType.admin);
     }
 
+    /**Works**/
     @Override
-    public <E> boolean isActive(E entity) {
-        //todo: should I make this method static or call it through constructor
-        return false;
+    //validatorUtil.isActive(userRepository.findUserEntityByFirstName("ivo").orElse(null));
+    public <E extends UserEntity> boolean isActive(E entity) {
+        return entity.isActive();
     }
 }

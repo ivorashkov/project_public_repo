@@ -1,11 +1,13 @@
 package com.example.web.util;
 
-public interface ValidatorUtil {
+import com.example.web.model.entity.UserEntity;
 
-    <E> boolean isAdmin(E entity);
+public interface ValidatorUtil {
 
     <E> boolean isValid(E entity);
 
-    <E> boolean isActive(E entity);
+    <E extends UserEntity> boolean isAdmin(E entity);
+
+    <E extends UserEntity> boolean isActive(E entity);
 
 }

@@ -1,6 +1,6 @@
 package com.example.web.model.entity;
 
-import com.example.web.model.enums.Roles;
+import com.example.web.model.enums.RoleType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -19,6 +19,6 @@ import lombok.Setter;
 public class RoleEntity extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
-    private Roles roleName;
+    private RoleType roleName;
 
 }

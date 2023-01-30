@@ -1,0 +1,19 @@
+insert into roles (role_name) values('admin'),('user');
+
+insert into additional_user_info
+    (company_name, credential_number, id_back_picture_path, id_front_picture_path, license_document_path, unique_company_identifier)
+values
+    ('ivocompany','12345','path1','path2','path3','12345'),
+    ('kolkocompany','21351','path1','path2','path3','123456'),
+    ('denocompany','54212','path1','path2','path3','123457');
+
+
+insert into users
+    (email_address, first_name, last_name, password, phone_number, username, approved_by, is_active, role_id, additional_info_id)
+values
+    ('ivo94@abv.bg', 'ivo', 'rashkov', '1234213235','0884123456','ivor','1','','1','1'),
+    ('kolo84@abv.bg', 'kolo', 'rashkov', '1234r213a5','0213556','kolor','2','','2','2'),
+    ('deno74@abv.bg', 'deno', 'kolov', '542321322','22222222','denok','1','','2','1');
+
+UPDATE users SET is_active = true WHERE first_name = 'kolo';
+UPDATE users SET is_active = true WHERE first_name = 'deno';
