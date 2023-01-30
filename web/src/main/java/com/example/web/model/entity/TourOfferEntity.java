@@ -8,8 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
+import java.security.Timestamp;
 import java.time.LocalDateTime;
 
 @Getter
@@ -20,9 +22,12 @@ import java.time.LocalDateTime;
 @Table(name = "offers")
 public class TourOfferEntity extends BaseEntity {
 
-    //todo: check if thats how should be done
+    @Column(name = "is_deleted", nullable = false)
+    @ColumnDefault("false")
+    private boolean isDeleted;
+
     @Column(name = "creation_date")
-    private LocalDateTime creationDate = LocalDateTime.now();
+    private LocalDateTime creationDate;
 
     @Column(nullable = false, name = "country")
     private String targetCountry;

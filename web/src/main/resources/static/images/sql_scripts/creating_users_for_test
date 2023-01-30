@@ -17,9 +17,9 @@ values
 
 
 INSERT INTO offices (address, city, country, phone_number, user_id)
-VALUES ('ulitsa1','Byala','Bulgaria','123456','10'),
-         ('ulitsa2','Ruse','Bulgaria','13678','10'),
-        ('ulitsa3','Sofia','Bulgaria','987743','10');
+VALUES ('ulitsa1','Byala','Bulgaria','123456','1'),
+         ('ulitsa2','Ruse','Bulgaria','13678','1'),
+        ('ulitsa3','Sofia','Bulgaria','987743','1');
 
 UPDATE users SET is_active = true WHERE first_name = 'kolo';
 UPDATE users SET is_active = true WHERE first_name = 'deno';

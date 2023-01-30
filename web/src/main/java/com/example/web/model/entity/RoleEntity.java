@@ -20,5 +20,4 @@ public class RoleEntity extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
     private RoleType roleName;
-
 }

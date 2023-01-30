@@ -31,7 +31,6 @@ public class TestWebAppRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-
 //        isActiveValidationTest(validatorUtil, userRepository);
 //        isAdminValidationTest(validatorUtil, userRepository);
 //        officesFound(officeRepository, userRepository);
@@ -40,6 +39,7 @@ public class TestWebAppRunner implements CommandLineRunner {
 //        printAllEntries(toursRepository.findAllTourOffersByCountryOrderByCountryDESC());
 //        printAllEntries(toursRepository.findAllTourOffersByCountryOrderByCountryASC());
 
+           printAllEntries(toursRepository.findAll_TourOffers_ByDate());
     }
 
     private void printAllEntries(List<Optional<TourOfferEntity>> allByCreationDate) {

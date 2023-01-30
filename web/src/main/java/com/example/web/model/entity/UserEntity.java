@@ -58,9 +58,4 @@ public class UserEntity extends BaseEntity {
     @OneToOne
     private AdditionalInfoEntity additionalInfo;
 
-    //todo check if should be here or in the UserEntity
-    public UserEntity updateRole(RoleEntity userRole){
-        this.role = userRole;
-        return this;
-    }
 }
