@@ -1,26 +1,26 @@
 package com.example.web.controller;
 
+import com.example.web.constant.ConstantMessages;
 import com.example.web.constant.StorageFileNotFoundException;
-import com.example.web.model.dto.RegistrationUserDTO;
 import com.example.web.model.dto.UserDTO;
-import com.example.web.model.entity.UserEntity;
-import com.example.web.repository.UserRepository;
-import com.example.web.service.StorageService;
+import com.example.web.service.FileService;
 import com.example.web.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Path;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/home")
 public class TestController {
-    private final StorageService fileService;
+    private final FileService fileService;
     private final UserService userService;
 
     @GetMapping("/{id}")
-    public  ResponseEntity<UserDTO> response(@PathVariable Long id){
+    public ResponseEntity<UserDTO> response(@PathVariable Long id) {
         UserDTO user = userService.findUserById(id);
 
         if (user == null) {
@@ -31,10 +31,21 @@ public class TestController {
     }
 
     @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file) {
-        //todo code improvement
-        final Long userId = 1l;
-        fileService.store(file,userId);
+    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+                                   @RequestParam(name = "userId") Long userId,
+                                   @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
+    ) {
+        /**
+         *  да проверя дали можем да го направим гъвкаво с добавяне на userID,
+         *  offerId, и по този начин да се определи дали ще се създава нова директория
+         *  къде ще се създава и тн.
+         *  http://localhost:8091/home/upload?userId=1&offerId=-1
+         */
+
+        Path initPath = fileService.init(userId, offerId, ConstantMessages.FORMAT_ADDON_TEMPLATE);
+
+        fileService.store(file, userId, initPath);
+
         return "file " + file.getOriginalFilename() + " saved.";
     }
 

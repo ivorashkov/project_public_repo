@@ -6,7 +6,7 @@ import com.example.web.model.entity.UserEntity;
 import com.example.web.repository.OfficeRepository;
 import com.example.web.repository.ToursRepository;
 import com.example.web.repository.UserRepository;
-import com.example.web.service.StorageService;
+import com.example.web.service.FileService;
 import com.example.web.util.ValidatorUtil;
 import org.springframework.boot.CommandLineRunner;
 
@@ -20,9 +20,9 @@ public class TestWebAppRunner implements CommandLineRunner {
     private final OfficeRepository officeRepository;
     private final ToursRepository toursRepository;
     private final ValidatorUtil validatorUtil;
-    private final StorageService fileService;
+    private final FileService fileService;
 
-    public TestWebAppRunner(UserRepository userRepository, OfficeRepository officeRepository, ToursRepository toursRepository, ValidatorUtil validatorUtil, StorageService fileService) {
+    public TestWebAppRunner(UserRepository userRepository, OfficeRepository officeRepository, ToursRepository toursRepository, ValidatorUtil validatorUtil, FileService fileService) {
         this.userRepository = userRepository;
         this.officeRepository = officeRepository;
         this.toursRepository = toursRepository;

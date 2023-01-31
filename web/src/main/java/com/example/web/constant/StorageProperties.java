@@ -8,5 +8,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Setter
 @ConfigurationProperties("storage")
 public class StorageProperties {
-    private String location = "C:\\Users\\User\\Desktop\\Java\\WebProject\\version_1.0.1-crashed\\web\\src\\main\\resources\\static\\uploads";
+    private String location = "C:\\Users\\User\\Desktop\\Java\\WebProject\\version_1.0.1-crashed\\web\\src\\main\\resources\\static\\directory_storage\\";
 }
