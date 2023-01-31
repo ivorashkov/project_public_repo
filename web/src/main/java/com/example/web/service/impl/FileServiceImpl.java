@@ -51,7 +51,7 @@ public class FileServiceImpl implements FileService {
             /** then we should create Offer directory with offerId */
             stringDirectory
                     .append(ConstantMessages.DIRECTORY_SEPARATOR)
-                    .append(String.format(stringFormat, ConstantMessages.OFFER));
+                    .append(String.format(stringFormat, ConstantMessages.OFFER, offerId));
 
             new File(stringDirectory.toString()).mkdirs();
         }
