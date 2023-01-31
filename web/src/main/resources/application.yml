@@ -6,13 +6,14 @@ logging:
                 type:
                     descriptor: TRACE
 server:
-    port: 8085
+    port: 8091
 spring:
     datasource:
         driverClassName: com.mysql.cj.jdbc.Driver
         password: root123
         url: jdbc:mysql://localhost:3306/travel_agency_web_db?useSSL=false&createDatabaseIfNotExist=true
         username: root
+
     jpa:
         hibernate:
             ddl-auto: update
@@ -21,3 +22,8 @@ spring:
             hibernate:
                 dialect: org.hibernate.dialect.MySQL8Dialect
                 format_sql: true
+    servlet:
+        multipart:
+#            no restriction of the size
+            max-file-size: -1
+            max-request-size: -1

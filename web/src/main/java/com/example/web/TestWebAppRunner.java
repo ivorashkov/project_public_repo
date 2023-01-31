@@ -6,40 +6,33 @@ import com.example.web.model.entity.UserEntity;
 import com.example.web.repository.OfficeRepository;
 import com.example.web.repository.ToursRepository;
 import com.example.web.repository.UserRepository;
+import com.example.web.service.StorageService;
 import com.example.web.util.ValidatorUtil;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
+//@Component
 public class TestWebAppRunner implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final OfficeRepository officeRepository;
     private final ToursRepository toursRepository;
     private final ValidatorUtil validatorUtil;
+    private final StorageService fileService;
 
-    public TestWebAppRunner(UserRepository userRepository, OfficeRepository officeRepository, ToursRepository toursRepository, ValidatorUtil validatorUtil) {
+    public TestWebAppRunner(UserRepository userRepository, OfficeRepository officeRepository, ToursRepository toursRepository, ValidatorUtil validatorUtil, StorageService fileService) {
         this.userRepository = userRepository;
         this.officeRepository = officeRepository;
         this.toursRepository = toursRepository;
         this.validatorUtil = validatorUtil;
+        this.fileService = fileService;
     }
 
     @Override
     public void run(String... args) throws Exception {
 
-//        isActiveValidationTest(validatorUtil, userRepository);
-//        isAdminValidationTest(validatorUtil, userRepository);
-//        officesFound(officeRepository, userRepository);
-//        List<Optional<TourOfferEntity>> allByCreationDate = toursRepository.findAllNewTourOffersOrderByDateAsc();
-//        printAllEntries(toursRepository.findAllNewTourOffersOrderByDateDESC());
-//        printAllEntries(toursRepository.findAllTourOffersByCountryOrderByCountryDESC());
-//        printAllEntries(toursRepository.findAllTourOffersByCountryOrderByCountryASC());
-
-           printAllEntries(toursRepository.findAll_TourOffers_ByDate());
     }
 
     private void printAllEntries(List<Optional<TourOfferEntity>> allByCreationDate) {
