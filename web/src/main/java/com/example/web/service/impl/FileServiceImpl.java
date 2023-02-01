@@ -75,6 +75,7 @@ public class FileServiceImpl implements FileService {
                 throw new StorageException(
                         "Cannot store file outside current directory.");
             }
+
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, destinationFile,
                         StandardCopyOption.REPLACE_EXISTING);

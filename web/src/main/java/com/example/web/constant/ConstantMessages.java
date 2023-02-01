@@ -6,5 +6,4 @@ public class ConstantMessages {
     public static final String OFFER = "offer";
     public static final String USER = "user";
 
-
 }

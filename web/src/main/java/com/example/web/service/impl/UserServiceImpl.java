@@ -21,7 +21,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(UserEntity userEntity) {
-
+    public UserEntity create(UserDTO userDTO) {
+        return null;
     }
+
+
 }

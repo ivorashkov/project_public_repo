@@ -17,9 +17,6 @@ import java.util.List;
 @Table(name = "users")
 public class UserEntity extends BaseEntity {
 
-    @Column(name = "user_star")
-    private boolean userStar;
-
     @Column(nullable = false)
     private boolean isActive;
 
@@ -29,8 +26,8 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, unique = true, name = "email_address")
     @Email
+    @Column(nullable = false, unique = true, name = "email_address")
     private String emailAddress;
 
     @Column(nullable = false, name = "first_name")
@@ -48,6 +45,9 @@ public class UserEntity extends BaseEntity {
 
     @Column
     private int approvedBy;
+
+    @Column(name = "user_star")
+    private boolean hasStar;
 
     @OneToMany(targetEntity = OfficeEntity.class,mappedBy = "user")
     private List<OfficeEntity> offices;

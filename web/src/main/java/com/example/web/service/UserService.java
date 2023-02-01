@@ -7,5 +7,6 @@ public interface UserService {
 
     UserDTO findUserById(Long id);
 
-    void addUser(UserEntity userEntity);
+    UserEntity create(UserDTO userDTO);
+
 }

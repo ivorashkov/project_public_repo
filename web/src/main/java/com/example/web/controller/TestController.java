@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -30,29 +31,43 @@ public class TestController {
         }
     }
 
-    @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+    @PostMapping("/upload/all")
+    public String handleFileUploadAll(@RequestParam("file") List<MultipartFile> files,
                                    @RequestParam(name = "userId") Long userId,
                                    @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
     ) {
-        /**
-         *  да проверя дали можем да го направим гъвкаво с добавяне на userID,
-         *  offerId, и по този начин да се определи дали ще се създава нова директория
-         *  къде ще се създава и тн.
-         *  http://localhost:8091/home/upload?userId=1&offerId=-1
-         */
+
+        files.forEach(f -> handleFileUpload(f,userId,offerId));
+
+        return "All files are saved.";
+    }
+
+
+    @PostMapping("/upload")
+    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+                                      @RequestParam(name = "userId") Long userId,
+                                      @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
+    ) {
 
         Path initPath = fileService.init(userId, offerId, ConstantMessages.FORMAT_ADDON_TEMPLATE);
 
         fileService.store(file, userId, initPath);
 
-        return "file " + file.getOriginalFilename() + " saved.";
+        return "file" + file.getOriginalFilename() + " saved.";
     }
 
-    @ExceptionHandler(StorageFileNotFoundException.class)
-    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
-        return ResponseEntity.notFound().build();
-    }
+//    private void fileProcessing(Long userId, Long offerId, MultipartFile file, String format) {
+//
+//        /** http://localhost:8091/home/upload?userId=1&offerId=-1 */
+//        Path initPath = fileService.init(userId, offerId, format);
+//
+//        fileService.store(file, userId, initPath);
+//    }
+
+//    @ExceptionHandler(StorageFileNotFoundException.class)
+//    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+//        return ResponseEntity.notFound().build();
+//    }
 
 //    @GetMapping("/")
 //    public String listUploadedFiles(Model model) throws IOException {
