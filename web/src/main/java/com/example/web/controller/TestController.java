@@ -37,7 +37,7 @@ public class TestController {
                                    @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
     ) {
 
-        files.forEach(f -> handleFileUpload(f,userId,offerId));
+        files.forEach(file -> handleFileUpload(file,userId,offerId));
 
         return "All files are saved.";
     }
