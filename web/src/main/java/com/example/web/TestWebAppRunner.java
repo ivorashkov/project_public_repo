@@ -4,7 +4,7 @@ import com.example.web.model.entity.OfficeEntity;
 import com.example.web.model.entity.TourOfferEntity;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.repository.OfficeRepository;
-import com.example.web.repository.ToursRepository;
+import com.example.web.repository.TourOfferRepository;
 import com.example.web.repository.UserRepository;
 import com.example.web.service.FileService;
 import com.example.web.util.ValidatorUtil;
@@ -18,11 +18,11 @@ public class TestWebAppRunner implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final OfficeRepository officeRepository;
-    private final ToursRepository toursRepository;
+    private final TourOfferRepository toursRepository;
     private final ValidatorUtil validatorUtil;
     private final FileService fileService;
 
-    public TestWebAppRunner(UserRepository userRepository, OfficeRepository officeRepository, ToursRepository toursRepository, ValidatorUtil validatorUtil, FileService fileService) {
+    public TestWebAppRunner(UserRepository userRepository, OfficeRepository officeRepository, TourOfferRepository toursRepository, ValidatorUtil validatorUtil, FileService fileService) {
         this.userRepository = userRepository;
         this.officeRepository = officeRepository;
         this.toursRepository = toursRepository;
