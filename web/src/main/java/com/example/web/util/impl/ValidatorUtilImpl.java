@@ -5,7 +5,10 @@ import com.example.web.model.enums.RoleType;
 import com.example.web.util.ValidatorUtil;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class ValidatorUtilImpl implements ValidatorUtil {
@@ -36,5 +39,15 @@ public class ValidatorUtilImpl implements ValidatorUtil {
     //validatorUtil.isActive(userRepository.findUserEntityByFirstName("ivo").orElse(null));
     public <E extends UserEntity> boolean isActive(E entity) {
         return entity.isActive();
+    }
+
+
+    public <E> ResponseEntity<E> responseEntity(E entity){
+
+        if (entity == null) {
+            return ResponseEntity.notFound().build();
+        }else{
+            return ResponseEntity.ok(entity);
+        }
     }
 }
