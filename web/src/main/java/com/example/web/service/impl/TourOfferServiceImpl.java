@@ -1,12 +1,11 @@
 package com.example.web.service.impl;
 
 import com.example.web.model.dto.OfferDTO;
-import com.example.web.model.entity.TourOfferEntity;
 import com.example.web.repository.TourOfferRepository;
 import com.example.web.service.TourOfferService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,12 +21,12 @@ public class TourOfferServiceImpl implements TourOfferService {
 
     @Override
     public List<OfferDTO> initialSearchResult(String criteria) {
-        List<OfferDTO> offers =
-                       this.tourOfferRepository
-                               .findAll_TourOffers_ByDate()
-                               .stream()
-                               .map( e -> this.mapper.map(e, OfferDTO.class))
-                               .collect(Collectors.toList());
+        List<OfferDTO> offers = this.tourOfferRepository
+                .findAll()
+                .stream()
+                .filter(Optional::isPresent)
+                .map(e -> this.mapper.map(e, OfferDTO.class))
+                .collect(Collectors.toList());
 
         return offers;
     }
