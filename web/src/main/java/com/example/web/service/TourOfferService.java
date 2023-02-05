@@ -8,11 +8,11 @@ public interface TourOfferService {
 
     ResponseEntity<Page<OfferDTO>> initialSearchResult(Integer pageNumber, Integer pageSize);
 
-    ResponseEntity<Page<OfferDTO>> offerSearchAndFilter(Integer pageNumber,
-                                                        Integer pageSize,
-                                                        String country,
-                                                        String city,
-                                                        String... sorts);
+    ResponseEntity<Page<OfferDTO>> searchAndFilterOffers(Integer pageNumber,
+                                                         Integer pageSize,
+                                                         String country,
+                                                         String city,
+                                                         String... sorts);
 
 
     ResponseEntity<OfferDTO> editOffer(Long offerId, Long userId);

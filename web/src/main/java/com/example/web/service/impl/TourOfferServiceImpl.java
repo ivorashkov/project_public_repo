@@ -43,11 +43,11 @@ public class TourOfferServiceImpl implements TourOfferService {
     }
 
     @Override
-    public ResponseEntity<Page<OfferDTO>> offerSearchAndFilter(Integer pageNumber,
-                                                               Integer pageSize,
-                                                               String country,
-                                                               String city,
-                                                               String... sorts
+    public ResponseEntity<Page<OfferDTO>> searchAndFilterOffers(Integer pageNumber,
+                                                                Integer pageSize,
+                                                                String country,
+                                                                String city,
+                                                                String... sorts
     ) {
         Page<OfferDTO> offers = null;
         try {
@@ -84,7 +84,6 @@ public class TourOfferServiceImpl implements TourOfferService {
             if (Objects.isNull(entity)) {
                 return this.validatorUtil.responseEntity(this.mapper.map(entity, OfferDTO.class));
             }
-
             offerDTO = this.mapper.map(entity, OfferDTO.class);
 
         }catch (Exception e){

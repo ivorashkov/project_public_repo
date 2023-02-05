@@ -21,8 +21,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity create(UserDTO userDTO) {
-        return null;
+    public void create(UserDTO userDTO) {
+        this.userRepository.save(this.mapper.map(userDTO, UserEntity.class));
+    }
+
+    @Override
+    public void deleteUser() {
+
+    }
+
+    @Override
+    public void updateUser() {
+
     }
 
 

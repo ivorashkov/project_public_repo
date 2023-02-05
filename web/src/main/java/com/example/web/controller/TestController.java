@@ -1,10 +1,10 @@
 package com.example.web.controller;
 
 import com.example.web.constant.ConstantMessages;
-import com.example.web.constant.StorageFileNotFoundException;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.service.FileService;
 import com.example.web.service.UserService;
+import com.example.web.util.ValidatorUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,25 +19,20 @@ import java.util.List;
 public class TestController {
     private final FileService fileService;
     private final UserService userService;
+    private final ValidatorUtil validatorUtil;
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> response(@PathVariable Long id) {
-        UserDTO user = userService.findUserById(id);
-
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(user);
-        }
+        return this.validatorUtil.responseEntity(userService.findUserById(id));
     }
 
     @PostMapping("/upload/all")
     public String handleFileUploadAll(@RequestParam("file") List<MultipartFile> files,
-                                   @RequestParam(name = "userId") Long userId,
-                                   @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
+                                      @RequestParam(name = "userId") Long userId,
+                                      @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
     ) {
 
-        files.forEach(file -> handleFileUpload(file,userId,offerId));
+        files.forEach(file -> handleFileUpload(file, userId, offerId));
 
         return "All files are saved.";
     }
@@ -45,11 +40,11 @@ public class TestController {
 
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
-                                      @RequestParam(name = "userId") Long userId,
-                                      @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
+                                   @RequestParam(name = "userId") Long userId,
+                                   @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
     ) {
 
-        Path initPath = fileService.init(userId, offerId, ConstantMessages.FORMAT_ADDON_TEMPLATE);
+        Path initPath = fileService.initialization(userId, offerId, ConstantMessages.FORMAT_ADDON_TEMPLATE);
 
         fileService.store(file, userId, initPath);
 

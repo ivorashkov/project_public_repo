@@ -25,7 +25,7 @@ public class TourOfferController {
         /** http://localhost:8091/offer?sort=column1,direction1&sort=column2,direction2 provides
          * with 2 columns column1,direction1*/
 
-        return this.tourOfferService.offerSearchAndFilter(page, size, country, city, sort);
+        return this.tourOfferService.searchAndFilterOffers(page, size, country, city, sort);
     }
 
     @GetMapping("/edit")
