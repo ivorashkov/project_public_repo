@@ -27,7 +27,7 @@ public interface TourOfferRepository extends PagingAndSortingRepository<TourOffe
             " OR t.description LIKE CONCAT('%', :query, '%')" +
             " OR t.city LIKE CONCAT('%', :query, '%')" +
             " OR t.country LIKE CONCAT('%', :query, '%')")
-            Page<Optional<OfferDTO>> findAll(
+            Page<TourOfferEntity> findAllByCriteria(
                     @Param("query")String criteria, Pageable pageable);
 
 }
