@@ -22,28 +22,31 @@ import java.time.LocalDateTime;
 @Table(name = "offers")
 public class TourOfferEntity extends BaseEntity {
 
+    @Column(name = "title")
+    private String title;
+
     @Column(name = "is_deleted", nullable = false)
     @ColumnDefault("false")
     private boolean isDeleted;
 
     @Column(name = "creation_date")
-    private LocalDateTime creationDate;
+    private LocalDateTime date;
 
     @Column(nullable = false, name = "country")
-    private String targetCountry;
+    private String country;
 
     @Column(nullable = false, name = "city")
-    private String targetCity;
+    private String city;
 
     @Column(nullable = false, name = "duration_in_days")
     @Min(1)
     @Max(365)
-    private int durationInDays;
+    private int duration;
 
     @Column(nullable = false, name = "stars")
     @Min(0)
     @Max(7)
-    private double starsOfHotel;
+    private double stars;
 
     @Column(nullable = false)
     @Min(1)

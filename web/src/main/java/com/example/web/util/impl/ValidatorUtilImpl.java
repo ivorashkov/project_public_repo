@@ -5,17 +5,20 @@ import com.example.web.model.enums.RoleType;
 import com.example.web.util.ValidatorUtil;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class ValidatorUtilImpl implements ValidatorUtil {
 
     private final Validator validator;
+    private final ModelMapper mapper;
 
-    public ValidatorUtilImpl() {
+    public ValidatorUtilImpl(ModelMapper mapper) {
+        this.mapper = mapper;
         this.validator = Validation
                 .buildDefaultValidatorFactory()
                 .getValidator();
@@ -49,5 +52,9 @@ public class ValidatorUtilImpl implements ValidatorUtil {
         }else{
             return ResponseEntity.ok(entity);
         }
+    }
+
+    public <T, D> Page<D> mapEntityPageIntoDtoPage(Page<T> entities, Class<D> dtoClass) {
+        return entities.map(objectEntity -> mapper.map(objectEntity, dtoClass));
     }
 }

@@ -49,10 +49,10 @@ public class UserEntity extends BaseEntity {
     @Column(name = "user_star")
     private boolean hasStar;
 
-    @OneToMany(targetEntity = OfficeEntity.class,mappedBy = "user")
+    @OneToMany(targetEntity = OfficeEntity.class,mappedBy = "user", fetch = FetchType.LAZY)
     private List<OfficeEntity> offices;
 
-    @OneToMany(targetEntity = TourOfferEntity.class, mappedBy = "user")
+    @OneToMany(targetEntity = TourOfferEntity.class, mappedBy = "user", fetch = FetchType.LAZY)
     private List<TourOfferEntity> offers;
 
     @OneToOne

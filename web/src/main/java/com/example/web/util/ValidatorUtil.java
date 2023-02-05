@@ -1,6 +1,7 @@
 package com.example.web.util;
 
 import com.example.web.model.entity.UserEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
 public interface ValidatorUtil {
@@ -13,4 +14,5 @@ public interface ValidatorUtil {
 
     <E> ResponseEntity<E> responseEntity(E entity);
 
+    public <T, D> Page<D> mapEntityPageIntoDtoPage(Page<T> entities, Class<D> dtoClass);
 }

@@ -22,19 +22,19 @@ public class OfferDTO {
     private String title;
 
     @Expose
-    private String creationDate;
+    private String date;
 
     @Expose
-    private String targetCountry;
+    private String country;
 
     @Expose
     private String targetCity;
 
     @Expose
-    private int durationInDays;
+    private int duration;
 
     @Expose
-    private double starsOfHotel;
+    private double stars;
 
     @Expose
     private BigDecimal price;

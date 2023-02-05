@@ -15,19 +15,22 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class TourOfferServiceImpl implements TourOfferService {
-
-    private final TourOfferRepository tourOfferRepository;
-    private final ModelMapper mapper;
-
     @Override
     public List<OfferDTO> initialSearchResult(String criteria) {
-        List<OfferDTO> offers = this.tourOfferRepository
-                .findAll()
-                .stream()
-                .filter(Optional::isPresent)
-                .map(e -> this.mapper.map(e, OfferDTO.class))
-                .collect(Collectors.toList());
-
-        return offers;
+        return null;
     }
+//
+//    private final TourOfferRepository tourOfferRepository;
+//    private final ModelMapper mapper;
+////
+////    @Override
+////    public List<OfferDTO> initialSearchResult(String criteria) {
+////        List<OfferDTO> offers = this.tourOfferRepository
+////                .findAll()
+////                .stream()
+////                .map(e -> this.mapper.map(e, OfferDTO.class))
+////                .collect(Collectors.toList());
+////
+////        return offers;
+//    }
 }

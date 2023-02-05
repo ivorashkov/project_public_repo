@@ -37,15 +37,15 @@ public class TestWebAppRunner implements CommandLineRunner {
 
     private void printAllEntries(List<Optional<TourOfferEntity>> allByCreationDate) {
         for (Optional<TourOfferEntity> tourOfferEntity : allByCreationDate) {
-            System.out.println(
-                    "date " + tourOfferEntity.get().getCreationDate() +
-                            " price: " + tourOfferEntity.get().getPrice() +
-                            " country: " + tourOfferEntity.get().getTargetCountry() +
-                    " city " + tourOfferEntity.get().getTargetCity() +
-                            " duration: " + tourOfferEntity.get().getDurationInDays() +
-                            " discount: " + tourOfferEntity.get().getDiscount() + "%" +
-                            " transport: " + tourOfferEntity.get().getTransportType() +
-                            "stars: " + tourOfferEntity.get().getStarsOfHotel());
+//            System.out.println(
+//                    "date " + tourOfferEntity.get().getCreationDate() +
+//                            " price: " + tourOfferEntity.get().getPrice() +
+//                            " country: " + tourOfferEntity.get().getTargetCountry() +
+//                    " city " + tourOfferEntity.get().getTargetCity() +
+//                            " duration: " + tourOfferEntity.get().getDurationInDays() +
+//                            " discount: " + tourOfferEntity.get().getDiscount() + "%" +
+//                            " transport: " + tourOfferEntity.get().getTransportType() +
+//                            "stars: " + tourOfferEntity.get().getStarsOfHotel());
         }
     }
 
