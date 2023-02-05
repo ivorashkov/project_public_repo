@@ -30,4 +30,7 @@ public interface TourOfferRepository extends PagingAndSortingRepository<TourOffe
             Page<TourOfferEntity> findAllByCriteria(
                     @Param("query")String criteria, Pageable pageable);
 
+    Optional<TourOfferEntity> findByIdAndUserId(Long offerId, Long userId);
+
+    TourOfferEntity save(TourOfferEntity tourOfferEntity);
 }

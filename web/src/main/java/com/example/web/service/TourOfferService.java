@@ -15,4 +15,8 @@ public interface TourOfferService {
                                                         String... sorts);
 
 
+    ResponseEntity<OfferDTO> editOffer(Long offerId, Long userId);
+
+    ResponseEntity<OfferDTO> saveOffer(Long offerId, Long userId, OfferDTO offerDTO);
+
 }

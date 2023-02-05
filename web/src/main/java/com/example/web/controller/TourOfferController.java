@@ -5,10 +5,7 @@ import com.example.web.service.TourOfferService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
@@ -28,11 +25,30 @@ public class TourOfferController {
         /** http://localhost:8091/offer?sort=column1,direction1&sort=column2,direction2 provides
          * with 2 columns column1,direction1*/
 
-        return this.tourOfferService.offerSearchAndFilter(page,size,country,city,sort);
+        return this.tourOfferService.offerSearchAndFilter(page, size, country, city, sort);
     }
 
-    //edit = update
+    @GetMapping("/edit")
+    public ResponseEntity<OfferDTO> editOffer(@RequestParam(name = "offerId", required = true) Long offerId,
+                                              @RequestParam(name = "userId", required = true) Long userId
+    ) {
+
+        /** http://localhost:8091/offer/edit?offerId=1&userId=1 */
+        return this.tourOfferService.editOffer(offerId, userId);
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<OfferDTO> saveOffer(
+            @RequestParam(name = "offerId") Long offerId,
+            @RequestParam(name = "userId") Long userId,
+            OfferDTO offerDTO) {
+
+        //TODO TO FINISH, HOW TO RECEIVE JSON OR PROCESS IT CORRECTLY
+        OfferDTO offerDTO1 = offerDTO;
+        return null;
+    }
+
     //delete
     //create
-    //findBy... ASC
+
 }

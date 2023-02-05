@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -73,6 +74,33 @@ public class TourOfferServiceImpl implements TourOfferService {
         return this.validatorUtil.responseEntity(offers);
     }
 
+    @Override
+    public ResponseEntity<OfferDTO> editOffer(Long offerId, Long userId) {
+
+        OfferDTO offerDTO = null;
+        try {
+            TourOfferEntity entity = this.tourOfferRepository.findByIdAndUserId(offerId, userId).orElse(null);
+
+            if (Objects.isNull(entity)) {
+                return this.validatorUtil.responseEntity(this.mapper.map(entity, OfferDTO.class));
+            }
+
+            offerDTO = this.mapper.map(entity, OfferDTO.class);
+
+        }catch (Exception e){
+            return this.validatorUtil.responseEntity(offerDTO);
+        }
+
+        return this.validatorUtil.responseEntity(offerDTO);
+    }
+
+    @Override
+    public ResponseEntity<OfferDTO> saveOffer(Long offerId, Long userId, OfferDTO offerDTO){
+
+        //TODO
+        return null;
+    }
+
     private List<Sort.Order> getOrderList(String[] sort) {
         List<Sort.Order> orders = new ArrayList<>();
 
@@ -99,6 +127,5 @@ public class TourOfferServiceImpl implements TourOfferService {
     private String getCriteriaParam(String country, String city) {
         return this.validatorUtil.getCriteriaParam(country, city);
     }
-
 
 }
