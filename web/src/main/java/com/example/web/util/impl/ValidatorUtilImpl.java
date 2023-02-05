@@ -24,37 +24,57 @@ public class ValidatorUtilImpl implements ValidatorUtil {
                 .getValidator();
     }
 
-    /**Works**/
+    /**
+     * Works
+     **/
     @Override
     public <E> boolean isValid(E entity) {
         return this.validator.validate(entity).isEmpty();
     }
 
-    /**Works**/
+    /**
+     * Works
+     **/
     @Override
     public <E extends UserEntity> boolean isAdmin(E entity) {
         //validatorUtil.isAdmin(userRepository.findUserEntityByFirstName("ivo").orElse(null));
         return entity.getRole().getRoleName().equals(RoleType.admin);
     }
 
-    /**Works**/
+    /**
+     * Works
+     **/
     @Override
     //validatorUtil.isActive(userRepository.findUserEntityByFirstName("ivo").orElse(null));
     public <E extends UserEntity> boolean isActive(E entity) {
         return entity.isActive();
     }
 
-
-    public <E> ResponseEntity<E> responseEntity(E entity){
+    @Override
+    public <E> ResponseEntity<E> responseEntity(E entity) {
 
         if (entity == null) {
             return ResponseEntity.notFound().build();
-        }else{
+        } else {
             return ResponseEntity.ok(entity);
         }
     }
 
+    @Override
     public <T, D> Page<D> mapEntityPageIntoDtoPage(Page<T> entities, Class<D> dtoClass) {
         return entities.map(objectEntity -> mapper.map(objectEntity, dtoClass));
     }
+
+    @Override
+    public <E> E getCriteriaParam(E country, E city, E price) {
+        if (country != null) {
+            return country;
+        } else if (city != null) {
+            return city;
+        } else if (price != null) {
+            return price;
+        }
+        return null;
+    }
+
 }

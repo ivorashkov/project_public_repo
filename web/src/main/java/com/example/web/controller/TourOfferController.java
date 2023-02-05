@@ -43,20 +43,16 @@ public class TourOfferController {
 
         /** http://localhost:8091/offer?sort=column1,direction1&sort=column2,direction2 provides
          * with 2 columns column1,direction1*/
+
+
         Page<OfferDTO> offers = null;
         try {
-            List<Order> orders = new ArrayList<>();
+            final List<Order> orders = getOrderList(sort);
 
-            for (String s : sort) {
-                String[] columns = s.split(",");
-                String sortCriteria = columns[0];
-                String directionCriteria = columns[1];
+            final Pageable pageable = PageRequest.of(page, size, Sort.by(orders));
 
-                orders.add(new Order(getDirectionOfSort(directionCriteria), sortCriteria));
-            }
-
-            Pageable pageable = PageRequest.of(page, size, Sort.by(orders));
             final String criteria = getCriteriaParam(country, city, price);
+
             final Page<TourOfferEntity> offerEntities;
             if (criteria == null) {
                 //works
@@ -74,6 +70,19 @@ public class TourOfferController {
         }
 
         return this.validatorUtil.responseEntity(offers);
+    }
+
+    private List<Order> getOrderList(String[] sort) {
+        List<Order> orders = new ArrayList<>();
+
+        for (String s : sort) {
+            String[] columns = s.split(",");
+            String sortCriteria = columns[0];
+            String directionCriteria = columns[1];
+
+            orders.add(new Order(getDirectionOfSort(directionCriteria), sortCriteria));
+        }
+        return orders;
     }
 
     private Sort.Direction getDirectionOfSort(String directionCriteria) {
