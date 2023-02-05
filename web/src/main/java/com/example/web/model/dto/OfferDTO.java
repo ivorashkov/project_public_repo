@@ -28,7 +28,7 @@ public class OfferDTO {
     private String country;
 
     @Expose
-    private String targetCity;
+    private String city;
 
     @Expose
     private int duration;

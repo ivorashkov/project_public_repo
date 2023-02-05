@@ -16,5 +16,5 @@ public interface ValidatorUtil {
 
     <T, D> Page<D> mapEntityPageIntoDtoPage(Page<T> entities, Class<D> dtoClass);
 
-    <E> E getCriteriaParam (E country, E city, E price);
+    <E> E getCriteriaParam (E country, E city);
 }

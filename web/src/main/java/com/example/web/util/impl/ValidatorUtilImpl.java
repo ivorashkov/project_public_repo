@@ -50,6 +50,10 @@ public class ValidatorUtilImpl implements ValidatorUtil {
         return entity.isActive();
     }
 
+
+    /**
+     * Works
+     **/
     @Override
     public <E> ResponseEntity<E> responseEntity(E entity) {
 
@@ -60,19 +64,23 @@ public class ValidatorUtilImpl implements ValidatorUtil {
         }
     }
 
+    /**
+     * Works
+     **/
     @Override
     public <T, D> Page<D> mapEntityPageIntoDtoPage(Page<T> entities, Class<D> dtoClass) {
         return entities.map(objectEntity -> mapper.map(objectEntity, dtoClass));
     }
 
+    /**
+     * Works
+     **/
     @Override
-    public <E> E getCriteriaParam(E country, E city, E price) {
+    public <E> E getCriteriaParam(E country, E city) {
         if (country != null) {
             return country;
         } else if (city != null) {
             return city;
-        } else if (price != null) {
-            return price;
         }
         return null;
     }

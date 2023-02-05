@@ -19,7 +19,7 @@ import java.util.Optional;
 @Repository
 public interface TourOfferRepository extends PagingAndSortingRepository<TourOfferEntity, Long> {
 
-    @Query("SELECT t FROM TourOfferEntity t")
+    @Query("SELECT t FROM TourOfferEntity t ORDER BY t.date")
     Page<TourOfferEntity> findAll_TourOffers_ByDate(Pageable pageable);
 
     @Query("SELECT t FROM TourOfferEntity t " +

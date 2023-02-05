@@ -2,11 +2,17 @@ package com.example.web.service;
 
 import com.example.web.model.dto.OfferDTO;
 import org.springframework.data.domain.Page;
-
-import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 public interface TourOfferService {
 
-    Page<OfferDTO> initialSearchResult(String criteria);
-    Page<OfferDTO> offerSearchAndFilter(String criteria, String[] sorts);
+    ResponseEntity<Page<OfferDTO>> initialSearchResult(Integer pageNumber, Integer pageSize);
+
+    ResponseEntity<Page<OfferDTO>> offerSearchAndFilter(Integer pageNumber,
+                                                        Integer pageSize,
+                                                        String country,
+                                                        String city,
+                                                        String... sorts);
+
+
 }

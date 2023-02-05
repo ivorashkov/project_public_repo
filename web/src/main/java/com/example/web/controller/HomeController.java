@@ -5,12 +5,8 @@ import com.example.web.service.TourOfferService;
 import com.example.web.util.ValidatorUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.awt.print.Pageable;
-import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -21,12 +17,13 @@ public class HomeController {
 
     @GetMapping("/search")
     public ResponseEntity<Page<OfferDTO>> response(
-            @RequestParam(name = "criteria", required = false) String criteria) {
+            @RequestParam(name = "page", defaultValue = "0") Integer page,
+            @RequestParam(name = "pageSize", defaultValue = "30") Integer size
+    ) {
 
         /** http://localhost:8091/search?criteria=France **/
-        Page<OfferDTO> offers = tourOfferService.initialSearchResult(criteria);
 
-        return this.validatorUtil.responseEntity(offers);
+        return tourOfferService.initialSearchResult(page, size);
         //should redirect to TourOfferController "/tourOffers" for more filters etc.
     }
 
