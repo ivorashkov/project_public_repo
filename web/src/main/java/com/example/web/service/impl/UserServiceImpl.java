@@ -15,37 +15,37 @@ import java.util.Objects;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-    private final ModelMapper mapper;
+  private final UserRepository userRepository;
+  private final ModelMapper mapper;
 
-    @Override
-    public UserDTO findUserById(Long id) {
-        return this.mapper.map(this.userRepository.findById(id).orElse(null), UserDTO.class);
+  @Override
+  public UserDTO findUserById(Long id) {
+    return this.mapper.map(this.userRepository.findById(id).orElse(null), UserDTO.class);
+  }
+
+  @Override
+  public void create(UserDTO userDTO) {
+    this.userRepository.save(this.mapper.map(userDTO, UserEntity.class));
+  }
+
+  @Override
+  public void deleteUser() {
+
+  }
+
+  @Override
+  public void updateUser() {
+
+  }
+
+  @Override
+  public boolean login(UserLoginDTO userLoginDTO) {
+
+    if (!Objects.isNull(this.userRepository.findByEmailAddress(userLoginDTO.getUsername()))
+        || !Objects.isNull(this.userRepository.findByUsername(userLoginDTO.getUsername()))) {
+      return true;
     }
 
-    @Override
-    public void create(UserDTO userDTO) {
-        this.userRepository.save(this.mapper.map(userDTO, UserEntity.class));
-    }
-
-    @Override
-    public void deleteUser() {
-
-    }
-
-    @Override
-    public void updateUser() {
-
-    }
-
-    @Override
-    public boolean login(UserLoginDTO userLoginDTO) {
-
-        if (!Objects.isNull(this.userRepository.findByEmailAddress(userLoginDTO.getUsername()))
-                || !Objects.isNull(this.userRepository.findByUsername(userLoginDTO.getUsername()))) {
-            return true;
-        }
-
-        return false;
-    }
+    return false;
+  }
 }

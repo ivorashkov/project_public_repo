@@ -22,46 +22,46 @@ import java.time.LocalDateTime;
 @Table(name = "offers")
 public class TourOfferEntity extends BaseEntity {
 
-    @Column(name = "title")
-    private String title;
+  @Column(name = "title")
+  private String title;
 
-    @Column(name = "is_deleted", nullable = false)
-    @ColumnDefault("false")
-    private boolean isDeleted;
+  @Column(name = "is_deleted", nullable = false)
+  @ColumnDefault("false")
+  private boolean isDeleted;
 
-    @Column(name = "creation_date")
-    private LocalDateTime date;
+  @Column(name = "creation_date")
+  private LocalDateTime date;
 
-    @Column(nullable = false, name = "country")
-    private String country;
+  @Column(nullable = false, name = "country")
+  private String country;
 
-    @Column(nullable = false, name = "city")
-    private String city;
+  @Column(nullable = false, name = "city")
+  private String city;
 
-    @Column(nullable = false, name = "duration_in_days")
-    @Min(1)
-    @Max(365)
-    private int duration;
+  @Column(nullable = false, name = "duration_in_days")
+  @Min(1)
+  @Max(365)
+  private int duration;
 
-    @Column(nullable = false, name = "stars")
-    @Min(0)
-    @Max(7)
-    private double stars;
+  @Column(nullable = false, name = "stars")
+  @Min(0)
+  @Max(7)
+  private double stars;
 
-    @Column(nullable = false)
-    @Min(1)
-    private BigDecimal price;
+  @Column(nullable = false)
+  @Min(1)
+  private BigDecimal price;
 
-    @Column(nullable = false)
-    private String description;
+  @Column(nullable = false)
+  private String description;
 
-    @Column
-    private double discount;
+  @Column
+  private double discount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private UserEntity user;
+  @ManyToOne(fetch = FetchType.LAZY)
+  private UserEntity user;
 
-    @Column(name = "transport_type", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private TransportType transportType;
+  @Column(name = "transport_type", nullable = false)
+  @Enumerated(EnumType.STRING)
+  private TransportType transportType;
 }

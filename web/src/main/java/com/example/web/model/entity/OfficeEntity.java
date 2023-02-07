@@ -14,19 +14,19 @@ import lombok.Setter;
 @Table(name = "offices")
 public class OfficeEntity extends BaseEntity {
 
-    @Column(nullable = false)
-    private String country;
+  @Column(nullable = false)
+  private String country;
 
-    @Column(nullable = false)
-    private String city;
+  @Column(nullable = false)
+  private String city;
 
-    @Column(nullable = false)
-    private String address;
+  @Column(nullable = false)
+  private String address;
 
-    @Column(nullable = false, unique = true)
-    private String phoneNumber;
+  @Column(nullable = false, unique = true)
+  private String phoneNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private UserEntity user;
+  @ManyToOne(fetch = FetchType.LAZY)
+  private UserEntity user;
 
 }

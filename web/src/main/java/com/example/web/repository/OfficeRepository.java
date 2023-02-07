@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface OfficeRepository extends JpaRepository<OfficeEntity, Long> {
 
-    @Query("SELECT o FROM OfficeEntity o WHERE o.user.id = :userId ORDER BY o.city")
-    List<Optional<OfficeEntity>> findAllOfficesByUserIdAsc(@Param("userId") Long userId);
+  @Query("SELECT o FROM OfficeEntity o WHERE o.user.id = :userId ORDER BY o.city")
+  List<Optional<OfficeEntity>> findAllOfficesByUserIdAsc(@Param("userId") Long userId);
 
 }

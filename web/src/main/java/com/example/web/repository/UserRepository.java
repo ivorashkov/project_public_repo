@@ -11,12 +11,12 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    @Query("SELECT u FROM UserEntity u WHERE u.id = :id")
-    Optional<UserEntity> findUserEntityById(@Param("id") Long id);
+  @Query("SELECT u FROM UserEntity u WHERE u.id = :id")
+  Optional<UserEntity> findUserEntityById(@Param("id") Long id);
 
-    Optional<UserEntity> findByEmailAddress(String email);
+  Optional<UserEntity> findByEmailAddress(String email);
 
-    Optional<UserEntity> findByUsername(String username);
+  Optional<UserEntity> findByUsername(String username);
 
 
 }

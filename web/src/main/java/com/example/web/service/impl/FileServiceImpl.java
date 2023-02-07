@@ -25,100 +25,101 @@ import java.util.stream.Stream;
 
 @Service
 public class FileServiceImpl implements FileService {
-    private final Path rootLocation;
 
-    public FileServiceImpl(StorageProperties properties) {
-        this.rootLocation = Paths.get(properties.getLocation());
+  private final Path rootLocation;
+
+  public FileServiceImpl(StorageProperties properties) {
+    this.rootLocation = Paths.get(properties.getLocation());
+  }
+
+  @Override
+  public Path initialization(Long userId, Long offerId, String stringFormat) {
+    StringBuilder stringDirectory = new StringBuilder();
+
+    stringDirectory
+        .append(rootLocation)
+        .append(ConstantMessages.DIRECTORY_SEPARATOR)
+        .append(String.format(stringFormat, ConstantMessages.USER, userId));
+
+    /** if the user has directory already -> \\ creating folders using template %s_%d **/
+    if (!Files.exists(Paths.get(stringDirectory.toString()))) {
+
+      /** creating folder if such does not exist **/
+      new File(stringDirectory.toString()).mkdirs();
+
+    } else if (offerId >= 0) {
+
+      /** then we should create Offer directory with offerId */
+      stringDirectory
+          .append(ConstantMessages.DIRECTORY_SEPARATOR)
+          .append(String.format(stringFormat, ConstantMessages.OFFER, offerId));
+
+      new File(stringDirectory.toString()).mkdirs();
     }
 
-    @Override
-    public Path initialization(Long userId, Long offerId, String stringFormat) {
-        StringBuilder stringDirectory = new StringBuilder();
+    return Paths.get(stringDirectory.toString());
+  }
 
-        stringDirectory
-                .append(rootLocation)
-                .append(ConstantMessages.DIRECTORY_SEPARATOR)
-                .append(String.format(stringFormat, ConstantMessages.USER, userId));
+  @Override
+  public void store(MultipartFile file, Long userId, Path pathFromInit) {
+    try {
+      if (file.isEmpty()) {
+        throw new StorageException("Failed to store empty file.");
+      }
 
-        /** if the user has directory already -> \\ creating folders using template %s_%d **/
-        if (!Files.exists(Paths.get(stringDirectory.toString()))) {
+      Path destinationFile = pathFromInit
+          .resolve(Paths.get(file.getOriginalFilename()))
+          .normalize().toAbsolutePath();
 
-            /** creating folder if such does not exist **/
-            new File(stringDirectory.toString()).mkdirs();
+      if (!destinationFile.getParent().equals(pathFromInit.toAbsolutePath())) {
+        // This is a security check
+        throw new StorageException(
+            "Cannot store file outside current directory.");
+      }
 
-        } else if (offerId >= 0) {
-
-            /** then we should create Offer directory with offerId */
-            stringDirectory
-                    .append(ConstantMessages.DIRECTORY_SEPARATOR)
-                    .append(String.format(stringFormat, ConstantMessages.OFFER, offerId));
-
-            new File(stringDirectory.toString()).mkdirs();
-        }
-
-        return Paths.get(stringDirectory.toString());
+      try (InputStream inputStream = file.getInputStream()) {
+        Files.copy(inputStream, destinationFile,
+            StandardCopyOption.REPLACE_EXISTING);
+      }
+    } catch (IOException e) {
+      throw new StorageException("Failed to store file.", e);
     }
+  }
 
-    @Override
-    public void store(MultipartFile file, Long userId, Path pathFromInit) {
-        try {
-            if (file.isEmpty()) {
-                throw new StorageException("Failed to store empty file.");
-            }
-
-            Path destinationFile = pathFromInit
-                    .resolve(Paths.get(file.getOriginalFilename()))
-                    .normalize().toAbsolutePath();
-
-            if (!destinationFile.getParent().equals(pathFromInit.toAbsolutePath())) {
-                // This is a security check
-                throw new StorageException(
-                        "Cannot store file outside current directory.");
-            }
-
-            try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, destinationFile,
-                        StandardCopyOption.REPLACE_EXISTING);
-            }
-        } catch (IOException e) {
-            throw new StorageException("Failed to store file.", e);
-        }
+  @Override
+  public Stream<Path> loadAll() {
+    try {
+      return Files.walk(this.rootLocation, 1)
+          .filter(path -> !path.equals(this.rootLocation))
+          .map(this.rootLocation::relativize);
+    } catch (IOException e) {
+      throw new StorageException("Failed to read stored files", e);
     }
+  }
 
-    @Override
-    public Stream<Path> loadAll() {
-        try {
-            return Files.walk(this.rootLocation, 1)
-                    .filter(path -> !path.equals(this.rootLocation))
-                    .map(this.rootLocation::relativize);
-        } catch (IOException e) {
-            throw new StorageException("Failed to read stored files", e);
-        }
-    }
+  @Override
+  public Path load(String filename) {
+    return rootLocation.resolve(filename);
+  }
 
-    @Override
-    public Path load(String filename) {
-        return rootLocation.resolve(filename);
+  @Override
+  public Resource loadAsResource(String filename) {
+    try {
+      Path file = load(filename);
+      Resource resource = new UrlResource(file.toUri());
+      if (resource.exists() || resource.isReadable()) {
+        return resource;
+      } else {
+        throw new StorageFileNotFoundException("Could not read file: " + filename);
+      }
+    } catch (MalformedURLException e) {
+      throw new StorageFileNotFoundException("Could not read file: " + filename, e);
     }
+  }
 
-    @Override
-    public Resource loadAsResource(String filename) {
-        try {
-            Path file = load(filename);
-            Resource resource = new UrlResource(file.toUri());
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            } else {
-                throw new StorageFileNotFoundException("Could not read file: " + filename);
-            }
-        } catch (MalformedURLException e) {
-            throw new StorageFileNotFoundException("Could not read file: " + filename, e);
-        }
-    }
-
-    @Override
-    public void deleteAll() {
-        FileSystemUtils.deleteRecursively(rootLocation.toFile());
-    }
+  @Override
+  public void deleteAll() {
+    FileSystemUtils.deleteRecursively(rootLocation.toFile());
+  }
 
 }

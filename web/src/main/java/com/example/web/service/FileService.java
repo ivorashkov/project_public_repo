@@ -9,15 +9,15 @@ import java.util.stream.Stream;
 public interface FileService {
 
 
-    void store(MultipartFile file, Long userId, Path path);
+  void store(MultipartFile file, Long userId, Path path);
 
-    Stream<Path> loadAll();
+  Stream<Path> loadAll();
 
-    Path load(String filename);
+  Path load(String filename);
 
-    Resource loadAsResource(String filename);
+  Resource loadAsResource(String filename);
 
-    void deleteAll();
+  void deleteAll();
 
-    Path initialization(Long userId, Long offerId, String formatAddonTemplate);
+  Path initialization(Long userId, Long offerId, String formatAddonTemplate);
 }

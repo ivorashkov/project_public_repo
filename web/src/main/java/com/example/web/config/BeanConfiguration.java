@@ -16,24 +16,27 @@ import java.time.format.DateTimeFormatter;
 public class BeanConfiguration {
 
 
-    @Bean
-    public Gson gson() {
-        return new GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation()
-                .create();
-    }
+  @Bean
+  public Gson gson() {
+    return new GsonBuilder()
+        .excludeFieldsWithoutExposeAnnotation()
+        .create();
+  }
 
-    @Bean
-    public ModelMapper modelMapper() {
-        var modelMapper = new ModelMapper();
+  @Bean
+  public ModelMapper modelMapper() {
+    var modelMapper = new ModelMapper();
 
-        modelMapper.addConverter((Converter<String, LocalDate>) mappingContext -> LocalDate.parse(mappingContext.getSource(),
-                DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+    modelMapper.addConverter(
+        (Converter<String, LocalDate>) mappingContext -> LocalDate.parse(mappingContext.getSource(),
+            DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
-        modelMapper.addConverter((Converter<String, LocalDateTime>) mappingContext -> LocalDateTime.parse(mappingContext.getSource(),
-                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+    modelMapper.addConverter(
+        (Converter<String, LocalDateTime>) mappingContext -> LocalDateTime.parse(
+            mappingContext.getSource(),
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
-        return modelMapper;
-    }
+    return modelMapper;
+  }
 
 }

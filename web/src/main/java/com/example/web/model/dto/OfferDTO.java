@@ -15,37 +15,37 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class OfferDTO {
 
-    @Expose
-    private Long id;
+  @Expose
+  private Long id;
 
-    @Expose
-    private String title;
+  @Expose
+  private String title;
 
-    @Expose
-    private String date;
+  @Expose
+  private String date;
 
-    @Expose
-    private String country;
+  @Expose
+  private String country;
 
-    @Expose
-    private String city;
+  @Expose
+  private String city;
 
-    @Expose
-    private int duration;
+  @Expose
+  private int duration;
 
-    @Expose
-    private double stars;
+  @Expose
+  private double stars;
 
-    @Expose
-    private BigDecimal price;
+  @Expose
+  private BigDecimal price;
 
-    @Expose
-    private String description;
+  @Expose
+  private String description;
 
-    @Expose
-    private double discount;
+  @Expose
+  private double discount;
 
-    @Expose
-    private TransportType transportType;
+  @Expose
+  private TransportType transportType;
 
 }

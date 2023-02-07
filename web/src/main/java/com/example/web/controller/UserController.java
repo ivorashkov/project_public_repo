@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-    //create -> for new registration
-    //login
-    //logout
-    //if not approved -> /applicationForm
-    //if approved -> /user?userId={id}
-    //createOffer
-    //seeOffers
+  //create -> for new registration
+  //login
+  //logout
+  //if not approved -> /applicationForm
+  //if approved -> /user?userId={id}
+  //createOffer
+  //seeOffers
 }

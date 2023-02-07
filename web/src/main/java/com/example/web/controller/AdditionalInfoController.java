@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/office")
 public class AdditionalInfoController {
-    //this controller could be used when user not approved
-    //??loginController?? to identify if the  user should use this or UserController??
-    //
+  //this controller could be used when user not approved
+  //??loginController?? to identify if the  user should use this or UserController??
+  //
 }

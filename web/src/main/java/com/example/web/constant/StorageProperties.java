@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("storage")
 public class StorageProperties {
 
-    //TODO: PLEASE ENTER YOUR FULL PATH:
-    private String location =
-            "C:\\Users\\User\\Desktop\\Java\\WebProject\\version_1.0.1-crashed\\web\\src\\main\\resources\\static\\directory_storage";
+  //TODO: PLEASE ENTER YOUR FULL PATH:
+  private String location =
+      "C:\\Users\\User\\Desktop\\Java\\WebProject\\version_1.0.1-crashed\\web\\src\\main\\resources\\static\\directory_storage";
 }

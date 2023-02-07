@@ -17,45 +17,45 @@ import java.util.List;
 @Table(name = "users")
 public class UserEntity extends BaseEntity {
 
-    @Column(nullable = false)
-    private boolean isActive;
+  @Column(nullable = false)
+  private boolean isActive;
 
-    @Column(nullable = false, unique = true, updatable = false)
-    private String username;
+  @Column(nullable = false, unique = true, updatable = false)
+  private String username;
 
-    @Column(nullable = false)
-    private String password;
+  @Column(nullable = false)
+  private String password;
 
-    @Email
-    @Column(nullable = false, unique = true, name = "email_address")
-    private String emailAddress;
+  @Email
+  @Column(nullable = false, unique = true, name = "email_address")
+  private String emailAddress;
 
-    @Column(nullable = false, name = "first_name")
-    private String firstName;
+  @Column(nullable = false, name = "first_name")
+  private String firstName;
 
-    @Column(nullable = false, name = "last_name")
-    private String lastName;
+  @Column(nullable = false, name = "last_name")
+  private String lastName;
 
-    @Column(nullable = false, unique = true, name = "phone_number")
-    private String phoneNumber;
+  @Column(nullable = false, unique = true, name = "phone_number")
+  private String phoneNumber;
 
-    @OneToOne
-    @Enumerated(EnumType.STRING)
-    private RoleEntity role;
+  @OneToOne
+  @Enumerated(EnumType.STRING)
+  private RoleEntity role;
 
-    @Column
-    private int approvedBy;
+  @Column
+  private int approvedBy;
 
-    @Column(name = "user_star")
-    private boolean hasStar;
+  @Column(name = "user_star")
+  private boolean hasStar;
 
-    @OneToMany(targetEntity = OfficeEntity.class,mappedBy = "user", fetch = FetchType.LAZY)
-    private List<OfficeEntity> offices;
+  @OneToMany(targetEntity = OfficeEntity.class, mappedBy = "user", fetch = FetchType.LAZY)
+  private List<OfficeEntity> offices;
 
-    @OneToMany(targetEntity = TourOfferEntity.class, mappedBy = "user", fetch = FetchType.LAZY)
-    private List<TourOfferEntity> offers;
+  @OneToMany(targetEntity = TourOfferEntity.class, mappedBy = "user", fetch = FetchType.LAZY)
+  private List<TourOfferEntity> offers;
 
-    @OneToOne
-    private AdditionalInfoEntity additionalInfo;
+  @OneToOne
+  private AdditionalInfoEntity additionalInfo;
 
 }

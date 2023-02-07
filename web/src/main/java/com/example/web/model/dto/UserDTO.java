@@ -11,18 +11,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
-    @Expose
-    private long id;
 
-    @Expose
-    private String username;
+  @Expose
+  private long id;
 
-    @Expose
-    private String password;
+  @Expose
+  private String username;
 
-    @Expose
-    private String firstName;
+  @Expose
+  private String password;
 
-    @Expose
-    private String lastName;
+  @Expose
+  private String firstName;
+
+  @Expose
+  private String lastName;
 }

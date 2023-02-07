@@ -17,39 +17,43 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/home")
 public class FileController {
-    private final FileService fileService;
-    private final UserService userService;
-    private final ValidatorUtil validatorUtil;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> response(@PathVariable Long id) {
-        return this.validatorUtil.responseEntity(userService.findUserById(id));
-    }
+  private final FileService fileService;
+  private final UserService userService;
+  private final ValidatorUtil validatorUtil;
 
-    @PostMapping("/upload/all")
-    public String handleFileUploadAll(@RequestParam("file") List<MultipartFile> files,
-                                      @RequestParam(name = "userId") Long userId,
-                                      @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
-    ) {
+  @GetMapping("/{id}")
+  public ResponseEntity<UserDTO> response(@PathVariable Long id) {
+    return this.validatorUtil.responseEntity(userService.findUserById(id));
+  }
 
-        files.forEach(file -> handleFileUpload(file, userId, offerId));
+  @PostMapping("/upload/all")
+  public String handleFileUploadAll(
+      @RequestParam("file") List<MultipartFile> files,
+      @RequestParam(name = "userId") Long userId,
+      @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
+  ) {
 
-        return "All files are saved.";
-    }
+    files.forEach(file -> handleFileUpload(file, userId, offerId));
+
+    return "All files are saved.";
+  }
 
 
-    @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
-                                   @RequestParam(name = "userId") Long userId,
-                                   @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
-    ) {
+  @PostMapping("/upload")
+  public String handleFileUpload(
+      @RequestParam("file") MultipartFile file,
+      @RequestParam(name = "userId") Long userId,
+      @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
+  ) {
 
-        Path initPath = fileService.initialization(userId, offerId, ConstantMessages.FORMAT_ADDON_TEMPLATE);
+    Path initPath = fileService.initialization(userId, offerId,
+        ConstantMessages.FORMAT_ADDON_TEMPLATE);
 
-        fileService.store(file, userId, initPath);
+    fileService.store(file, userId, initPath);
 
-        return "file" + file.getOriginalFilename() + " saved.";
-    }
+    return "file" + file.getOriginalFilename() + " saved.";
+  }
 
 //    private void fileProcessing(Long userId, Long offerId, MultipartFile file, String format) {
 //

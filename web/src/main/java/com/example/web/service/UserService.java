@@ -6,14 +6,14 @@ import com.example.web.model.entity.UserEntity;
 
 public interface UserService {
 
-    UserDTO findUserById(Long id);
+  UserDTO findUserById(Long id);
 
-    void create(UserDTO userDTO);
+  void create(UserDTO userDTO);
 
-    void deleteUser();
+  void deleteUser();
 
-    void updateUser();
+  void updateUser();
 
-    boolean login(UserLoginDTO userLoginDTO);
+  boolean login(UserLoginDTO userLoginDTO);
 
 }

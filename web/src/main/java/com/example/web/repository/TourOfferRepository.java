@@ -19,18 +19,18 @@ import java.util.Optional;
 @Repository
 public interface TourOfferRepository extends PagingAndSortingRepository<TourOfferEntity, Long> {
 
-    @Query("SELECT t FROM TourOfferEntity t ORDER BY t.date")
-    Page<TourOfferEntity> findAll_TourOffers_ByDate(Pageable pageable);
+  @Query("SELECT t FROM TourOfferEntity t ORDER BY t.date")
+  Page<TourOfferEntity> findAll_TourOffers_ByDate(Pageable pageable);
 
-    @Query("SELECT t FROM TourOfferEntity t " +
-            " WHERE t.title LIKE CONCAT('%',:query, '%')" +
-            " OR t.description LIKE CONCAT('%', :query, '%')" +
-            " OR t.city LIKE CONCAT('%', :query, '%')" +
-            " OR t.country LIKE CONCAT('%', :query, '%')")
-            Page<TourOfferEntity> findAllByCriteria(
-                    @Param("query")String criteria, Pageable pageable);
+  @Query("SELECT t FROM TourOfferEntity t " +
+      " WHERE t.title LIKE CONCAT('%',:query, '%')" +
+      " OR t.description LIKE CONCAT('%', :query, '%')" +
+      " OR t.city LIKE CONCAT('%', :query, '%')" +
+      " OR t.country LIKE CONCAT('%', :query, '%')")
+  Page<TourOfferEntity> findAllByCriteria(
+      @Param("query") String criteria, Pageable pageable);
 
-    Optional<TourOfferEntity> findByIdAndUserId(Long offerId, Long userId);
+  Optional<TourOfferEntity> findByIdAndUserId(Long offerId, Long userId);
 
-    TourOfferEntity save(TourOfferEntity tourOfferEntity);
+  TourOfferEntity save(TourOfferEntity tourOfferEntity);
 }
