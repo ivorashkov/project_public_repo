@@ -22,8 +22,7 @@ public class HomeController {
     ) {
 
         /** http://localhost:8091/search?criteria=France **/
-
-        return tourOfferService.initialSearchResult(page, size);
+        return this.validatorUtil.responseEntity(tourOfferService.initialSearchResult(page, size));
         //should redirect to TourOfferController "/tourOffers" for more filters etc.
     }
 

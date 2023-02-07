@@ -58,7 +58,7 @@ public class TourOfferEntity extends BaseEntity {
     @Column
     private double discount;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity user;
 
     @Column(name = "transport_type", nullable = false)

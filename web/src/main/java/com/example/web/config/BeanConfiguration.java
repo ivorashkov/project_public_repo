@@ -19,7 +19,7 @@ public class BeanConfiguration {
     @Bean
     public Gson gson() {
         return new GsonBuilder()
-//              .excludeFieldsWithoutExposeAnnotation()
+                .excludeFieldsWithoutExposeAnnotation()
                 .create();
     }
 

@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/home")
-public class TestController {
+public class FileController {
     private final FileService fileService;
     private final UserService userService;
     private final ValidatorUtil validatorUtil;

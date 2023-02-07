@@ -50,29 +50,29 @@ public class TestWebAppRunner implements CommandLineRunner {
     }
 
     public static void officesFound(OfficeRepository officeRepository, UserRepository userRepository) {
-        UserEntity user = userRepository.findUserEntityByFirstName("ivo").orElse(null);
-        List<Optional<OfficeEntity>> offices = officeRepository.findAllOfficesByUserIdAsc(user.getId());
-
-        for (Optional<OfficeEntity> office : offices) {
-            System.out.println(office.get().getCity());
-        }
+//        UserEntity user = userRepository.findUserEntityByFirstName("ivo").orElse(null);
+//        List<Optional<OfficeEntity>> offices = officeRepository.findAllOfficesByUserIdAsc(user.getId());
+//
+//        for (Optional<OfficeEntity> office : offices) {
+//            System.out.println(office.get().getCity());
+//        }
     }
 
     public static void isAdminValidationTest(ValidatorUtil validatorUtil, UserRepository userRepository) {
-        boolean isAdmin = validatorUtil.isAdmin(userRepository.findUserEntityByFirstName("ivo").orElse(null));
-        boolean isAdmin1 = validatorUtil.isAdmin(userRepository.findUserEntityByFirstName("kolo").orElse(null));
-        boolean isAdmin2 = validatorUtil.isAdmin(userRepository.findUserEntityByFirstName("deno").orElse(null));
-        System.out.println("ivo -> " + isAdmin);
-        System.out.println("kolo -> " + isAdmin1);
-        System.out.println("deno -> " + isAdmin2);
+//        boolean isAdmin = validatorUtil.isAdmin(userRepository.findUserEntityByFirstName("ivo").orElse(null));
+//        boolean isAdmin1 = validatorUtil.isAdmin(userRepository.findUserEntityByFirstName("kolo").orElse(null));
+//        boolean isAdmin2 = validatorUtil.isAdmin(userRepository.findUserEntityByFirstName("deno").orElse(null));
+//        System.out.println("ivo -> " + isAdmin);
+//        System.out.println("kolo -> " + isAdmin1);
+//        System.out.println("deno -> " + isAdmin2);
     }
 
     public static void isActiveValidationTest(ValidatorUtil validatorUtil, UserRepository userRepository) {
-        boolean isActive = validatorUtil.isActive(userRepository.findUserEntityByFirstName("ivo").orElse(null));
-        boolean isActive1 = validatorUtil.isActive(userRepository.findUserEntityByFirstName("kolo").orElse(null));
-        boolean isActive2 = validatorUtil.isActive(userRepository.findUserEntityByFirstName("deno").orElse(null));
-        System.out.println("ivo -> " + isActive);
-        System.out.println("kolo -> " + isActive1);
-        System.out.println("deno -> " + isActive2);
+//        boolean isActive = validatorUtil.isActive(userRepository.findUserEntityByFirstName("ivo").orElse(null));
+//        boolean isActive1 = validatorUtil.isActive(userRepository.findUserEntityByFirstName("kolo").orElse(null));
+//        boolean isActive2 = validatorUtil.isActive(userRepository.findUserEntityByFirstName("deno").orElse(null));
+//        System.out.println("ivo -> " + isActive);
+//        System.out.println("kolo -> " + isActive1);
+//        System.out.println("deno -> " + isActive2);
     }
 }

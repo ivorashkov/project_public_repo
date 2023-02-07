@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class TourOfferServiceImpl implements TourOfferService {
     private ValidatorUtil validatorUtil;
 
     @Override
-    public ResponseEntity<Page<OfferDTO>> initialSearchResult(Integer pageNumber, Integer pageSize) {
+    public Page<OfferDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
 
         Page<OfferDTO> offerDTOS = null;
         try {
@@ -36,18 +35,18 @@ public class TourOfferServiceImpl implements TourOfferService {
             offerDTOS = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntity, OfferDTO.class);
         } catch (Exception e) {
 
-            return this.validatorUtil.responseEntity(offerDTOS);
+            return offerDTOS;
         }
 
-        return this.validatorUtil.responseEntity(offerDTOS);
+        return offerDTOS;
     }
 
     @Override
-    public ResponseEntity<Page<OfferDTO>> searchAndFilterOffers(Integer pageNumber,
-                                                                Integer pageSize,
-                                                                String country,
-                                                                String city,
-                                                                String... sorts
+    public Page<OfferDTO> searchAndFilterOffers(Integer pageNumber,
+                                                Integer pageSize,
+                                                String country,
+                                                String city,
+                                                String... sorts
     ) {
         Page<OfferDTO> offers = null;
         try {
@@ -67,34 +66,34 @@ public class TourOfferServiceImpl implements TourOfferService {
                 offerEntities = tourOfferRepository.findAllByCriteria(criteria, pageable);
                 offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities, OfferDTO.class);
             }
-        } catch (Exception e) {
-            return this.validatorUtil.responseEntity(offers);
-        }
+            return offers;
 
-        return this.validatorUtil.responseEntity(offers);
+        } catch (Exception e) {
+            return offers;
+        }
     }
 
     @Override
-    public ResponseEntity<OfferDTO> editOffer(Long offerId, Long userId) {
+    public OfferDTO editOffer(Long offerId, Long userId) {
 
         OfferDTO offerDTO = null;
         try {
             TourOfferEntity entity = this.tourOfferRepository.findByIdAndUserId(offerId, userId).orElse(null);
 
             if (Objects.isNull(entity)) {
-                return this.validatorUtil.responseEntity(this.mapper.map(entity, OfferDTO.class));
+                return this.mapper.map(entity, OfferDTO.class);
             }
             offerDTO = this.mapper.map(entity, OfferDTO.class);
 
-        }catch (Exception e){
-            return this.validatorUtil.responseEntity(offerDTO);
-        }
+            return offerDTO;
 
-        return this.validatorUtil.responseEntity(offerDTO);
+        } catch (Exception e) {
+            return offerDTO;
+        }
     }
 
     @Override
-    public ResponseEntity<OfferDTO> saveOffer(Long offerId, Long userId, OfferDTO offerDTO){
+    public OfferDTO saveOffer(Long offerId, Long userId, OfferDTO offerDTO) {
 
         //TODO
         return null;

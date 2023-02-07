@@ -6,17 +6,17 @@ import org.springframework.http.ResponseEntity;
 
 public interface TourOfferService {
 
-    ResponseEntity<Page<OfferDTO>> initialSearchResult(Integer pageNumber, Integer pageSize);
+    Page<OfferDTO> initialSearchResult(Integer pageNumber, Integer pageSize);
 
-    ResponseEntity<Page<OfferDTO>> searchAndFilterOffers(Integer pageNumber,
+    Page<OfferDTO> searchAndFilterOffers(Integer pageNumber,
                                                          Integer pageSize,
                                                          String country,
                                                          String city,
                                                          String... sorts);
 
 
-    ResponseEntity<OfferDTO> editOffer(Long offerId, Long userId);
+    OfferDTO editOffer(Long offerId, Long userId);
 
-    ResponseEntity<OfferDTO> saveOffer(Long offerId, Long userId, OfferDTO offerDTO);
+    OfferDTO saveOffer(Long offerId, Long userId, OfferDTO offerDTO);
 
 }
