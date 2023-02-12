@@ -67,6 +67,7 @@ public class TourOfferEntity extends BaseEntity {
 
   @Column(name = "offer_pictures", nullable = false)
 
-  @OneToMany(fetch = FetchType.LAZY)
+  @OneToMany(fetch = FetchType.LAZY, targetEntity = OfferDataEntity.class)
+  @JoinColumn(name = "id")
   private List<OfferDataEntity> dataUri;
 }

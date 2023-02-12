@@ -2,14 +2,11 @@ package com.example.web.controller;
 
 import com.example.web.model.dto.ImportCreateOfferInfoDTO;
 import com.example.web.model.dto.ResponseOfferInfoDTO;
-import com.example.web.repository.UserRepository;
 import com.example.web.service.FileService;
 import com.example.web.service.TourOfferService;
-import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,13 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/offer")
 public class TourOfferController {
 
-  private final UserRepository userRepository;
-  private final UserService userService;
   private final TourOfferService tourOfferService;
   private final FileService fileService;
 
   private final ValidatorUtil validatorUtil;
-  private final ModelMapper mapper;
 
 
   @GetMapping("/edit")
@@ -62,10 +56,11 @@ public class TourOfferController {
       @RequestParam(value = "file", required = false) List<MultipartFile> files,
       @RequestBody ImportCreateOfferInfoDTO createOfferDTO) {
 
-    this.tourOfferService.saveOffer(createOfferDTO);
+    /** DTO + FILES **/
 
-   // UserEntity user = this.userRepository.findById(createOfferDTO.getUserId()).orElse(null);
+    Long offerId = this.tourOfferService.createOffer(createOfferDTO);
 
+    this.fileService.saveAllFiles(files, createOfferDTO.getUser().getId(), offerId);
 
     //create
     return null;

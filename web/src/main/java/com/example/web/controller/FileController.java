@@ -1,10 +1,7 @@
 package com.example.web.controller;
 
-import com.example.web.constant.ConstantMessages;
-import com.example.web.constant.StorageFileNotFoundException;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.service.FileService;
-import com.example.web.service.OfferDataService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
 import lombok.AllArgsConstructor;
@@ -12,17 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Path;
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/home")
+@RequestMapping("/user/file")
 public class FileController {
 
   private final FileService fileService;
   private final UserService userService;
-  private final OfferDataService offerDataService;
   private final ValidatorUtil validatorUtil;
 
   @GetMapping("/{id}")
@@ -37,27 +32,19 @@ public class FileController {
       @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
   ) {
 
-    files.forEach(file -> handleFileUpload(file, userId, offerId));
+    this.fileService.saveAllFiles(files, userId, offerId);
 
     return "All files are saved.";
   }
 
-
   @PostMapping("/upload")
-  public String handleFileUpload(
+  public String upload(
       @RequestParam("file") MultipartFile file,
       @RequestParam(name = "userId") Long userId,
       @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
   ) {
 
-    /** http://localhost:8091/home/upload?userId=1&offerId=-1 */
-    Path initPath = fileService.pathInitialization(userId, offerId,
-        ConstantMessages.FORMAT_ADDON_TEMPLATE);
-
-    this.fileService.store(file, userId, initPath);
-    this.offerDataService.saveFileUri(offerId, initPath);
-
-    return "file" + file.getOriginalFilename() + " saved.";
+    return this.fileService.handleFileUpload(file, userId, offerId).toString();
   }
 
 //    private void fileProcessing(Long userId, Long offerId, MultipartFile file, String format) {
@@ -68,10 +55,10 @@ public class FileController {
 //        fileService.store(file, userId, initPath);
 //    }
 
-    @ExceptionHandler(StorageFileNotFoundException.class)
-    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
-        return ResponseEntity.notFound().build();
-    }
+//    @ExceptionHandler(StorageFileNotFoundException.class)
+//    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+//        return ResponseEntity.notFound().build();
+//    }
 
 //    @GetMapping("/")
 //    public String listUploadedFiles(Model model) throws IOException {

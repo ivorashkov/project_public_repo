@@ -14,6 +14,6 @@ public interface TourOfferService {
 
   ResponseOfferInfoDTO editOffer(Long offerId, Long userId);
 
-  void saveOffer(ImportCreateOfferInfoDTO offerDTO);
+  Long createOffer(ImportCreateOfferInfoDTO offerDTO);
 
 }

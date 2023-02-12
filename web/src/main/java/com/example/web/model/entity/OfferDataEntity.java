@@ -20,7 +20,5 @@ public class OfferDataEntity extends BaseEntity {
   @Column(name = "picture_uri", nullable = false, unique = true)
   private String pictureLocation;
 
-//  @ManyToOne(targetEntity = TourOfferEntity.class)
-//  @JoinColumn(name = "offer_id", referencedColumnName = "id")
-//  private TourOfferEntity tourOfferEntity;
+
 }

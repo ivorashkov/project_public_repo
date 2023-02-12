@@ -1,5 +1,6 @@
 package com.example.web.service;
 
+import java.util.List;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -7,9 +8,6 @@ import java.nio.file.Path;
 import java.util.stream.Stream;
 
 public interface FileService {
-
-
-  void store(MultipartFile file, Long userId, Path path);
 
   Stream<Path> loadAll();
 
@@ -19,5 +17,9 @@ public interface FileService {
 
   void deleteAll();
 
-  Path pathInitialization(Long userId, Long offerId, String formatAddonTemplate);
+  void saveAllFiles(List<MultipartFile> files, Long userId, Long offerId);
+
+   Path handleFileUpload(MultipartFile file, Long userId, Long offerId);
+//  void store(MultipartFile file, Long userId, Path path);
+//  Path pathInitialization(Long userId, Long offerId, String formatAddonTemplate);
 }

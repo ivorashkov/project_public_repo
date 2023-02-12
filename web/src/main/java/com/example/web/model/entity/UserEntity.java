@@ -55,7 +55,8 @@ public class UserEntity extends BaseEntity {
   @OneToMany(targetEntity = TourOfferEntity.class, mappedBy = "user", fetch = FetchType.LAZY)
   private List<TourOfferEntity> offers;
 
-  @OneToOne
-  private AdditionalInfoEntity additionalInfo;
+  @OneToMany(fetch = FetchType.LAZY, targetEntity = AdditionalInfoEntity.class)
+  @JoinColumn(name = "id")
+  private List<AdditionalInfoEntity> additionalInfo;
 
 }

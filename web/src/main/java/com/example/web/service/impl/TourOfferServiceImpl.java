@@ -14,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -82,7 +81,7 @@ public class TourOfferServiceImpl implements TourOfferService {
 
   @Override
   public ResponseOfferInfoDTO editOffer(Long offerId, Long userId) {
-
+//todo to fix this crap code
     ResponseOfferInfoDTO offerDTO = null;
     try {
       TourOfferEntity entity = this.tourOfferRepository.findByIdAndUserId(offerId, userId)
@@ -101,13 +100,15 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public void saveOffer(ImportCreateOfferInfoDTO offerDTO) {
+  public Long createOffer(ImportCreateOfferInfoDTO offerDTO) {
     TourOfferEntity tourOfferEntity = this.mapper.map(offerDTO, TourOfferEntity.class);
+
+    //orElse-> exception throw
     UserEntity user = userRepository.findById(offerDTO.getUser().getId()).orElse(null);
 
     tourOfferEntity.setUser(user);
-    this.tourOfferRepository.save(tourOfferEntity);
 
+    return this.tourOfferRepository.findById(this.tourOfferRepository.save(tourOfferEntity));
   }
 
   private List<Sort.Order> getOrderList(String[] sort) {
