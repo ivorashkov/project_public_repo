@@ -1,8 +1,10 @@
 package com.example.web.controller;
 
 import com.example.web.constant.ConstantMessages;
+import com.example.web.constant.StorageFileNotFoundException;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.service.FileService;
+import com.example.web.service.OfferDataService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
 import lombok.AllArgsConstructor;
@@ -20,6 +22,7 @@ public class FileController {
 
   private final FileService fileService;
   private final UserService userService;
+  private final OfferDataService offerDataService;
   private final ValidatorUtil validatorUtil;
 
   @GetMapping("/{id}")
@@ -47,26 +50,28 @@ public class FileController {
       @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
   ) {
 
-    Path initPath = fileService.initialization(userId, offerId,
+    /** http://localhost:8091/home/upload?userId=1&offerId=-1 */
+    Path initPath = fileService.pathInitialization(userId, offerId,
         ConstantMessages.FORMAT_ADDON_TEMPLATE);
 
-    fileService.store(file, userId, initPath);
+    this.fileService.store(file, userId, initPath);
+    this.offerDataService.saveFileUri(offerId, initPath);
 
     return "file" + file.getOriginalFilename() + " saved.";
   }
 
 //    private void fileProcessing(Long userId, Long offerId, MultipartFile file, String format) {
 //
-//        /** http://localhost:8091/home/upload?userId=1&offerId=-1 */
+//
 //        Path initPath = fileService.init(userId, offerId, format);
 //
 //        fileService.store(file, userId, initPath);
 //    }
 
-//    @ExceptionHandler(StorageFileNotFoundException.class)
-//    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
-//        return ResponseEntity.notFound().build();
-//    }
+    @ExceptionHandler(StorageFileNotFoundException.class)
+    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+        return ResponseEntity.notFound().build();
+    }
 
 //    @GetMapping("/")
 //    public String listUploadedFiles(Model model) throws IOException {
@@ -78,7 +83,7 @@ public class FileController {
 //
 //        return "uploadForm";
 //    }
-
+//
 //    @GetMapping("/files/{filename:.+}")
 //    @ResponseBody
 //    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {

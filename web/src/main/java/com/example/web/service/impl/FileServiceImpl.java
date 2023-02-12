@@ -33,7 +33,7 @@ public class FileServiceImpl implements FileService {
   }
 
   @Override
-  public Path initialization(Long userId, Long offerId, String stringFormat) {
+  public Path pathInitialization(Long userId, Long offerId, String stringFormat) {
     StringBuilder stringDirectory = new StringBuilder();
 
     stringDirectory
@@ -61,17 +61,17 @@ public class FileServiceImpl implements FileService {
   }
 
   @Override
-  public void store(MultipartFile file, Long userId, Path pathFromInit) {
+  public void store(MultipartFile file, Long userId, Path pathFromInitialization) {
     try {
       if (file.isEmpty()) {
         throw new StorageException("Failed to store empty file.");
       }
 
-      Path destinationFile = pathFromInit
+      Path destinationFile = pathFromInitialization
           .resolve(Paths.get(file.getOriginalFilename()))
           .normalize().toAbsolutePath();
 
-      if (!destinationFile.getParent().equals(pathFromInit.toAbsolutePath())) {
+      if (!destinationFile.getParent().equals(pathFromInitialization.toAbsolutePath())) {
         // This is a security check
         throw new StorageException(
             "Cannot store file outside current directory.");

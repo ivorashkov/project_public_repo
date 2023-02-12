@@ -13,10 +13,10 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OfferDTO {
+public class ResponseOfferInfoDTO {
 
-  @Expose
   private Long id;
+  private Long userId;
 
   @Expose
   private String title;

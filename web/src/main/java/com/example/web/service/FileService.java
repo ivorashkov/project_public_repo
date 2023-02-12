@@ -19,5 +19,5 @@ public interface FileService {
 
   void deleteAll();
 
-  Path initialization(Long userId, Long offerId, String formatAddonTemplate);
+  Path pathInitialization(Long userId, Long offerId, String formatAddonTemplate);
 }

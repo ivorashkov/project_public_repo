@@ -4,6 +4,7 @@ import com.example.web.model.enums.TransportType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,6 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
-import java.security.Timestamp;
 import java.time.LocalDateTime;
 
 @Getter
@@ -52,7 +52,7 @@ public class TourOfferEntity extends BaseEntity {
   @Min(1)
   private BigDecimal price;
 
-  @Column(nullable = false)
+  @Column(nullable = false, columnDefinition = "TEXT")
   private String description;
 
   @Column
@@ -64,4 +64,9 @@ public class TourOfferEntity extends BaseEntity {
   @Column(name = "transport_type", nullable = false)
   @Enumerated(EnumType.STRING)
   private TransportType transportType;
+
+  @Column(name = "offer_pictures", nullable = false)
+
+  @OneToMany(fetch = FetchType.LAZY)
+  private List<OfferDataEntity> dataUri;
 }

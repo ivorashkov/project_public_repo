@@ -1,8 +1,11 @@
 package com.example.web.service.impl;
 
-import com.example.web.model.dto.OfferDTO;
+import com.example.web.model.dto.ImportCreateOfferInfoDTO;
+import com.example.web.model.dto.ResponseOfferInfoDTO;
 import com.example.web.model.entity.TourOfferEntity;
+import com.example.web.model.entity.UserEntity;
 import com.example.web.repository.TourOfferRepository;
+import com.example.web.repository.UserRepository;
 import com.example.web.service.TourOfferService;
 import com.example.web.util.ValidatorUtil;
 import lombok.AllArgsConstructor;
@@ -11,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,18 +26,19 @@ import java.util.Objects;
 public class TourOfferServiceImpl implements TourOfferService {
 
   private final TourOfferRepository tourOfferRepository;
+  private final UserRepository userRepository;
   private final ModelMapper mapper;
   private ValidatorUtil validatorUtil;
 
   @Override
-  public Page<OfferDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
+  public Page<ResponseOfferInfoDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
 
-    Page<OfferDTO> offerDTOS = null;
+    Page<ResponseOfferInfoDTO> offerDTOS = null;
     try {
       Page<TourOfferEntity> offerEntity = this.tourOfferRepository
           .findAll_TourOffers_ByDate(PageRequest.of(pageNumber, pageSize));
 
-      offerDTOS = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntity, OfferDTO.class);
+      offerDTOS = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntity, ResponseOfferInfoDTO.class);
     } catch (Exception e) {
 
       return offerDTOS;
@@ -43,13 +48,14 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public Page<OfferDTO> searchAndFilterOffers(Integer pageNumber,
+  public Page<ResponseOfferInfoDTO> searchAndFilterOffers(
+      Integer pageNumber,
       Integer pageSize,
       String country,
       String city,
       String... sorts
   ) {
-    Page<OfferDTO> offers = null;
+    Page<ResponseOfferInfoDTO> offers = null;
     try {
       final List<Sort.Order> orders = getOrderList(sorts);//added
 
@@ -62,10 +68,10 @@ public class TourOfferServiceImpl implements TourOfferService {
       if (criteria == null) {
         //works
         offerEntities = tourOfferRepository.findAll_TourOffers_ByDate(pageable);
-        offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities, OfferDTO.class);
+        offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities, ResponseOfferInfoDTO.class);
       } else {
         offerEntities = tourOfferRepository.findAllByCriteria(criteria, pageable);
-        offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities, OfferDTO.class);
+        offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities, ResponseOfferInfoDTO.class);
       }
       return offers;
 
@@ -75,17 +81,17 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public OfferDTO editOffer(Long offerId, Long userId) {
+  public ResponseOfferInfoDTO editOffer(Long offerId, Long userId) {
 
-    OfferDTO offerDTO = null;
+    ResponseOfferInfoDTO offerDTO = null;
     try {
       TourOfferEntity entity = this.tourOfferRepository.findByIdAndUserId(offerId, userId)
           .orElse(null);
 
       if (Objects.isNull(entity)) {
-        return this.mapper.map(entity, OfferDTO.class);
+        return this.mapper.map(entity, ResponseOfferInfoDTO.class);
       }
-      offerDTO = this.mapper.map(entity, OfferDTO.class);
+      offerDTO = this.mapper.map(entity, ResponseOfferInfoDTO.class);
 
       return offerDTO;
 
@@ -95,10 +101,13 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public OfferDTO saveOffer(Long offerId, Long userId, OfferDTO offerDTO) {
+  public void saveOffer(ImportCreateOfferInfoDTO offerDTO) {
+    TourOfferEntity tourOfferEntity = this.mapper.map(offerDTO, TourOfferEntity.class);
+    UserEntity user = userRepository.findById(offerDTO.getUser().getId()).orElse(null);
 
-    //TODO
-    return null;
+    tourOfferEntity.setUser(user);
+    this.tourOfferRepository.save(tourOfferEntity);
+
   }
 
   private List<Sort.Order> getOrderList(String[] sort) {
