@@ -7,3 +7,4 @@
  CREATE INDEX price_index ON offers(price);
  CREATE INDEX discount_index ON offers(discount);
  CREATE INDEX user_id_index ON offers(user_id);
+

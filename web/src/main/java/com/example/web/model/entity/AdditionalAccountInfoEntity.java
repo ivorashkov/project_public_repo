@@ -2,7 +2,6 @@ package com.example.web.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,11 +13,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tour_offer_pictures")
-public class OfferDataEntity extends BaseEntity {
+@Table(name = "additional_user_info")
+public class AdditionalAccountInfoEntity extends BaseEntity {
 
-  @Column(name = "picture_uri", nullable = false, unique = true)
-  private String pictureLocation;
-
+  @Column(name = "document_path", nullable = false)
+  private String document;
 
 }

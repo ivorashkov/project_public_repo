@@ -1,5 +1,6 @@
 package com.example.web.service;
 
+import com.example.web.model.dto.TourOfferDTO;
 import java.util.List;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,9 +18,9 @@ public interface FileService {
 
   void deleteAll();
 
-  void saveAllFiles(List<MultipartFile> files, Long userId, Long offerId);
+  void handleAllFilesUpload(List<MultipartFile> files, Long userId, Long offerId);
 
-   Path handleFileUpload(MultipartFile file, Long userId, Long offerId);
+  Path handleSingleFileUpload(MultipartFile file, Long userId, Long offerId);
 //  void store(MultipartFile file, Long userId, Path path);
 //  Path pathInitialization(Long userId, Long offerId, String formatAddonTemplate);
 }

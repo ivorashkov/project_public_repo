@@ -3,6 +3,7 @@ package com.example.web.service;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.model.dto.UserLoginDTO;
 import com.example.web.model.entity.UserEntity;
+import java.util.Optional;
 
 public interface UserService {
 
@@ -10,10 +11,11 @@ public interface UserService {
 
   void create(UserDTO userDTO);
 
-  void deleteUser();
+  boolean deleteUser();
 
-  void updateUser();
+  boolean updateUser();
 
   boolean login(UserLoginDTO userLoginDTO);
 
+  UserEntity findById(long id);
 }

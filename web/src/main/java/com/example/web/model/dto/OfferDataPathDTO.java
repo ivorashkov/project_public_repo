@@ -10,14 +10,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+public class OfferDataPathDTO {
+  @Expose
+  private Long id;
 
   @Expose
-  private long id;
+  private String path;
 
-  @Expose
-  private String firstName;
-
-  @Expose
-  private String lastName;
 }

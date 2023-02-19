@@ -1,7 +1,9 @@
 package com.example.web.controller;
 
+import com.example.web.model.dto.TourOfferDTO;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.service.FileService;
+import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
 import lombok.AllArgsConstructor;
@@ -32,9 +34,10 @@ public class FileController {
       @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
   ) {
 
-    this.fileService.saveAllFiles(files, userId, offerId);
+    this.fileService.handleAllFilesUpload(files, userId, offerId);
 
     return "All files are saved.";
+
   }
 
   @PostMapping("/upload")
@@ -44,7 +47,7 @@ public class FileController {
       @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
   ) {
 
-    return this.fileService.handleFileUpload(file, userId, offerId).toString();
+    return this.fileService.handleSingleFileUpload(file, userId, offerId).toString();
   }
 
 //    private void fileProcessing(Long userId, Long offerId, MultipartFile file, String format) {

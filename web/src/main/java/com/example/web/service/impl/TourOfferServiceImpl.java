@@ -2,11 +2,13 @@ package com.example.web.service.impl;
 
 import com.example.web.model.dto.ImportCreateOfferInfoDTO;
 import com.example.web.model.dto.ResponseOfferInfoDTO;
+import com.example.web.model.dto.TourOfferDTO;
 import com.example.web.model.entity.TourOfferEntity;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.repository.TourOfferRepository;
-import com.example.web.repository.UserRepository;
+import com.example.web.service.FileService;
 import com.example.web.service.TourOfferService;
+import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -19,13 +21,15 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @AllArgsConstructor
 public class TourOfferServiceImpl implements TourOfferService {
 
   private final TourOfferRepository tourOfferRepository;
-  private final UserRepository userRepository;
+  private final FileService fileService;
+  private final UserService userService;
   private final ModelMapper mapper;
   private ValidatorUtil validatorUtil;
 
@@ -37,7 +41,8 @@ public class TourOfferServiceImpl implements TourOfferService {
       Page<TourOfferEntity> offerEntity = this.tourOfferRepository
           .findAll_TourOffers_ByDate(PageRequest.of(pageNumber, pageSize));
 
-      offerDTOS = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntity, ResponseOfferInfoDTO.class);
+      offerDTOS = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntity,
+          ResponseOfferInfoDTO.class);
     } catch (Exception e) {
 
       return offerDTOS;
@@ -67,10 +72,12 @@ public class TourOfferServiceImpl implements TourOfferService {
       if (criteria == null) {
         //works
         offerEntities = tourOfferRepository.findAll_TourOffers_ByDate(pageable);
-        offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities, ResponseOfferInfoDTO.class);
+        offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities,
+            ResponseOfferInfoDTO.class);
       } else {
         offerEntities = tourOfferRepository.findAllByCriteria(criteria, pageable);
-        offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities, ResponseOfferInfoDTO.class);
+        offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities,
+            ResponseOfferInfoDTO.class);
       }
       return offers;
 
@@ -100,15 +107,41 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public Long createOffer(ImportCreateOfferInfoDTO offerDTO) {
-    TourOfferEntity tourOfferEntity = this.mapper.map(offerDTO, TourOfferEntity.class);
+  public TourOfferDTO createOffer(ImportCreateOfferInfoDTO offerDTO) {
 
     //orElse-> exception throw
-    UserEntity user = userRepository.findById(offerDTO.getUser().getId()).orElse(null);
+    //todo check for null user
+    UserEntity user = userService.findById(offerDTO.getUser().getId());
+
+    TourOfferEntity tourOfferEntity = this.mapper.map(offerDTO, TourOfferEntity.class);
 
     tourOfferEntity.setUser(user);
 
-    return this.tourOfferRepository.findById(this.tourOfferRepository.save(tourOfferEntity));
+    return this.mapper.map(this.tourOfferRepository.save(tourOfferEntity), TourOfferDTO.class);
+  }
+
+  @Override
+  public ResponseOfferInfoDTO saveOfferPath(TourOfferDTO importedOfferDTO,List<MultipartFile> files) {
+
+    this.fileService.handleAllFilesUpload
+        (
+            files,
+            importedOfferDTO.getUser().getId(),
+            importedOfferDTO.getId()
+        );
+
+    return null;
+  }
+
+  @Override
+  public TourOfferDTO findById(Long id) {
+    TourOfferEntity tourOfferEntity = this.tourOfferRepository.findById(id).orElse(null);
+    return this.mapper.map(tourOfferEntity, TourOfferDTO.class);
+  }
+
+  @Override
+  public TourOfferDTO findByTitle(String title) {
+    return null;
   }
 
   private List<Sort.Order> getOrderList(String[] sort) {

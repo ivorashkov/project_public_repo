@@ -4,10 +4,15 @@ import com.example.web.constant.ConstantMessages;
 import com.example.web.constant.StorageException;
 import com.example.web.constant.StorageFileNotFoundException;
 import com.example.web.constant.StorageProperties;
+import com.example.web.model.dto.TourOfferDTO;
+import com.example.web.model.entity.TourOfferEntity;
+import com.example.web.repository.TourOfferRepository;
 import com.example.web.service.AdditionalInfoService;
 import com.example.web.service.FileService;
 import com.example.web.service.OfferDataService;
+import com.example.web.service.TourOfferService;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -32,34 +37,45 @@ public class FileServiceImpl implements FileService {
   private final AdditionalInfoService additionalInfoService;
   private final Path rootLocation;
 
-  public FileServiceImpl(OfferDataService offerDataService,
+  public FileServiceImpl(
+      OfferDataService offerDataService,
       StorageProperties properties,
-      AdditionalInfoService additionalInfoService) {
+      AdditionalInfoService additionalInfoService
+  ) {
     this.offerDataService = offerDataService;
     this.rootLocation = Paths.get(properties.getLocation());
     this.additionalInfoService = additionalInfoService;
   }
 
   @Override
-  public void saveAllFiles(List<MultipartFile> files, Long userId, Long offerId) {
-    //TODO*********************
+  public void handleAllFilesUpload(List<MultipartFile> files, Long userId, Long offerId) {
+
     files.forEach(file -> {
-      Path path = handleFileUpload(file, userId, offerId);
-      if (offerId > 0){
-        this.offerDataService.saveFileUri(offerId,path);
-      }else{
+      Path path = handleSingleFileUpload(file, userId, offerId);
+      if (offerId > 0) {
+        /**
+         * Ako user-a вече съществува запазваме пътя на "снимките" от офертата
+         * които ще се върнат от handleFileUpload метода
+         */
+        this.offerDataService.saveFileUri(offerId, path);
+      } else {
+        /**
+         * Ако user-a не съществува трябва да се запазят снимките + документите
+         * пътищата им в additionalInfo таблицата(2ра стъпка при регистрация)
+         */
         this.additionalInfoService.saveFileUri();
       }
     });
   }
 
-  public Path handleFileUpload(MultipartFile file, Long userId, Long offerId) {
+
+  public Path handleSingleFileUpload(MultipartFile file, Long userId, Long offerId) {
 
     /** http://localhost:8091/home/upload?userId=1&offerId=-1 */
     Path initPath = pathInitialization(userId, offerId,
         ConstantMessages.FORMAT_ADDON_TEMPLATE);
 
-    store(file, userId, initPath);
+    store(file, initPath);
 
     return initPath;
   }
@@ -90,7 +106,7 @@ public class FileServiceImpl implements FileService {
     return Paths.get(stringDirectory.toString());
   }
 
-  private void store(MultipartFile file, Long userId, Path pathFromInitialization) {
+  private void store(MultipartFile file, Path pathFromInitialization) {
     try {
       if (file.isEmpty()) {
         throw new StorageException("Failed to store empty file.");

@@ -49,14 +49,24 @@ public class UserEntity extends BaseEntity {
   @Column(name = "user_star")
   private boolean hasStar;
 
-  @OneToMany(targetEntity = OfficeEntity.class, mappedBy = "user", fetch = FetchType.LAZY)
+  @OneToMany(
+      targetEntity = OfficeEntity.class,
+      mappedBy = "user",
+      fetch = FetchType.LAZY
+  )
   private List<OfficeEntity> offices;
 
-  @OneToMany(targetEntity = TourOfferEntity.class, mappedBy = "user", fetch = FetchType.LAZY)
+  @OneToMany(
+      targetEntity = TourOfferEntity.class,
+      mappedBy = "user",
+      fetch = FetchType.LAZY
+  )
   private List<TourOfferEntity> offers;
 
-  @OneToMany(fetch = FetchType.LAZY, targetEntity = AdditionalInfoEntity.class)
-  @JoinColumn(name = "id")
-  private List<AdditionalInfoEntity> additionalInfo;
+  @OneToMany(
+      fetch = FetchType.LAZY,
+      cascade = CascadeType.ALL)
+  @JoinColumn(name = "user_id")
+  private List<AdditionalAccountInfoEntity> additionalInfo;
 
 }

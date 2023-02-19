@@ -5,6 +5,7 @@ import com.example.web.model.dto.UserLoginDTO;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.repository.UserRepository;
 import com.example.web.service.UserService;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -29,12 +30,14 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void deleteUser() {
+  public boolean deleteUser() {
+    return false;
 
   }
 
   @Override
-  public void updateUser() {
+  public boolean updateUser() {
+    return false;
 
   }
 
@@ -47,5 +50,10 @@ public class UserServiceImpl implements UserService {
     }
 
     return false;
+  }
+
+  @Override
+  public UserEntity findById(long id) {
+    return this.userRepository.findById(id).orElse(null);
   }
 }

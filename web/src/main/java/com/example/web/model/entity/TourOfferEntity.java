@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "offers")
 public class TourOfferEntity extends BaseEntity {
@@ -65,9 +65,10 @@ public class TourOfferEntity extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private TransportType transportType;
 
-  @Column(name = "offer_pictures", nullable = false)
-
-  @OneToMany(fetch = FetchType.LAZY, targetEntity = OfferDataEntity.class)
-  @JoinColumn(name = "id")
-  private List<OfferDataEntity> dataUri;
+  @OneToMany(
+      mappedBy = "offer",
+      fetch = FetchType.LAZY,
+      cascade = CascadeType.ALL
+  )
+  private List<OfferDataPathEntity> paths;
 }
