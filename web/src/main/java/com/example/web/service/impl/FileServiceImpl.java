@@ -4,15 +4,10 @@ import com.example.web.constant.ConstantMessages;
 import com.example.web.constant.StorageException;
 import com.example.web.constant.StorageFileNotFoundException;
 import com.example.web.constant.StorageProperties;
-import com.example.web.model.dto.TourOfferDTO;
-import com.example.web.model.entity.TourOfferEntity;
-import com.example.web.repository.TourOfferRepository;
-import com.example.web.service.AdditionalInfoService;
+import com.example.web.service.AdditionalAccountInfoService;
 import com.example.web.service.FileService;
 import com.example.web.service.OfferDataService;
-import com.example.web.service.TourOfferService;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -34,13 +29,13 @@ import java.util.stream.Stream;
 public class FileServiceImpl implements FileService {
 
   private final OfferDataService offerDataService;
-  private final AdditionalInfoService additionalInfoService;
+  private final AdditionalAccountInfoService additionalInfoService;
   private final Path rootLocation;
 
   public FileServiceImpl(
       OfferDataService offerDataService,
       StorageProperties properties,
-      AdditionalInfoService additionalInfoService
+      AdditionalAccountInfoService additionalInfoService
   ) {
     this.offerDataService = offerDataService;
     this.rootLocation = Paths.get(properties.getLocation());
@@ -63,7 +58,7 @@ public class FileServiceImpl implements FileService {
          * Ако user-a не съществува трябва да се запазят снимките + документите
          * пътищата им в additionalInfo таблицата(2ра стъпка при регистрация)
          */
-        this.additionalInfoService.saveFileUri();
+        this.additionalInfoService.saveFileUri(userId, path);
       }
     });
   }
@@ -130,7 +125,6 @@ public class FileServiceImpl implements FileService {
       throw new StorageException("Failed to store file.", e);
     }
   }
-
 
   @Override
   public Stream<Path> loadAll() {

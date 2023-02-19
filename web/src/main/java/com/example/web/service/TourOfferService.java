@@ -1,27 +1,28 @@
 package com.example.web.service;
 
 import com.example.web.model.dto.ImportCreateOfferInfoDTO;
-import com.example.web.model.dto.ResponseOfferInfoDTO;
-import com.example.web.model.dto.TourOfferDTO;
+import com.example.web.model.dto.PageOfferExportDTO;
+import com.example.web.model.dto.TourOfferFullDTO;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface TourOfferService {
 
-  Page<ResponseOfferInfoDTO> initialSearchResult(Integer pageNumber, Integer pageSize);
+  Page<PageOfferExportDTO> initialSearchResult(Integer pageNumber, Integer pageSize);
 
-  Page<ResponseOfferInfoDTO> searchAndFilterOffers(Integer pageNumber, Integer pageSize, String country,
+  Page<PageOfferExportDTO> searchAndFilterOffers(Integer pageNumber, Integer pageSize, String country,
       String city, String... sorts);
 
-  ResponseOfferInfoDTO editOffer(Long offerId, Long userId);
+  TourOfferFullDTO editOffer(Long offerId, Long userId);
 
-  TourOfferDTO findById(Long id);
+  TourOfferFullDTO findById(Long id);
 
-  TourOfferDTO findByTitle(String title);
+  TourOfferFullDTO findByTitle(String title);
 
-  TourOfferDTO createOffer(ImportCreateOfferInfoDTO offerDTO);
+  TourOfferFullDTO createOffer(ImportCreateOfferInfoDTO offerDTO);
 
-  ResponseOfferInfoDTO saveOfferPath(TourOfferDTO importedOfferDTO,List<MultipartFile> files);
+  TourOfferFullDTO saveOfferPath(TourOfferFullDTO importedOfferDTO,List<MultipartFile> files);
 
+  boolean deleteOffer(Long userId, Long offerId);
 }

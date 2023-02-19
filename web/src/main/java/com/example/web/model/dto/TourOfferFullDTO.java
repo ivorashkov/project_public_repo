@@ -14,7 +14,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TourOfferDTO {
+public class TourOfferFullDTO {
+
   @Expose
   private Long id;
 

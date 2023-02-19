@@ -1,6 +1,7 @@
 package com.example.web.controller;
 
-import com.example.web.model.dto.ResponseOfferInfoDTO;
+import com.example.web.model.dto.PageOfferExportDTO;
+import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.service.TourOfferService;
 import com.example.web.util.ValidatorUtil;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ public class HomeController {
   private final ValidatorUtil validatorUtil;
 
   @GetMapping("/search")
-  public ResponseEntity<Page<ResponseOfferInfoDTO>> response(
+  public ResponseEntity<Page<PageOfferExportDTO>> response(
       @RequestParam(name = "page", defaultValue = "0") Integer page,
       @RequestParam(name = "pageSize", defaultValue = "30") Integer size
   ) {
@@ -27,8 +28,8 @@ public class HomeController {
     //should redirect to TourOfferController "/tourOffers" for more filters etc.
   }
 
-  @GetMapping("")
-  public ResponseEntity<Page<ResponseOfferInfoDTO>> findAllAndSort(
+  @GetMapping("/offers")
+  public ResponseEntity<Page<PageOfferExportDTO>> findAllAndSort(
       @RequestParam(name = "page", defaultValue = "0") Integer page,
       @RequestParam(name = "pageSize", defaultValue = "30") Integer size,
       @RequestParam(name = "country", required = false) String country,

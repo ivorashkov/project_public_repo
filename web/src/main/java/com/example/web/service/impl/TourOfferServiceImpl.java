@@ -1,8 +1,8 @@
 package com.example.web.service.impl;
 
 import com.example.web.model.dto.ImportCreateOfferInfoDTO;
-import com.example.web.model.dto.ResponseOfferInfoDTO;
-import com.example.web.model.dto.TourOfferDTO;
+import com.example.web.model.dto.PageOfferExportDTO;
+import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.entity.TourOfferEntity;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.repository.TourOfferRepository;
@@ -10,6 +10,8 @@ import com.example.web.service.FileService;
 import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
+import java.util.Objects;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -20,7 +22,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -33,33 +34,51 @@ public class TourOfferServiceImpl implements TourOfferService {
   private final ModelMapper mapper;
   private ValidatorUtil validatorUtil;
 
-  @Override
-  public Page<ResponseOfferInfoDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
+//  @Override
+//  public Page<TourOfferFullDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
+//
+//    Page<TourOfferFullDTO> offerDTOS = null;
+//    try {
+//      Page<TourOfferEntity> offerEntity = this.tourOfferRepository
+//          .findAll_TourOffers_ByDate(PageRequest.of(pageNumber, pageSize));
+//
+//      offerDTOS = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntity,
+//          TourOfferFullDTO.class);
+//    } catch (Exception e) {
+//
+//      return offerDTOS;
+//    }
+//
+//    return offerDTOS;
+//  }
 
-    Page<ResponseOfferInfoDTO> offerDTOS = null;
+  @Override
+  public Page<PageOfferExportDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
+
+    Page<PageOfferExportDTO> offerDTOS = null;
     try {
       Page<TourOfferEntity> offerEntity = this.tourOfferRepository
           .findAll_TourOffers_ByDate(PageRequest.of(pageNumber, pageSize));
 
       offerDTOS = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntity,
-          ResponseOfferInfoDTO.class);
+          PageOfferExportDTO.class);
+      return offerDTOS;
+
     } catch (Exception e) {
 
       return offerDTOS;
     }
-
-    return offerDTOS;
   }
 
   @Override
-  public Page<ResponseOfferInfoDTO> searchAndFilterOffers(
+  public Page<PageOfferExportDTO> searchAndFilterOffers(
       Integer pageNumber,
       Integer pageSize,
       String country,
       String city,
       String... sorts
   ) {
-    Page<ResponseOfferInfoDTO> offers = null;
+    Page<PageOfferExportDTO> offers = null;
     try {
       final List<Sort.Order> orders = getOrderList(sorts);//added
 
@@ -73,11 +92,11 @@ public class TourOfferServiceImpl implements TourOfferService {
         //works
         offerEntities = tourOfferRepository.findAll_TourOffers_ByDate(pageable);
         offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities,
-            ResponseOfferInfoDTO.class);
+            PageOfferExportDTO.class);
       } else {
         offerEntities = tourOfferRepository.findAllByCriteria(criteria, pageable);
         offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities,
-            ResponseOfferInfoDTO.class);
+            PageOfferExportDTO.class);
       }
       return offers;
 
@@ -87,60 +106,65 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public ResponseOfferInfoDTO editOffer(Long offerId, Long userId) {
-//todo to fix this crap code
-    ResponseOfferInfoDTO offerDTO = null;
+  public TourOfferFullDTO editOffer(Long offerId, Long userId) {
+    //todo to fix this crap code
+    TourOfferFullDTO offerDTO = null;
     try {
       TourOfferEntity entity = this.tourOfferRepository.findByIdAndUserId(offerId, userId)
           .orElse(null);
 
-      if (Objects.isNull(entity)) {
-        return this.mapper.map(entity, ResponseOfferInfoDTO.class);
-      }
-      offerDTO = this.mapper.map(entity, ResponseOfferInfoDTO.class);
-
-      return offerDTO;
+      return this.mapper.map(entity, TourOfferFullDTO.class);
 
     } catch (Exception e) {
-      return offerDTO;
+      return null;
     }
   }
 
   @Override
-  public TourOfferDTO createOffer(ImportCreateOfferInfoDTO offerDTO) {
+  public TourOfferFullDTO createOffer(ImportCreateOfferInfoDTO offerDTO) {
 
-    //orElse-> exception throw
-    //todo check for null user
     UserEntity user = userService.findById(offerDTO.getUser().getId());
 
     TourOfferEntity tourOfferEntity = this.mapper.map(offerDTO, TourOfferEntity.class);
 
     tourOfferEntity.setUser(user);
 
-    return this.mapper.map(this.tourOfferRepository.save(tourOfferEntity), TourOfferDTO.class);
+    return this.mapper.map(this.tourOfferRepository.save(tourOfferEntity), TourOfferFullDTO.class);
   }
 
   @Override
-  public ResponseOfferInfoDTO saveOfferPath(TourOfferDTO importedOfferDTO,List<MultipartFile> files) {
+  public TourOfferFullDTO saveOfferPath(TourOfferFullDTO importedOfferDTO,
+      List<MultipartFile> files) {
 
     this.fileService.handleAllFilesUpload
-        (
-            files,
-            importedOfferDTO.getUser().getId(),
-            importedOfferDTO.getId()
-        );
+        (files, importedOfferDTO.getUser().getId(), importedOfferDTO.getId());
 
     return null;
   }
 
   @Override
-  public TourOfferDTO findById(Long id) {
-    TourOfferEntity tourOfferEntity = this.tourOfferRepository.findById(id).orElse(null);
-    return this.mapper.map(tourOfferEntity, TourOfferDTO.class);
+  public boolean deleteOffer(Long userId, Long offerId) {
+    TourOfferEntity offer =
+        this.tourOfferRepository.findByIdAndUserId(offerId, userId).orElse(null);
+
+    if (Objects.isNull(offer)) {
+
+      return false;
+    }
+    offer.setDeleted(true);
+    this.tourOfferRepository.save(offer);
+
+    return true;
   }
 
   @Override
-  public TourOfferDTO findByTitle(String title) {
+  public TourOfferFullDTO findById(Long id) {
+    TourOfferEntity tourOfferEntity = this.tourOfferRepository.findById(id).orElse(null);
+    return this.mapper.map(tourOfferEntity, TourOfferFullDTO.class);
+  }
+
+  @Override
+  public TourOfferFullDTO findByTitle(String title) {
     return null;
   }
 

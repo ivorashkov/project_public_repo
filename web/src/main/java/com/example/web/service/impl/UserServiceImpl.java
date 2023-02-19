@@ -20,8 +20,8 @@ public class UserServiceImpl implements UserService {
   private final ModelMapper mapper;
 
   @Override
-  public UserDTO findUserById(Long id) {
-    return this.mapper.map(this.userRepository.findById(id).orElse(null), UserDTO.class);
+  public UserDTO findUserDTOById(Long id) {
+    return this.mapper.map(this.findById(id), UserDTO.class);
   }
 
   @Override

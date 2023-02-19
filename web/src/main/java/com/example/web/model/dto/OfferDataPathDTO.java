@@ -11,10 +11,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OfferDataPathDTO {
+
   @Expose
   private Long id;
 
   @Expose
-  private String path;
+  private String documentLocation;
 
 }

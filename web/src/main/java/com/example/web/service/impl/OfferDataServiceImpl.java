@@ -1,14 +1,13 @@
 package com.example.web.service.impl;
 
 import com.example.web.model.dto.OfferDataPathDTO;
-import com.example.web.model.dto.TourOfferDTO;
+import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.entity.OfferDataPathEntity;
 import com.example.web.model.entity.TourOfferEntity;
 import com.example.web.repository.OfferDataRepository;
 
 import com.example.web.repository.TourOfferRepository;
 import com.example.web.service.OfferDataService;
-import com.example.web.service.TourOfferService;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
@@ -30,10 +29,10 @@ public class OfferDataServiceImpl implements OfferDataService {
   public void saveFileUri(Long offerId, Path initPath) {
 
     OfferDataPathEntity offerData =
-        new OfferDataPathEntity(initPath.toString(),
-            this.tourOfferRepository
-                .findById(offerId)
-                .orElse(null));
+        new OfferDataPathEntity(
+            initPath.toString(),
+            this.tourOfferRepository.findById(offerId).orElse(null)
+        );
 
     this.offerDataRepository.save(offerData);
   }
@@ -44,7 +43,7 @@ public class OfferDataServiceImpl implements OfferDataService {
   }
 
   @Override
-  public List<OfferDataPathDTO> findAll(TourOfferDTO offer) {
+  public List<OfferDataPathDTO> findAllOfferDataPaths(TourOfferFullDTO offer) {
     List<OfferDataPathEntity> offerDataPathEntities =
         this.offerDataRepository.findAllByOfferId(offer.getId()).orElse(null);
 

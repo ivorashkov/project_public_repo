@@ -2,6 +2,7 @@ package com.example.web.util.impl;
 
 import com.example.web.model.entity.UserEntity;
 import com.example.web.model.enums.RoleType;
+import com.example.web.model.interfaces.DeletableObject;
 import com.example.web.util.ValidatorUtil;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -69,7 +70,7 @@ public class ValidatorUtilImpl implements ValidatorUtil {
    **/
   @Override
   public <T, D> Page<D> mapEntityPageIntoDtoPage(Page<T> entities, Class<D> dtoClass) {
-    return entities.map(objectEntity -> mapper.map(objectEntity, dtoClass));
+    return entities.map(objectEntity -> this.mapper.map(objectEntity, dtoClass));
   }
 
   /**
@@ -83,6 +84,11 @@ public class ValidatorUtilImpl implements ValidatorUtil {
       return city;
     }
     return null;
+  }
+
+  @Override
+  public <E extends DeletableObject> boolean deleteObject(E object) {
+    return object.isDeleted();
   }
 
 }

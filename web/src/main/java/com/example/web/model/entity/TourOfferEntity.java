@@ -67,7 +67,7 @@ public class TourOfferEntity extends BaseEntity {
 
   @OneToMany(
       mappedBy = "offer",
-      fetch = FetchType.LAZY,
+      fetch = FetchType.EAGER,
       cascade = CascadeType.ALL
   )
   private List<OfferDataPathEntity> paths;

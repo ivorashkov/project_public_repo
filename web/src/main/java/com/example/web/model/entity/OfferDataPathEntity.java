@@ -1,5 +1,6 @@
 package com.example.web.model.entity;
 
+import com.example.web.model.interfaces.DeletableObject;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
@@ -18,10 +19,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "tour_offer_pictures")
-public class OfferDataPathEntity extends BaseEntity {
+public class OfferDataPathEntity extends BaseEntity implements DeletableObject {
 
   @Column(name = "picture_uri", nullable = false, unique = false)
-  private String pictureLocation;
+  private String documentLocation;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "offer_id", nullable = false)

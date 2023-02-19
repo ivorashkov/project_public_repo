@@ -1,9 +1,7 @@
 package com.example.web.controller;
 
-import com.example.web.model.dto.TourOfferDTO;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.service.FileService;
-import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
 import lombok.AllArgsConstructor;
@@ -23,12 +21,12 @@ public class FileController {
   private final ValidatorUtil validatorUtil;
 
   @GetMapping("/{id}")
-  public ResponseEntity<UserDTO> response(@PathVariable Long id) {
-    return this.validatorUtil.responseEntity(userService.findUserById(id));
+  public ResponseEntity<UserDTO> response(@PathVariable("id") Long userId) {
+    return this.validatorUtil.responseEntity(userService.findUserDTOById(userId));
   }
 
   @PostMapping("/upload/all")
-  public String handleFileUploadAll(
+  public String handleAllFilesUpload(
       @RequestParam("file") List<MultipartFile> files,
       @RequestParam(name = "userId") Long userId,
       @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
@@ -41,7 +39,7 @@ public class FileController {
   }
 
   @PostMapping("/upload")
-  public String upload(
+  public String uploadSingleFile(
       @RequestParam("file") MultipartFile file,
       @RequestParam(name = "userId") Long userId,
       @RequestParam(name = "offerId", defaultValue = "-1") Long offerId

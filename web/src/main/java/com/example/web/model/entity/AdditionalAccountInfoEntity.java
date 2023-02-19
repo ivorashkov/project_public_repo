@@ -2,6 +2,7 @@ package com.example.web.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +18,9 @@ import lombok.Setter;
 public class AdditionalAccountInfoEntity extends BaseEntity {
 
   @Column(name = "document_path", nullable = false)
-  private String document;
+  private String documentLocation;
+
+  @ManyToOne
+  private UserEntity user;
 
 }

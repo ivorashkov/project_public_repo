@@ -20,4 +20,10 @@ public class UserDTO {
 
   @Expose
   private String lastName;
+
+  @Expose
+  private String email;
+
+  @Expose
+  private String username;
 }
