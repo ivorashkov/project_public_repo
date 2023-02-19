@@ -16,5 +16,4 @@ public interface UserService {
 
   boolean login(UserLoginDTO userLoginDTO);
 
-  UserEntity findById(long id);
 }

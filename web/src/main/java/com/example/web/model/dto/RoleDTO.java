@@ -1,6 +1,6 @@
 package com.example.web.model.dto;
 
-import com.example.web.model.interfaces.DTO;
+import com.example.web.model.enums.RoleType;
 import com.google.gson.annotations.Expose;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,15 +11,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdditionalAccountInfoDTO implements DTO {
+public class RoleDTO {
 
   @Expose
   private Long id;
 
   @Expose
-  private String documentLocation;
-
-  @Expose
-  private UserDTO user;
+  private RoleType roleType;
 
 }

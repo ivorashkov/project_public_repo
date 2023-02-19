@@ -34,7 +34,7 @@ public class HomeController {
       @RequestParam(name = "pageSize", defaultValue = "30") Integer size,
       @RequestParam(name = "country", required = false) String country,
       @RequestParam(name = "city", required = false) String city,
-      @RequestParam(defaultValue = "date,desc") String... sort
+      @RequestParam(defaultValue = "date;desc") String... sort
 
   ) {
 

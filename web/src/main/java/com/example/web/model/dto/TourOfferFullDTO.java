@@ -1,9 +1,9 @@
 package com.example.web.model.dto;
 
 import com.example.web.model.enums.TransportType;
+import com.example.web.model.interfaces.DTO;
 import com.google.gson.annotations.Expose;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TourOfferFullDTO {
+public class TourOfferFullDTO implements DTO {
 
   @Expose
   private Long id;
@@ -24,9 +24,6 @@ public class TourOfferFullDTO {
 
   @Expose
   private String title;
-
-  @Expose
-  private LocalDateTime date;
 
   @Expose
   private String country;

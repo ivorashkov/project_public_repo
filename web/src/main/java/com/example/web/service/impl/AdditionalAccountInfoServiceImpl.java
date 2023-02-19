@@ -26,9 +26,14 @@ public class AdditionalAccountInfoServiceImpl implements AdditionalAccountInfoSe
 
   @Override
   public void saveFileUri(Long userId, Path initPath) {
+    UserDTO userDTOById = this.userService.findUserDTOById(userId);
+/**
+ * to check if its working correctly after i removed userservice.findEntityById
+ * with DTO method.
+ */
+    UserEntity user = this.mapper.map(userDTOById, UserEntity.class);
     AdditionalAccountInfoEntity additionalInfo =
-        new AdditionalAccountInfoEntity(initPath.toString(),
-            this.userService.findById(userId));
+        new AdditionalAccountInfoEntity(initPath.toString(), user);
 
     this.additionalAccountInfoRepository.save(additionalInfo);
   }

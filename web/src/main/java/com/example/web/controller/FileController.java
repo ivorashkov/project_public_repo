@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/user/file")
+@RequestMapping("/user")
 public class FileController {
 
   private final FileService fileService;
@@ -25,7 +25,7 @@ public class FileController {
     return this.validatorUtil.responseEntity(userService.findUserDTOById(userId));
   }
 
-  @PostMapping("/upload/all")
+  @PostMapping("/file/upload/all")
   public String handleAllFilesUpload(
       @RequestParam("file") List<MultipartFile> files,
       @RequestParam(name = "userId") Long userId,
@@ -35,10 +35,9 @@ public class FileController {
     this.fileService.handleAllFilesUpload(files, userId, offerId);
 
     return "All files are saved.";
-
   }
 
-  @PostMapping("/upload")
+  @PostMapping("/file/upload")
   public String uploadSingleFile(
       @RequestParam("file") MultipartFile file,
       @RequestParam(name = "userId") Long userId,

@@ -93,12 +93,11 @@ public class TourOfferController {
             TransportType.airplane);
 
     /** DTO + FILES **/
-    this.tourOfferService.saveOfferPath(
-        this.tourOfferService.createOffer(createOfferDTO), files);
 
-//    this.offerDataService.
-
-    return null;
+    return this.validatorUtil
+        .responseEntity(this.tourOfferService
+            .saveOfferPath(this.tourOfferService
+                .createOffer(createOfferDTO), files));
   }
 
 

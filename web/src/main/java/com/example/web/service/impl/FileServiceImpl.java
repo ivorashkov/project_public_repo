@@ -47,7 +47,7 @@ public class FileServiceImpl implements FileService {
 
     files.forEach(file -> {
       Path path = handleSingleFileUpload(file, userId, offerId);
-      if (offerId > 0) {
+      if (offerId >= 0) {
         /**
          * Ako user-a вече съществува запазваме пътя на "снимките" от офертата
          * които ще се върнат от handleFileUpload метода

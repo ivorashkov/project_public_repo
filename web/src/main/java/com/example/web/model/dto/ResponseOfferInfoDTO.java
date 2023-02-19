@@ -1,6 +1,7 @@
 package com.example.web.model.dto;
 
 import com.example.web.model.enums.TransportType;
+import com.example.web.model.interfaces.DTO;
 import com.google.gson.annotations.Expose;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseOfferInfoDTO {
+public class ResponseOfferInfoDTO implements DTO {
 
   @Expose
   private Long id;

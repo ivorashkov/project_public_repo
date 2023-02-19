@@ -1,6 +1,7 @@
 package com.example.web.model.dto;
 
 import com.example.web.model.enums.TransportType;
+import com.example.web.model.interfaces.DTO;
 import com.google.gson.annotations.Expose;
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,11 +12,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PageOfferExportDTO {
-
+public class PageOfferExportDTO implements DTO {
   @Expose
   private Long id;
-
 
   @Expose
   private String title;

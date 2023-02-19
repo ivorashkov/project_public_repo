@@ -11,7 +11,6 @@ import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
 import java.util.Objects;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -123,7 +122,8 @@ public class TourOfferServiceImpl implements TourOfferService {
   @Override
   public TourOfferFullDTO createOffer(ImportCreateOfferInfoDTO offerDTO) {
 
-    UserEntity user = userService.findById(offerDTO.getUser().getId());
+    UserEntity user = this.mapper.map(userService.findUserDTOById(offerDTO.getUser().getId()),
+        UserEntity.class);
 
     TourOfferEntity tourOfferEntity = this.mapper.map(offerDTO, TourOfferEntity.class);
 
@@ -139,7 +139,13 @@ public class TourOfferServiceImpl implements TourOfferService {
     this.fileService.handleAllFilesUpload
         (files, importedOfferDTO.getUser().getId(), importedOfferDTO.getId());
 
-    return null;
+    TourOfferEntity tourOfferEntity = this.tourOfferRepository.findById(importedOfferDTO.getId())
+        .orElse(null);
+
+    tourOfferEntity.setUser(this.mapper
+        .map(userService.findUserDTOById(importedOfferDTO.getUser().getId()), UserEntity.class));
+
+    return this.mapper.map(tourOfferEntity, TourOfferFullDTO.class);
   }
 
   @Override
@@ -172,7 +178,7 @@ public class TourOfferServiceImpl implements TourOfferService {
     List<Sort.Order> orders = new ArrayList<>();
 
     for (String s : sort) {
-      String[] columns = s.split(",");
+      String[] columns = s.split(";");
       String sortCriteria = columns[0];
       String directionCriteria = columns[1];
 

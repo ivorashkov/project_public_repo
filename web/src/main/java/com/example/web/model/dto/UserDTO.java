@@ -1,5 +1,6 @@
 package com.example.web.model.dto;
 
+import com.example.web.model.interfaces.DTO;
 import com.google.gson.annotations.Expose;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,10 +11,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+public class UserDTO implements DTO {
 
   @Expose
-  private long id;
+  private Long id;
+
+  @Expose
+  private boolean isActive;
 
   @Expose
   private String firstName;
@@ -26,4 +30,9 @@ public class UserDTO {
 
   @Expose
   private String username;
+
+  @Expose
+  private RoleDTO role;
+
+
 }
