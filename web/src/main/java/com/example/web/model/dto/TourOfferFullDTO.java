@@ -20,10 +20,10 @@ public class TourOfferFullDTO implements DTO {
   private Long id;
 
   @Expose
-  private UserDTO user;
+  private String title;
 
   @Expose
-  private String title;
+  private UserDTO user;
 
   @Expose
   private String country;

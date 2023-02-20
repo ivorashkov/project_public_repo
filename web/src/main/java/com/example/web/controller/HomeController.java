@@ -2,6 +2,7 @@ package com.example.web.controller;
 
 import com.example.web.model.dto.PageOfferExportDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
+import com.example.web.model.entity.TourOfferEntity;
 import com.example.web.service.TourOfferService;
 import com.example.web.util.ValidatorUtil;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class HomeController {
     return this.validatorUtil.responseEntity(tourOfferService.initialSearchResult(page, size));
     //should redirect to TourOfferController "/tourOffers" for more filters etc.
   }
+
 
   @GetMapping("/offers")
   public ResponseEntity<Page<PageOfferExportDTO>> findAllAndSort(

@@ -33,23 +33,6 @@ public class TourOfferServiceImpl implements TourOfferService {
   private final ModelMapper mapper;
   private ValidatorUtil validatorUtil;
 
-//  @Override
-//  public Page<TourOfferFullDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
-//
-//    Page<TourOfferFullDTO> offerDTOS = null;
-//    try {
-//      Page<TourOfferEntity> offerEntity = this.tourOfferRepository
-//          .findAll_TourOffers_ByDate(PageRequest.of(pageNumber, pageSize));
-//
-//      offerDTOS = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntity,
-//          TourOfferFullDTO.class);
-//    } catch (Exception e) {
-//
-//      return offerDTOS;
-//    }
-//
-//    return offerDTOS;
-//  }
 
   @Override
   public Page<PageOfferExportDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
@@ -167,11 +150,6 @@ public class TourOfferServiceImpl implements TourOfferService {
   public TourOfferFullDTO findById(Long id) {
     TourOfferEntity tourOfferEntity = this.tourOfferRepository.findById(id).orElse(null);
     return this.mapper.map(tourOfferEntity, TourOfferFullDTO.class);
-  }
-
-  @Override
-  public TourOfferFullDTO findByTitle(String title) {
-    return null;
   }
 
   private List<Sort.Order> getOrderList(String[] sort) {

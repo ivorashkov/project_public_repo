@@ -9,8 +9,6 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -24,31 +22,46 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void create(UserDTO userDTO) {
-    this.userRepository.save(this.mapper.map(userDTO, UserEntity.class));
+  public String create(UserDTO userDTO) {
+    try{
+      this.userRepository.save(this.mapper.map(userDTO, UserEntity.class));
+
+      return "User " + userDTO.getUsername() + " created.";
+    } catch (Exception e){
+
+      return "Unable to create user " + e.getMessage();
+    }
   }
 
   @Override
-  public boolean deleteUser() {
-    return false;
+  public String deleteUser(UserDTO userDTO) {
+    //todo check
+    try{
+      this.userRepository.findById(userDTO.getId()).orElse(null).setDeleted(true);
 
+      return "User " + userDTO.getUsername() + " was deleted.";
+    }catch (Exception e){
+
+      return "Unable to delete user" + userDTO.getUsername() + " " + e.getMessage();
+    }
   }
 
   @Override
-  public boolean updateUser() {
-    return false;
+  public String updateUser(UserDTO userDTO) {
+    //todo check
+    try {
+      this.userRepository.save(this.mapper.map(userDTO, UserEntity.class));
 
+      return "User " + userDTO.getUsername() + " saved.";
+    } catch (Exception e) {
+
+      return "User not saved " + e.getMessage();
+    }
   }
 
   @Override
   public boolean login(UserLoginDTO userLoginDTO) {
 
-//    if (!Objects.isNull(this.userRepository.findByEmailAddress(userLoginDTO.getUsername()))
-//        || !Objects.isNull(this.userRepository.findByUsername(userLoginDTO.getUsername()))) {
-//      return true;
-//    }
-
     return false;
   }
-
 }

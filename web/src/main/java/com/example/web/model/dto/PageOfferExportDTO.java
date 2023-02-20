@@ -19,22 +19,17 @@ public class PageOfferExportDTO implements DTO {
   @Expose
   private String title;
 
-
   @Expose
   private String date;
-
 
   @Expose
   private String country;
 
-
   @Expose
   private String city;
 
-
   @Expose
   private int duration;
-
 
   @Expose
   private double stars;
@@ -42,14 +37,11 @@ public class PageOfferExportDTO implements DTO {
   @Expose
   private BigDecimal price;
 
-
   @Expose
   private String description;
 
-
   @Expose
   private double discount;
-
 
   @Expose
   private TransportType transportType;

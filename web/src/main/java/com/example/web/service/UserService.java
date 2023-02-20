@@ -8,11 +8,11 @@ public interface UserService {
 
   UserDTO findUserDTOById(Long id);
 
-  void create(UserDTO userDTO);
+  String create(UserDTO userDTO);
 
-  boolean deleteUser();
+  String deleteUser(UserDTO userDTO);
 
-  boolean updateUser();
+  String updateUser(UserDTO userDTO);
 
   boolean login(UserLoginDTO userLoginDTO);
 

@@ -18,8 +18,6 @@ public interface TourOfferService {
 
   TourOfferFullDTO findById(Long id);
 
-  TourOfferFullDTO findByTitle(String title);
-
   TourOfferFullDTO createOffer(ImportCreateOfferInfoDTO offerDTO);
 
   TourOfferFullDTO saveOfferPath(TourOfferFullDTO importedOfferDTO,List<MultipartFile> files);
