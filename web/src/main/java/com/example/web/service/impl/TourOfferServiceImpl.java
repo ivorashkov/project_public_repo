@@ -1,12 +1,14 @@
 package com.example.web.service.impl;
 
 import com.example.web.model.dto.ImportCreateOfferInfoDTO;
-import com.example.web.model.dto.PageOfferExportDTO;
+import com.example.web.model.dto.TourOfferDocPathDTO;
+import com.example.web.model.dto.TourOfferPagingDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.entity.TourOfferEntity;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.repository.TourOfferRepository;
 import com.example.web.service.FileService;
+import com.example.web.service.OfferDataService;
 import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
@@ -28,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class TourOfferServiceImpl implements TourOfferService {
 
   private final TourOfferRepository tourOfferRepository;
+  private final OfferDataService offerDataService;
   private final FileService fileService;
   private final UserService userService;
   private final ModelMapper mapper;
@@ -35,15 +38,15 @@ public class TourOfferServiceImpl implements TourOfferService {
 
 
   @Override
-  public Page<PageOfferExportDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
+  public Page<TourOfferPagingDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
 
-    Page<PageOfferExportDTO> offerDTOS = null;
+    Page<TourOfferPagingDTO> offerDTOS = null;
     try {
       Page<TourOfferEntity> offerEntity = this.tourOfferRepository
           .findAll_TourOffers_ByDate(PageRequest.of(pageNumber, pageSize));
 
       offerDTOS = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntity,
-          PageOfferExportDTO.class);
+          TourOfferPagingDTO.class);
       return offerDTOS;
 
     } catch (Exception e) {
@@ -53,14 +56,14 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public Page<PageOfferExportDTO> searchAndFilterOffers(
+  public Page<TourOfferPagingDTO> searchAndFilterOffers(
       Integer pageNumber,
       Integer pageSize,
       String country,
       String city,
       String... sorts
   ) {
-    Page<PageOfferExportDTO> offers = null;
+    Page<TourOfferPagingDTO> offers = null;
     try {
       final List<Sort.Order> orders = getOrderList(sorts);//added
 
@@ -74,11 +77,11 @@ public class TourOfferServiceImpl implements TourOfferService {
         //works
         offerEntities = tourOfferRepository.findAll_TourOffers_ByDate(pageable);
         offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities,
-            PageOfferExportDTO.class);
+            TourOfferPagingDTO.class);
       } else {
         offerEntities = tourOfferRepository.findAllByCriteria(criteria, pageable);
         offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities,
-            PageOfferExportDTO.class);
+            TourOfferPagingDTO.class);
       }
       return offers;
 
@@ -89,13 +92,20 @@ public class TourOfferServiceImpl implements TourOfferService {
 
   @Override
   public TourOfferFullDTO editOffer(Long offerId, Long userId) {
-    //todo to fix this crap code
-    TourOfferFullDTO offerDTO = null;
+    TourOfferFullDTO offerDTO;
     try {
+
       TourOfferEntity entity = this.tourOfferRepository.findByIdAndUserId(offerId, userId)
           .orElse(null);
 
-      return this.mapper.map(entity, TourOfferFullDTO.class);
+      offerDTO = this.mapper.map(entity, TourOfferFullDTO.class);
+
+      List<TourOfferDocPathDTO> offerDataPaths =
+          this.offerDataService.findAllOfferDataPaths(offerDTO);
+
+      offerDTO.setPaths(offerDataPaths);
+
+      return offerDTO;
 
     } catch (Exception e) {
       return null;

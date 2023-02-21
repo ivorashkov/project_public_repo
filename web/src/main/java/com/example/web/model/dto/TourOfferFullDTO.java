@@ -5,16 +5,17 @@ import com.example.web.model.interfaces.DTO;
 import com.google.gson.annotations.Expose;
 import java.math.BigDecimal;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class TourOfferFullDTO implements DTO {
+
+  @Expose
+  private boolean isActive;
 
   @Expose
   private Long id;
@@ -50,6 +51,6 @@ public class TourOfferFullDTO implements DTO {
   private TransportType transportType;
 
   @Expose
-  List<OfferDataPathDTO> paths;
+  private List<TourOfferDocPathDTO> paths;
 
 }

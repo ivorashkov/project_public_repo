@@ -22,4 +22,10 @@ public class RoleEntity extends BaseEntity {
   @Column(unique = true)
   @Enumerated(EnumType.STRING)
   private RoleType roleName;
+
+  @Override
+  public void setDeleted(boolean isDeleted) {
+    isDeleted = false;
+    super.setDeleted(isDeleted);
+  }
 }

@@ -31,7 +31,7 @@ public class FileController {
       @RequestParam(name = "userId") Long userId,
       @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
   ) {
-
+  //localhost:8091/user/file/upload/all?userId=1&offerId=1
     this.fileService.handleAllFilesUpload(files, userId, offerId);
 
     return "All files are saved.";

@@ -1,6 +1,6 @@
 package com.example.web.service.impl;
 
-import com.example.web.model.dto.OfferDataPathDTO;
+import com.example.web.model.dto.TourOfferDocPathDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.entity.OfferDataPathEntity;
 import com.example.web.model.entity.TourOfferEntity;
@@ -43,13 +43,13 @@ public class OfferDataServiceImpl implements OfferDataService {
   }
 
   @Override
-  public List<OfferDataPathDTO> findAllOfferDataPaths(TourOfferFullDTO offer) {
+  public List<TourOfferDocPathDTO> findAllOfferDataPaths(TourOfferFullDTO offer) {
     List<OfferDataPathEntity> offerDataPathEntities =
         this.offerDataRepository.findAllByOfferId(offer.getId()).orElse(null);
 
     return offerDataPathEntities.stream()
         .filter(Objects::nonNull)
-        .map(e -> this.mapper.map(e, OfferDataPathDTO.class))
+        .map(e -> this.mapper.map(e, TourOfferDocPathDTO.class))
         .collect(Collectors.toList());
   }
 }

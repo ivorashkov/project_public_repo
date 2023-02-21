@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OfferDataPathDTO implements DTO {
+public class TourOfferDocPathDTO implements DTO {
 
   @Expose
   private Long id;

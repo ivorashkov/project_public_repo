@@ -1,6 +1,7 @@
 package com.example.web.model.entity;
 
 import com.example.web.model.interfaces.DeletableObject;
+import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,6 +14,7 @@ import lombok.Setter;
 @MappedSuperclass
 public abstract class BaseEntity implements DeletableObject {
 
+  @Column(columnDefinition = "boolean default false")
   private boolean isDeleted;
 
   @Id

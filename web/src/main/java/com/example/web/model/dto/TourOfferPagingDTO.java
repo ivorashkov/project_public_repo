@@ -3,25 +3,18 @@ package com.example.web.model.dto;
 import com.example.web.model.enums.TransportType;
 import com.example.web.model.interfaces.DTO;
 import com.google.gson.annotations.Expose;
+import java.math.BigDecimal;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
+@NoArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class ResponseOfferInfoDTO implements DTO {
-
+public class TourOfferPagingDTO implements DTO {
   @Expose
   private Long id;
-
-  @Expose
-  private UserDTO user;
 
   @Expose
   private String title;
@@ -54,6 +47,6 @@ public class ResponseOfferInfoDTO implements DTO {
   private TransportType transportType;
 
   @Expose
-  List<OfferDataPathDTO> paths;
+  private List<TourOfferDocPathDTO> paths;
 
 }

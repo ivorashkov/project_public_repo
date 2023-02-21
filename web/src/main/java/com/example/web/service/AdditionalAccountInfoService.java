@@ -12,5 +12,6 @@ public interface AdditionalAccountInfoService {
 
   void saveAll(List<UserEntity> users, Path initPath);
 
+  //this could be used in Admin panel
   List<AdditionalAccountInfoDTO> findAllAccountDataPaths(UserDTO user);
 }

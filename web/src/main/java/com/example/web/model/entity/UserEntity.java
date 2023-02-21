@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name = "users")
 public class UserEntity extends BaseEntity {
 
-  @Column(nullable = false)
+  @Column(columnDefinition = "boolean default false")
   private boolean isActive;
 
   @Column(nullable = false, unique = true, updatable = false)
@@ -46,27 +46,7 @@ public class UserEntity extends BaseEntity {
   @Column
   private int approvedBy;
 
-  @Column(name = "user_star")
+  @Column(columnDefinition = "boolean default false")
   private boolean hasStar;
-
-//  @OneToMany(
-//      targetEntity = OfficeEntity.class,
-//      mappedBy = "user",
-//      fetch = FetchType.LAZY
-//  )
-//  private List<OfficeEntity> offices;
-//
-//  @OneToMany(
-//      targetEntity = TourOfferEntity.class,
-//      mappedBy = "user",
-//      fetch = FetchType.LAZY
-//  )
-//  private List<TourOfferEntity> offers;
-
-  @OneToMany(
-      fetch = FetchType.LAZY,
-      cascade = CascadeType.ALL)
-  @JoinColumn(name = "user_id")
-  private List<AdditionalAccountInfoEntity> additionalInfo;
 
 }

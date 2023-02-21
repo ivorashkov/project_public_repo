@@ -41,8 +41,9 @@ public class TourOfferController {
       @RequestParam(name = "userId", required = true) Long userId
   ) {
 
+    TourOfferFullDTO tourOfferFullDTO = this.tourOfferService.editOffer(offerId, userId);
     /** http://localhost:8091/offer/edit?offerId=1&userId=1 */
-    return this.validatorUtil.responseEntity(this.tourOfferService.editOffer(offerId, userId));
+    return this.validatorUtil.responseEntity(tourOfferFullDTO);
   }
 
   @PostMapping("/save")

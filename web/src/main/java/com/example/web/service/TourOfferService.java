@@ -1,7 +1,7 @@
 package com.example.web.service;
 
 import com.example.web.model.dto.ImportCreateOfferInfoDTO;
-import com.example.web.model.dto.PageOfferExportDTO;
+import com.example.web.model.dto.TourOfferPagingDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -9,9 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface TourOfferService {
 
-  Page<PageOfferExportDTO> initialSearchResult(Integer pageNumber, Integer pageSize);
+  Page<TourOfferPagingDTO> initialSearchResult(Integer pageNumber, Integer pageSize);
 
-  Page<PageOfferExportDTO> searchAndFilterOffers(Integer pageNumber, Integer pageSize, String country,
+  Page<TourOfferPagingDTO> searchAndFilterOffers(Integer pageNumber, Integer pageSize, String country,
       String city, String... sorts);
 
   TourOfferFullDTO editOffer(Long offerId, Long userId);
