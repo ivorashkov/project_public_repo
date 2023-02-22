@@ -1,5 +1,7 @@
 package com.example.web.util.impl;
 
+import com.example.web.model.dto.BaseDTO;
+import com.example.web.model.entity.BaseEntity;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.model.enums.RoleType;
 import com.example.web.model.interfaces.DeletableObject;
@@ -8,7 +10,6 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -84,11 +85,6 @@ public class ValidatorUtilImpl implements ValidatorUtil {
       return city;
     }
     return null;
-  }
-
-  @Override
-  public <E extends DeletableObject> boolean deleteObject(E object) {
-    return object.isDeleted();
   }
 
 }

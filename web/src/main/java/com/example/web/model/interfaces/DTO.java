@@ -1,5 +1,5 @@
 package com.example.web.model.interfaces;
 
-public interface DTO {
+public interface DTO extends DeletableObject{
 
 }

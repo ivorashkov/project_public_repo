@@ -22,5 +22,5 @@ public interface TourOfferService {
 
   TourOfferFullDTO saveOfferPath(TourOfferFullDTO importedOfferDTO,List<MultipartFile> files);
 
-  boolean deleteOffer(Long userId, Long offerId);
+  void deleteOffer(Long userId, Long offerId);
 }

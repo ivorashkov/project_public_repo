@@ -1,6 +1,5 @@
 package com.example.web.model.dto;
 
-import com.example.web.model.interfaces.DTO;
 import com.google.gson.annotations.Expose;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,12 +10,26 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TourOfferDocPathDTO extends BaseDTO {
+public class OfficeDTO extends BaseDTO{
 
   @Expose
   private Long id;
 
   @Expose
-  private String documentLocation;
+  private boolean isDeleted;
 
+  @Expose
+  private String address;
+
+  @Expose
+  private String city;
+
+  @Expose
+  private String country;
+
+  @Expose
+  private String phone;
+
+  @Expose
+  private UserSimpleIdDTO user;
 }

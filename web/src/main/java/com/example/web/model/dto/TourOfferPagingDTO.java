@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TourOfferPagingDTO implements DTO {
+public class TourOfferPagingDTO extends BaseDTO {
   @Expose
   private Long id;
 

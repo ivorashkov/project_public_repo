@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ImportCreateOfferInfoDTO implements DTO {
+public class ImportCreateOfferInfoDTO extends BaseDTO {
 
   @Expose
   private UserDTO user;

@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class TourOfferFullDTO implements DTO {
+public class TourOfferFullDTO extends BaseDTO {
 
   @Expose
   private boolean isActive;

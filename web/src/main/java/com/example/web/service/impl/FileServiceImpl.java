@@ -4,7 +4,7 @@ import com.example.web.constant.ConstantMessages;
 import com.example.web.constant.StorageException;
 import com.example.web.constant.StorageFileNotFoundException;
 import com.example.web.constant.StorageProperties;
-import com.example.web.service.AdditionalAccountInfoService;
+import com.example.web.service.AccountInfoService;
 import com.example.web.service.FileService;
 import com.example.web.service.OfferDataService;
 import java.util.List;
@@ -29,13 +29,13 @@ import java.util.stream.Stream;
 public class FileServiceImpl implements FileService {
 
   private final OfferDataService offerDataService;
-  private final AdditionalAccountInfoService additionalInfoService;
+  private final AccountInfoService additionalInfoService;
   private final Path rootLocation;
 
   public FileServiceImpl(
       OfferDataService offerDataService,
       StorageProperties properties,
-      AdditionalAccountInfoService additionalInfoService
+      AccountInfoService additionalInfoService
   ) {
     this.offerDataService = offerDataService;
     this.rootLocation = Paths.get(properties.getLocation());

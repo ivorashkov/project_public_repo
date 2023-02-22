@@ -1,5 +1,7 @@
 package com.example.web.util;
 
+import com.example.web.model.dto.BaseDTO;
+import com.example.web.model.entity.BaseEntity;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.model.interfaces.DeletableObject;
 import org.springframework.data.domain.Page;
@@ -13,11 +15,12 @@ public interface ValidatorUtil {
 
   <E extends UserEntity> boolean isActive(E entity);
 
+//  <E> ResponseEntity<E> responseEntity(E entity);
+
   <E> ResponseEntity<E> responseEntity(E entity);
 
   <T, D> Page<D> mapEntityPageIntoDtoPage(Page<T> entities, Class<D> dtoClass);
 
   <E> E getCriteriaParam(E country, E city);
 
-  public <E extends DeletableObject> boolean deleteObject(E object);
 }

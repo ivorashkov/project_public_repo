@@ -35,7 +35,7 @@ public class TourOfferController {
 
   private final ValidatorUtil validatorUtil;
 
-  @GetMapping("/edit")
+  @PatchMapping("/edit")
   public ResponseEntity<TourOfferFullDTO> editOffer(
       @RequestParam(name = "offerId", required = true) Long offerId,
       @RequestParam(name = "userId", required = true) Long userId
@@ -60,13 +60,14 @@ public class TourOfferController {
     return null;
   }
 
-  @PostMapping("/delete")
-  public boolean deleteOffer(
+  @DeleteMapping("/delete")
+  public void deleteOffer(
       @RequestParam("userId") Long userId,
       @RequestParam("offerId") Long offerId
   ) {
 
-    return this.tourOfferService.deleteOffer(userId, offerId);
+    //localhost:8091/offer/delete?userId=1&offerId=1
+    this.tourOfferService.deleteOffer(userId, offerId);
   }
 
   @PostMapping("/create")

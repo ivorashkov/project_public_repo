@@ -11,12 +11,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TourOfferDocPathDTO extends BaseDTO {
+public class UserSimpleIdDTO extends BaseDTO {
 
   @Expose
   private Long id;
 
   @Expose
-  private String documentLocation;
+  private boolean isActive;
 
 }

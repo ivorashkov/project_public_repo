@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO implements DTO {
+public class UserDTO extends BaseDTO {
 
   @Expose
   private Long id;

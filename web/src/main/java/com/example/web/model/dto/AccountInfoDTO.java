@@ -1,6 +1,5 @@
 package com.example.web.model.dto;
 
-import com.example.web.model.interfaces.DTO;
 import com.google.gson.annotations.Expose;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
@@ -12,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdditionalAccountInfoDTO implements DTO {
+public class AccountInfoDTO extends BaseDTO {
 
   @Expose
   private Long id;

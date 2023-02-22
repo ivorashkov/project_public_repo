@@ -15,7 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "additional_user_info")
-public class AdditionalAccountInfoEntity extends BaseEntity {
+public class AccountInfoEntity extends BaseEntity {
 
   @Column(name = "document_path", nullable = false)
   private String documentLocation;

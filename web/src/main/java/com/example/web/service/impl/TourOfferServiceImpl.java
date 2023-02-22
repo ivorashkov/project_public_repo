@@ -4,6 +4,7 @@ import com.example.web.model.dto.ImportCreateOfferInfoDTO;
 import com.example.web.model.dto.TourOfferDocPathDTO;
 import com.example.web.model.dto.TourOfferPagingDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
+import com.example.web.model.dto.UserDTO;
 import com.example.web.model.entity.TourOfferEntity;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.repository.TourOfferRepository;
@@ -115,12 +116,12 @@ public class TourOfferServiceImpl implements TourOfferService {
   @Override
   public TourOfferFullDTO createOffer(ImportCreateOfferInfoDTO offerDTO) {
 
-    UserEntity user = this.mapper.map(userService.findUserDTOById(offerDTO.getUser().getId()),
+    var userEntity = this.mapper.map(this.userService.findUserDTOById(offerDTO.getUser().getId()),
         UserEntity.class);
 
-    TourOfferEntity tourOfferEntity = this.mapper.map(offerDTO, TourOfferEntity.class);
+    var tourOfferEntity = this.mapper.map(offerDTO, TourOfferEntity.class);
 
-    tourOfferEntity.setUser(user);
+    tourOfferEntity.setUser(userEntity);
 
     return this.mapper.map(this.tourOfferRepository.save(tourOfferEntity), TourOfferFullDTO.class);
   }
@@ -130,30 +131,31 @@ public class TourOfferServiceImpl implements TourOfferService {
       List<MultipartFile> files) {
 
     this.fileService.handleAllFilesUpload
-        (files, importedOfferDTO.getUser().getId(), importedOfferDTO.getId());
+        (
+            files,
+            importedOfferDTO.getUser().getId(),
+            importedOfferDTO.getId()
+        );
 
-    TourOfferEntity tourOfferEntity = this.tourOfferRepository.findById(importedOfferDTO.getId())
+    var tourOfferEntity = this.tourOfferRepository.findById(importedOfferDTO.getId())
         .orElse(null);
 
-    tourOfferEntity.setUser(this.mapper
-        .map(userService.findUserDTOById(importedOfferDTO.getUser().getId()), UserEntity.class));
+    UserDTO userDTO = userService.findUserDTOById(importedOfferDTO.getUser().getId());
+
+    tourOfferEntity.setUser(this.mapper.map(userDTO, UserEntity.class));
 
     return this.mapper.map(tourOfferEntity, TourOfferFullDTO.class);
   }
 
   @Override
-  public boolean deleteOffer(Long userId, Long offerId) {
-    TourOfferEntity offer =
+  public void deleteOffer(Long userId, Long offerId) {
+    var offerEntity =
         this.tourOfferRepository.findByIdAndUserId(offerId, userId).orElse(null);
 
-    if (Objects.isNull(offer)) {
-
-      return false;
+    if (!Objects.isNull(offerEntity)) {
+      offerEntity.setDeleted(true);
+      this.tourOfferRepository.save(offerEntity);
     }
-    offer.setDeleted(true);
-    this.tourOfferRepository.save(offer);
-
-    return true;
   }
 
   @Override

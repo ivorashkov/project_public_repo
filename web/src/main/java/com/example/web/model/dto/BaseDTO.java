@@ -1,7 +1,6 @@
 package com.example.web.model.dto;
 
 import com.example.web.model.interfaces.DTO;
-import com.google.gson.annotations.Expose;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,12 +10,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TourOfferDocPathDTO extends BaseDTO {
+public abstract class BaseDTO implements DTO {
 
-  @Expose
-  private Long id;
+  private boolean isDeleted;
 
-  @Expose
-  private String documentLocation;
-
+  @Override
+  public boolean isDeleted() {
+    return isDeleted;
+  }
 }

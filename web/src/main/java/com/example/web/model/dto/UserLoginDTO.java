@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserLoginDTO implements DTO {
+public class UserLoginDTO extends BaseDTO {
 
   //TODO LAST
   private String username;

@@ -24,7 +24,7 @@ public class OfficeEntity extends BaseEntity {
   private String address;
 
   @Column(nullable = false, unique = true)
-  private String phoneNumber;
+  private String phone;
 
   @ManyToOne(fetch = FetchType.LAZY)
   private UserEntity user;

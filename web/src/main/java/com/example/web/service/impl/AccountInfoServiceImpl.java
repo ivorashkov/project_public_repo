@@ -1,12 +1,12 @@
 package com.example.web.service.impl;
 
 
-import com.example.web.model.dto.AdditionalAccountInfoDTO;
+import com.example.web.model.dto.AccountInfoDTO;
 import com.example.web.model.dto.UserDTO;
-import com.example.web.model.entity.AdditionalAccountInfoEntity;
+import com.example.web.model.entity.AccountInfoEntity;
 import com.example.web.model.entity.UserEntity;
-import com.example.web.repository.AdditionalAccountInfoRepository;
-import com.example.web.service.AdditionalAccountInfoService;
+import com.example.web.repository.AccountInfoRepository;
+import com.example.web.service.AccountInfoService;
 import com.example.web.service.UserService;
 import java.nio.file.Path;
 import java.util.List;
@@ -18,10 +18,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class AdditionalAccountInfoServiceImpl implements AdditionalAccountInfoService {
+public class AccountInfoServiceImpl implements AccountInfoService {
 
   private final UserService userService;
-  private final AdditionalAccountInfoRepository additionalAccountInfoRepository;
+  private final AccountInfoRepository additionalAccountInfoRepository;
   private final ModelMapper mapper;
 
   @Override
@@ -32,10 +32,10 @@ public class AdditionalAccountInfoServiceImpl implements AdditionalAccountInfoSe
  * with DTO method.
  */
     UserEntity user = this.mapper.map(userDTOById, UserEntity.class);
-    AdditionalAccountInfoEntity additionalInfo =
-        new AdditionalAccountInfoEntity(initPath.toString(), user);
 
-    this.additionalAccountInfoRepository.save(additionalInfo);
+    var additionalInfoEntity = new AccountInfoEntity(initPath.toString(), user);
+
+    this.additionalAccountInfoRepository.save(additionalInfoEntity);
   }
 
   @Override
@@ -44,13 +44,13 @@ public class AdditionalAccountInfoServiceImpl implements AdditionalAccountInfoSe
   }
 
   @Override
-  public List<AdditionalAccountInfoDTO> findAllAccountDataPaths(UserDTO user) {
-    List<AdditionalAccountInfoEntity> additionalData =
+  public List<AccountInfoDTO> findAllAccountDataPaths(UserDTO user) {
+    List<AccountInfoEntity> accountInfoEntity =
         this.additionalAccountInfoRepository.findAllByUserId(user.getId()).orElse(null);
 
-    return additionalData.stream()
+    return accountInfoEntity.stream()
         .filter(Objects::nonNull)
-        .map(e -> this.mapper.map(e, AdditionalAccountInfoDTO.class))
+        .map(e -> this.mapper.map(e, AccountInfoDTO.class))
         .collect(Collectors.toList());
   }
 
