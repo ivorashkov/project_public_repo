@@ -15,12 +15,11 @@ public interface ValidatorUtil {
 
   <E extends UserEntity> boolean isActive(E entity);
 
-//  <E> ResponseEntity<E> responseEntity(E entity);
-
   <E> ResponseEntity<E> responseEntity(E entity);
 
   <T, D> Page<D> mapEntityPageIntoDtoPage(Page<T> entities, Class<D> dtoClass);
 
   <E> E getCriteriaParam(E country, E city);
 
+  <E extends BaseEntity> E isDeleted(E entity);
 }

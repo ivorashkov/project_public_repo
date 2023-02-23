@@ -10,9 +10,11 @@ public interface OfferDataService {
 
 //  void saveFileUri(TourOfferEntity offer, Path initPath);
 
-  void saveFileUri(Long offerId, Path initPath);
+//  void saveFileUri(Long offerId, Path initPath);
+
+  void saveFileUri(TourOfferFullDTO offerDTO, Path initPath);
 
   void saveAll(List<TourOfferEntity> offers, Path initPath);
 
-  List<TourOfferDocPathDTO> findAllOfferDataPaths(TourOfferFullDTO offer);
+  List<TourOfferDocPathDTO> findAllOfferDataPaths(Long offerId);
 }

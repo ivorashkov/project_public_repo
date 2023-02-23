@@ -1,6 +1,6 @@
 package com.example.web.service.impl;
 
-import com.example.web.model.dto.ImportCreateOfferInfoDTO;
+import com.example.web.model.dto.TourOfferCreateDTO;
 import com.example.web.model.dto.TourOfferDocPathDTO;
 import com.example.web.model.dto.TourOfferPagingDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
@@ -31,8 +31,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class TourOfferServiceImpl implements TourOfferService {
 
   private final TourOfferRepository tourOfferRepository;
-  private final OfferDataService offerDataService;
-  private final FileService fileService;
   private final UserService userService;
   private final ModelMapper mapper;
   private ValidatorUtil validatorUtil;
@@ -92,29 +90,26 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public TourOfferFullDTO editOffer(Long offerId, Long userId) {
-    TourOfferFullDTO offerDTO;
-    try {
+  public TourOfferFullDTO editOffer(Long offerId, Long userId, List<TourOfferDocPathDTO> pathDTO) {
+    TourOfferFullDTO offerDTO = getFullOfferDTOByUserIdAndOfferId(userId,
+        offerId);
+    offerDTO.setPaths(pathDTO);
 
-      TourOfferEntity entity = this.tourOfferRepository.findByIdAndUserId(offerId, userId)
-          .orElse(null);
+    return offerDTO;
 
-      offerDTO = this.mapper.map(entity, TourOfferFullDTO.class);
-
-      List<TourOfferDocPathDTO> offerDataPaths =
-          this.offerDataService.findAllOfferDataPaths(offerDTO);
-
-      offerDTO.setPaths(offerDataPaths);
-
-      return offerDTO;
-
-    } catch (Exception e) {
-      return null;
-    }
   }
 
   @Override
-  public TourOfferFullDTO createOffer(ImportCreateOfferInfoDTO offerDTO) {
+  public TourOfferFullDTO getFullOfferDTOByUserIdAndOfferId(Long userId, Long offerId) {
+
+    TourOfferEntity entity = this.tourOfferRepository.findByIdAndUserId(offerId, userId)
+        .orElse(null);
+
+    return this.mapper.map(entity, TourOfferFullDTO.class);
+  }
+
+  @Override
+  public TourOfferFullDTO createOffer(TourOfferCreateDTO offerDTO) {
 
     var userEntity = this.mapper.map(this.userService.findUserDTOById(offerDTO.getUser().getId()),
         UserEntity.class);
@@ -129,13 +124,14 @@ public class TourOfferServiceImpl implements TourOfferService {
   @Override
   public TourOfferFullDTO saveOfferPath(TourOfferFullDTO importedOfferDTO,
       List<MultipartFile> files) {
+//todo check if its working
 
-    this.fileService.handleAllFilesUpload
-        (
-            files,
-            importedOfferDTO.getUser().getId(),
-            importedOfferDTO.getId()
-        );
+//    this.fileService.handleAllFilesUpload
+//        (
+//            files,
+//            importedOfferDTO.getUser().getId(),
+//            importedOfferDTO.getId()
+//        );
 
     var tourOfferEntity = this.tourOfferRepository.findById(importedOfferDTO.getId())
         .orElse(null);

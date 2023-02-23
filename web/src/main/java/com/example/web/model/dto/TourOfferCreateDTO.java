@@ -1,7 +1,6 @@
 package com.example.web.model.dto;
 
 import com.example.web.model.enums.TransportType;
-import com.example.web.model.interfaces.DTO;
 import com.google.gson.annotations.Expose;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -14,7 +13,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ImportCreateOfferInfoDTO extends BaseDTO {
+public class TourOfferCreateDTO extends BaseDTO {
 
   @Expose
   private UserDTO user;

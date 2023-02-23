@@ -1,6 +1,7 @@
 package com.example.web.controller;
 
-import com.example.web.model.dto.ImportCreateOfferInfoDTO;
+import com.example.web.model.dto.TourOfferCreateDTO;
+import com.example.web.model.dto.TourOfferDocPathDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.model.entity.UserEntity;
@@ -30,8 +31,8 @@ public class TourOfferController {
   private final UserRepository userRepository;
   private final ModelMapper modelMapper;
 
-  private final TourOfferService tourOfferService;
   private final OfferDataService offerDataService;
+  private final TourOfferService tourOfferService;
 
   private final ValidatorUtil validatorUtil;
 
@@ -41,7 +42,8 @@ public class TourOfferController {
       @RequestParam(name = "userId", required = true) Long userId
   ) {
 
-    TourOfferFullDTO tourOfferFullDTO = this.tourOfferService.editOffer(offerId, userId);
+    List<TourOfferDocPathDTO> offerDataPathDTO = this.offerDataService.findAllOfferDataPaths(offerId);
+    TourOfferFullDTO tourOfferFullDTO = this.tourOfferService.editOffer(offerId, userId, offerDataPathDTO);
     /** http://localhost:8091/offer/edit?offerId=1&userId=1 */
     return this.validatorUtil.responseEntity(tourOfferFullDTO);
   }
@@ -70,18 +72,20 @@ public class TourOfferController {
     this.tourOfferService.deleteOffer(userId, offerId);
   }
 
-  @PostMapping("/create")
+  @PostMapping(value = "/create", consumes = {"multipart/form-data"})
   public ResponseEntity<TourOfferFullDTO> createOffer(
-      @RequestParam(value = "file", required = false) List<MultipartFile> files
-//      @RequestBody(required = false) ImportCreateOfferInfoDTO createOfferDTO
+      @RequestPart(value = "file", required = false) List<MultipartFile> files
+    //  ,@RequestPart("json") TourOfferCreateDTO tourOfferCreateDTO
   ) {
+//https://stackoverflow.com/questions/49845355/spring-boot-controller-upload-multipart-and-json-to-dto
+
     /** incoming JSON object ImportCreateOfferInfoDTO */
 //    UserDTO user = new UserDTO(3L, "ivor", "1234213235", "ivo", "rashkov");
-    Optional<UserEntity> userE = this.userRepository.findById(3L);
-    UserDTO user = this.modelMapper.map(userE, UserDTO.class);
+    Optional<UserEntity> userEntity = this.userRepository.findById(3L);
+    UserDTO user = this.modelMapper.map(userEntity, UserDTO.class);
 
-    ImportCreateOfferInfoDTO createOfferDTO =
-        new ImportCreateOfferInfoDTO(
+    TourOfferCreateDTO createOfferDTO =
+        new TourOfferCreateDTO(
             user,
             "new Title",
             LocalDateTime.now(),
@@ -100,6 +104,25 @@ public class TourOfferController {
         .responseEntity(this.tourOfferService
             .saveOfferPath(this.tourOfferService
                 .createOffer(createOfferDTO), files));
+  }
+
+  @GetMapping("/test")
+  public TourOfferCreateDTO sendDTO() {
+    Optional<UserEntity> userE = this.userRepository.findById(3L);
+    UserDTO user = this.modelMapper.map(userE, UserDTO.class);
+
+    return new TourOfferCreateDTO(
+            user,
+            "new Title",
+            LocalDateTime.now(),
+            "Testoniq",
+            "Testanqn",
+            5,
+            4.0,
+            BigDecimal.valueOf(11.11),
+            "testche",
+            0,
+            TransportType.airplane);
   }
 
 

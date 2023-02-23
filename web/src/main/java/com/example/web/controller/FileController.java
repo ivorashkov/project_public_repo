@@ -1,7 +1,9 @@
 package com.example.web.controller;
 
+import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.service.FileService;
+import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
 import lombok.AllArgsConstructor;
@@ -18,6 +20,7 @@ public class FileController {
 
   private final FileService fileService;
   private final UserService userService;
+  private final TourOfferService tourOfferService;
   private final ValidatorUtil validatorUtil;
 
   @GetMapping("/{id}")
@@ -25,59 +28,23 @@ public class FileController {
     return this.validatorUtil.responseEntity(userService.findUserDTOById(userId));
   }
 
-  @PostMapping("/file/upload/all")
+  @PostMapping("/upload/all")
   public String handleAllFilesUpload(
       @RequestParam("file") List<MultipartFile> files,
       @RequestParam(name = "userId") Long userId,
       @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
   ) {
-  //localhost:8091/user/file/upload/all?userId=1&offerId=1
-    this.fileService.handleAllFilesUpload(files, userId, offerId);
+    //localhost:8091/user/upload/all?userId=1&offerId=3
+    if (offerId > 0) {
+      TourOfferFullDTO offerDTO = this.tourOfferService.findById(offerId);
+      this.fileService.handleAllFilesUpload(files, userId, offerId, offerDTO);
+      return "All files of the offer are saved";
+    }
 
-    return "All files are saved.";
+    UserDTO userDTO = this.userService.findUserDTOById(userId);
+    this.fileService.handleAllFilesUpload(files, userId, offerId, userDTO);
+
+    return "All files are saved for user " + userDTO.getUsername();
   }
-
-  @PostMapping("/file/upload")
-  public String uploadSingleFile(
-      @RequestParam("file") MultipartFile file,
-      @RequestParam(name = "userId") Long userId,
-      @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
-  ) {
-
-    return this.fileService.handleSingleFileUpload(file, userId, offerId).toString();
-  }
-
-//    private void fileProcessing(Long userId, Long offerId, MultipartFile file, String format) {
-//
-//
-//        Path initPath = fileService.init(userId, offerId, format);
-//
-//        fileService.store(file, userId, initPath);
-//    }
-
-//    @ExceptionHandler(StorageFileNotFoundException.class)
-//    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
-//        return ResponseEntity.notFound().build();
-//    }
-
-//    @GetMapping("/")
-//    public String listUploadedFiles(Model model) throws IOException {
-//
-//        model.addAttribute("files", storageService.loadAll().map(
-//                        path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
-//                                "serveFile", path.getFileName().toString()).build().toUri().toString())
-//                .collect(Collectors.toList()));
-//
-//        return "uploadForm";
-//    }
-//
-//    @GetMapping("/files/{filename:.+}")
-//    @ResponseBody
-//    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-//
-//        Resource file = storageService.loadAsResource(filename);
-//        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-//                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-//    }
 
 }

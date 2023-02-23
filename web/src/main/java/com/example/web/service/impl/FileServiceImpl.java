@@ -4,9 +4,13 @@ import com.example.web.constant.ConstantMessages;
 import com.example.web.constant.StorageException;
 import com.example.web.constant.StorageFileNotFoundException;
 import com.example.web.constant.StorageProperties;
+import com.example.web.model.dto.TourOfferFullDTO;
+import com.example.web.model.dto.UserDTO;
 import com.example.web.service.AccountInfoService;
 import com.example.web.service.FileService;
 import com.example.web.service.OfferDataService;
+import com.example.web.service.TourOfferService;
+import com.example.web.service.UserService;
 import java.util.List;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -28,38 +32,57 @@ import java.util.stream.Stream;
 @Service
 public class FileServiceImpl implements FileService {
 
+  private final UserService userService;
   private final OfferDataService offerDataService;
+  private final TourOfferService tourOfferService;
   private final AccountInfoService additionalInfoService;
   private final Path rootLocation;
 
   public FileServiceImpl(
-      OfferDataService offerDataService,
-      StorageProperties properties,
+      UserService userService, OfferDataService offerDataService,
+      TourOfferService tourOfferService, StorageProperties properties,
       AccountInfoService additionalInfoService
   ) {
+    this.userService = userService;
     this.offerDataService = offerDataService;
+    this.tourOfferService = tourOfferService;
     this.rootLocation = Paths.get(properties.getLocation());
     this.additionalInfoService = additionalInfoService;
   }
 
   @Override
-  public void handleAllFilesUpload(List<MultipartFile> files, Long userId, Long offerId) {
+  public void handleAllFilesUpload
+      (
+          List<MultipartFile> files,
+          Long userId,
+          Long offerId,
+          TourOfferFullDTO tourOfferFullDTO
+      ) {
 
     files.forEach(file -> {
+
       Path path = handleSingleFileUpload(file, userId, offerId);
-      if (offerId >= 0) {
-        /**
-         * Ako user-a вече съществува запазваме пътя на "снимките" от офертата
-         * които ще се върнат от handleFileUpload метода
-         */
-        this.offerDataService.saveFileUri(offerId, path);
-      } else {
-        /**
-         * Ако user-a не съществува трябва да се запазят снимките + документите
-         * пътищата им в additionalInfo таблицата(2ра стъпка при регистрация)
-         */
-        this.additionalInfoService.saveFileUri(userId, path);
-      }
+
+      this.offerDataService.saveFileUri(tourOfferFullDTO, path);
+
+    });
+  }
+
+  @Override
+  public void handleAllFilesUpload
+      (
+          List<MultipartFile> files,
+          Long userId,
+          Long offerId,
+          UserDTO userDTO
+      ) {
+
+    files.forEach(file -> {
+
+      Path path = handleSingleFileUpload(file, userId, offerId);
+
+      this.additionalInfoService.saveFileUri(userDTO, path);
+
     });
   }
 

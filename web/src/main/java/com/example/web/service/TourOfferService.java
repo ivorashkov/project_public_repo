@@ -1,6 +1,7 @@
 package com.example.web.service;
 
-import com.example.web.model.dto.ImportCreateOfferInfoDTO;
+import com.example.web.model.dto.TourOfferCreateDTO;
+import com.example.web.model.dto.TourOfferDocPathDTO;
 import com.example.web.model.dto.TourOfferPagingDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import java.util.List;
@@ -14,11 +15,13 @@ public interface TourOfferService {
   Page<TourOfferPagingDTO> searchAndFilterOffers(Integer pageNumber, Integer pageSize, String country,
       String city, String... sorts);
 
-  TourOfferFullDTO editOffer(Long offerId, Long userId);
-
   TourOfferFullDTO findById(Long id);
 
-  TourOfferFullDTO createOffer(ImportCreateOfferInfoDTO offerDTO);
+  TourOfferFullDTO editOffer(Long offerId, Long userId, List<TourOfferDocPathDTO> pathDTO);
+
+  TourOfferFullDTO getFullOfferDTOByUserIdAndOfferId(Long userId, Long offerId);
+
+  TourOfferFullDTO createOffer(TourOfferCreateDTO offerDTO);
 
   TourOfferFullDTO saveOfferPath(TourOfferFullDTO importedOfferDTO,List<MultipartFile> files);
 

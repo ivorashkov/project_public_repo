@@ -20,27 +20,29 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AccountInfoServiceImpl implements AccountInfoService {
 
-  private final UserService userService;
   private final AccountInfoRepository additionalAccountInfoRepository;
   private final ModelMapper mapper;
 
   @Override
-  public void saveFileUri(Long userId, Path initPath) {
-    UserDTO userDTOById = this.userService.findUserDTOById(userId);
-/**
- * to check if its working correctly after i removed userservice.findEntityById
- * with DTO method.
- */
-    UserEntity user = this.mapper.map(userDTOById, UserEntity.class);
+  public void saveFileUri(UserDTO userDTO, Path initPath) {
+    /**
+     * to check if its working correctly after i removed userservice.findEntityById
+     * with DTO method.
+     */
+    var userEntity = this.mapper.map(userDTO, UserEntity.class);
 
-    var additionalInfoEntity = new AccountInfoEntity(initPath.toString(), user);
+    var additionalInfoEntity = new AccountInfoEntity(initPath.toString(), userEntity);
 
     this.additionalAccountInfoRepository.save(additionalInfoEntity);
   }
 
   @Override
   public void saveAll(List<UserEntity> users, Path initPath) {
-    users.forEach(u -> saveFileUri(u.getId(), initPath));
+    //todo to check if its working
+    users
+        .stream()
+        .map(e -> this.mapper.map(e, UserDTO.class))
+        .forEach(e -> saveFileUri(e, initPath));
   }
 
   @Override

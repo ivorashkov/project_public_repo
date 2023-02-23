@@ -1,10 +1,8 @@
 package com.example.web.util.impl;
 
-import com.example.web.model.dto.BaseDTO;
 import com.example.web.model.entity.BaseEntity;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.model.enums.RoleType;
-import com.example.web.model.interfaces.DeletableObject;
 import com.example.web.util.ValidatorUtil;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -85,6 +83,14 @@ public class ValidatorUtilImpl implements ValidatorUtil {
       return city;
     }
     return null;
+  }
+
+  /**
+   * returns Entity if it's not deleted, else it returns null
+   */
+  @Override
+  public <E extends BaseEntity> E isDeleted(E entity) {
+    return entity.isDeleted() ? null : entity;
   }
 
 }

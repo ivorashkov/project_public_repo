@@ -1,7 +1,6 @@
 package com.example.web.model.dto;
 
 import com.example.web.model.enums.TransportType;
-import com.example.web.model.interfaces.DTO;
 import com.google.gson.annotations.Expose;
 import java.math.BigDecimal;
 import java.util.List;
@@ -13,9 +12,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class TourOfferFullDTO extends BaseDTO {
-
-  @Expose
-  private boolean isActive;
 
   @Expose
   private Long id;

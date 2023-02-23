@@ -6,7 +6,6 @@ import com.example.web.model.entity.OfferDataPathEntity;
 import com.example.web.model.entity.TourOfferEntity;
 import com.example.web.repository.OfferDataRepository;
 
-import com.example.web.repository.TourOfferRepository;
 import com.example.web.service.OfferDataService;
 import java.nio.file.Path;
 import java.util.List;
@@ -23,29 +22,31 @@ public class OfferDataServiceImpl implements OfferDataService {
 
   private final ModelMapper mapper;
   private final OfferDataRepository offerDataRepository;
-  private final TourOfferRepository tourOfferRepository;
 
   @Override
-  public void saveFileUri(Long offerId, Path initPath) {
+  public void saveFileUri(TourOfferFullDTO offerDTO, Path initPath) {
 
-    OfferDataPathEntity offerData =
-        new OfferDataPathEntity(
-            initPath.toString(),
-            this.tourOfferRepository.findById(offerId).orElse(null)
-        );
+    var tourOfferEntity = this.mapper.map(offerDTO,
+        TourOfferEntity.class);
 
-    this.offerDataRepository.save(offerData);
+    var dataPathEntity = new OfferDataPathEntity(initPath.toString(),tourOfferEntity);
+
+    this.offerDataRepository.save(dataPathEntity);
   }
 
   @Override
   public void saveAll(List<TourOfferEntity> offers, Path initPath) {
-    offers.forEach(o -> saveFileUri(o.getId(), initPath));
+    //todo check if its working
+    offers
+        .stream()
+        .map(e -> this.mapper.map(e, TourOfferFullDTO.class))
+        .forEach(e -> saveFileUri(e, initPath));
   }
 
   @Override
-  public List<TourOfferDocPathDTO> findAllOfferDataPaths(TourOfferFullDTO offer) {
+  public List<TourOfferDocPathDTO> findAllOfferDataPaths(Long offerId) {
     List<OfferDataPathEntity> offerDataPathEntities =
-        this.offerDataRepository.findAllByOfferId(offer.getId()).orElse(null);
+        this.offerDataRepository.findAllByOfferId(offerId).orElse(null);
 
     return offerDataPathEntities.stream()
         .filter(Objects::nonNull)

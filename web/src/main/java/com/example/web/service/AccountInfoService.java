@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface AccountInfoService {
 
-  void saveFileUri(Long userId, Path path);
+  void saveFileUri(UserDTO userDTO, Path initPath);
 
   void saveAll(List<UserEntity> users, Path initPath);
 
