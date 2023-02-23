@@ -15,5 +15,5 @@ public interface TourOfferDataService {
 
   List<TourOfferImagePathDTO> findAllOfferDataPaths(Long offerId);
 
-  List<TourOfferImagePathDTO> getOfferPaths(TourOfferFullDTO tourOfferFullDTO, List<MultipartFile> files);
+  List<TourOfferImagePathDTO> getOfferPaths(TourOfferFullDTO tourOfferFullDTO);
 }

@@ -102,7 +102,9 @@ public class TourOfferController {
     this.fileService.handleAllFilesUpload(files, tourOfferFullDTO);
 
     List<TourOfferImagePathDTO> pathDTOS = this.tourOfferDataService.getOfferPaths(
-        tourOfferFullDTO, files);
+        tourOfferFullDTO);
+
+    tourOfferFullDTO.setPaths(pathDTOS);
 
     return this.validatorUtil.responseEntity(tourOfferFullDTO);
   }

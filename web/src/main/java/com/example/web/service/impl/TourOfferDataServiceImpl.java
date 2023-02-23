@@ -10,13 +10,9 @@ import com.example.web.service.TourOfferDataService;
 import com.example.web.util.ValidatorUtil;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
@@ -58,8 +54,7 @@ public class TourOfferDataServiceImpl implements TourOfferDataService {
   }
 
   @Override
-  public List<TourOfferImagePathDTO> getOfferPaths(TourOfferFullDTO tourOfferFullDTO,
-      List<MultipartFile> files) {
+  public List<TourOfferImagePathDTO> getOfferPaths(TourOfferFullDTO tourOfferFullDTO) {
 
     List<TourOfferImagePathEntity> paths = this.validatorUtil.getListFromOptionalList
         (
