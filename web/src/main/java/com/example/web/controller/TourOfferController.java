@@ -82,11 +82,11 @@ public class TourOfferController {
     /** incoming JSON object ImportCreateOfferInfoDTO */
 //    UserDTO user = new UserDTO(3L, "ivor", "1234213235", "ivo", "rashkov");
     Optional<UserEntity> userEntity = this.userRepository.findById(3L);
-    UserDTO user = this.modelMapper.map(userEntity, UserDTO.class);
+    UserDTO userDTO = this.modelMapper.map(userEntity, UserDTO.class);
 
     TourOfferCreateDTO createOfferDTO =
         new TourOfferCreateDTO(
-            user,
+            userDTO,
             "new Title",
             LocalDateTime.now(),
             "Testoniq",

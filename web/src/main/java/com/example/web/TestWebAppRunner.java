@@ -44,7 +44,7 @@ public class TestWebAppRunner implements CommandLineRunner {
 //                            " country: " + tourOfferEntity.get().getTargetCountry() +
 //                    " city " + tourOfferEntity.get().getTargetCity() +
 //                            " duration: " + tourOfferEntity.get().getDurationInDays() +
-//                            " discount: " + tourOfferEntity.get().getDiscount() + "%" +
+//              sa              " discount: " + tourOfferEntity.get().getDiscount() + "%" +
 //                            " transport: " + tourOfferEntity.get().getTransportType() +
 //                            "stars: " + tourOfferEntity.get().getStarsOfHotel());
     }

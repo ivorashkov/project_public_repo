@@ -88,7 +88,8 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public TourOfferFullDTO getOfferWithPathsDTOs(Long offerId, Long userId, List<TourOfferImagePathDTO> pathDTO) {
+  public TourOfferFullDTO getOfferWithPathsDTOs(Long offerId, Long userId,
+      List<TourOfferImagePathDTO> pathDTO) {
 
     TourOfferFullDTO offerDTO = getFullOfferDTOByUserIdAndOfferId(userId,
         offerId);
@@ -146,8 +147,12 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public TourOfferFullDTO findById(Long id) {
+  public TourOfferFullDTO findById(Long id, UserDTO userDTO) {
+    UserEntity userEntity = this.mapper.map(userDTO, UserEntity.class);
+
     TourOfferEntity tourOfferEntity = this.tourOfferRepository.findById(id).orElse(null);
+    tourOfferEntity.setUser(userEntity);
+
     return this.mapper.map(tourOfferEntity, TourOfferFullDTO.class);
   }
 

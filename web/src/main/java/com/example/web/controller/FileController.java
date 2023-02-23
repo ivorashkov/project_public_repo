@@ -35,13 +35,15 @@ public class FileController {
       @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
   ) {
     //localhost:8091/user/upload/all?userId=1&offerId=3
+    //localhost:8091/user/upload/all?userId=1
+    UserDTO userDTO = this.userService.findUserDTOById(userId);
+
     if (offerId > 0) {
-      TourOfferFullDTO offerDTO = this.tourOfferService.findById(offerId);
+      TourOfferFullDTO offerDTO = this.tourOfferService.findById(offerId, userDTO);
       this.fileService.handleAllFilesUpload(files, userId, offerId, offerDTO);
       return "All files of the offer are saved";
     }
 
-    UserDTO userDTO = this.userService.findUserDTOById(userId);
     this.fileService.handleAllFilesUpload(files, userId, offerId, userDTO);
 
     return "All files are saved for user " + userDTO.getUsername();

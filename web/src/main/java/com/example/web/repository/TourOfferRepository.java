@@ -28,8 +28,6 @@ public interface TourOfferRepository extends PagingAndSortingRepository<TourOffe
 
   Optional<TourOfferEntity> save(TourOfferEntity tourOfferEntity);
 
-  Long findById(TourOfferEntity offer);
-
   Optional<TourOfferEntity> findById(Long Id);
 
 }
