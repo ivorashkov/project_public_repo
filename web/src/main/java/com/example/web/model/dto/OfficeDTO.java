@@ -16,9 +16,6 @@ public class OfficeDTO extends BaseDTO{
   private Long id;
 
   @Expose
-  private boolean isDeleted;
-
-  @Expose
   private String address;
 
   @Expose

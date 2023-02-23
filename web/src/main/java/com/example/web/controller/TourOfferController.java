@@ -1,7 +1,7 @@
 package com.example.web.controller;
 
 import com.example.web.model.dto.TourOfferCreateDTO;
-import com.example.web.model.dto.TourOfferDocPathDTO;
+import com.example.web.model.dto.TourOfferImagePathDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.model.entity.UserEntity;
@@ -42,7 +42,7 @@ public class TourOfferController {
       @RequestParam(name = "userId", required = true) Long userId
   ) {
 
-    List<TourOfferDocPathDTO> offerDataPathDTO = this.offerDataService.findAllOfferDataPaths(offerId);
+    List<TourOfferImagePathDTO> offerDataPathDTO = this.offerDataService.findAllOfferDataPaths(offerId);
     TourOfferFullDTO tourOfferFullDTO = this.tourOfferService.getOfferWithPathsDTOs(offerId, userId, offerDataPathDTO);
     /** http://localhost:8091/offer/edit?offerId=1&userId=1 */
     return this.validatorUtil.responseEntity(tourOfferFullDTO);

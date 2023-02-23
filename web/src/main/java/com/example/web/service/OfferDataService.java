@@ -1,6 +1,6 @@
 package com.example.web.service;
 
-import com.example.web.model.dto.TourOfferDocPathDTO;
+import com.example.web.model.dto.TourOfferImagePathDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.entity.TourOfferEntity;
 import java.nio.file.Path;
@@ -16,5 +16,5 @@ public interface OfferDataService {
 
   void saveAll(List<TourOfferEntity> offers, Path initPath);
 
-  List<TourOfferDocPathDTO> findAllOfferDataPaths(Long offerId);
+  List<TourOfferImagePathDTO> findAllOfferDataPaths(Long offerId);
 }

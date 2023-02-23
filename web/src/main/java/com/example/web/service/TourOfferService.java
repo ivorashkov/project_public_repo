@@ -1,7 +1,7 @@
 package com.example.web.service;
 
 import com.example.web.model.dto.TourOfferCreateDTO;
-import com.example.web.model.dto.TourOfferDocPathDTO;
+import com.example.web.model.dto.TourOfferImagePathDTO;
 import com.example.web.model.dto.TourOfferPagingDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import java.util.List;
@@ -17,7 +17,7 @@ public interface TourOfferService {
 
   TourOfferFullDTO findById(Long id);
 
-  TourOfferFullDTO getOfferWithPathsDTOs(Long offerId, Long userId, List<TourOfferDocPathDTO> pathDTO);
+  TourOfferFullDTO getOfferWithPathsDTOs(Long offerId, Long userId, List<TourOfferImagePathDTO> pathDTO);
 
   TourOfferFullDTO getFullOfferDTOByUserIdAndOfferId(Long userId, Long offerId);
 

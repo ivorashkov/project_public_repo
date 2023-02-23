@@ -1,8 +1,8 @@
 package com.example.web.service.impl;
 
-import com.example.web.model.dto.TourOfferDocPathDTO;
+import com.example.web.model.dto.TourOfferImagePathDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
-import com.example.web.model.entity.OfferDataPathEntity;
+import com.example.web.model.entity.TourOfferImagePathEntity;
 import com.example.web.model.entity.TourOfferEntity;
 import com.example.web.repository.OfferDataRepository;
 
@@ -29,7 +29,7 @@ public class OfferDataServiceImpl implements OfferDataService {
     var tourOfferEntity = this.mapper.map(offerDTO,
         TourOfferEntity.class);
 
-    var dataPathEntity = new OfferDataPathEntity(initPath.toString(),tourOfferEntity);
+    var dataPathEntity = new TourOfferImagePathEntity(initPath.toString(),tourOfferEntity);
 
     this.offerDataRepository.save(dataPathEntity);
   }
@@ -44,13 +44,13 @@ public class OfferDataServiceImpl implements OfferDataService {
   }
 
   @Override
-  public List<TourOfferDocPathDTO> findAllOfferDataPaths(Long offerId) {
-    List<OfferDataPathEntity> offerDataPathEntities =
+  public List<TourOfferImagePathDTO> findAllOfferDataPaths(Long offerId) {
+    List<TourOfferImagePathEntity> offerDataPathEntities =
         this.offerDataRepository.findAllByOfferId(offerId).orElse(null);
 
     return offerDataPathEntities.stream()
         .filter(Objects::nonNull)
-        .map(e -> this.mapper.map(e, TourOfferDocPathDTO.class))
+        .map(e -> this.mapper.map(e, TourOfferImagePathDTO.class))
         .collect(Collectors.toList());
   }
 }

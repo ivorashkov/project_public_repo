@@ -1,15 +1,13 @@
 package com.example.web.service.impl;
 
 import com.example.web.model.dto.TourOfferCreateDTO;
-import com.example.web.model.dto.TourOfferDocPathDTO;
+import com.example.web.model.dto.TourOfferImagePathDTO;
 import com.example.web.model.dto.TourOfferPagingDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.model.entity.TourOfferEntity;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.repository.TourOfferRepository;
-import com.example.web.service.FileService;
-import com.example.web.service.OfferDataService;
 import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
@@ -90,7 +88,7 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public TourOfferFullDTO getOfferWithPathsDTOs(Long offerId, Long userId, List<TourOfferDocPathDTO> pathDTO) {
+  public TourOfferFullDTO getOfferWithPathsDTOs(Long offerId, Long userId, List<TourOfferImagePathDTO> pathDTO) {
 
     TourOfferFullDTO offerDTO = getFullOfferDTOByUserIdAndOfferId(userId,
         offerId);
