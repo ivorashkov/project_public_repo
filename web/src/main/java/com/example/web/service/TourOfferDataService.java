@@ -5,16 +5,15 @@ import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.entity.TourOfferEntity;
 import java.nio.file.Path;
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
-public interface OfferDataService {
-
-//  void saveFileUri(TourOfferEntity offer, Path initPath);
-
-//  void saveFileUri(Long offerId, Path initPath);
+public interface TourOfferDataService {
 
   void saveFileUri(TourOfferFullDTO offerDTO, Path initPath);
 
   void saveAll(List<TourOfferEntity> offers, Path initPath);
 
   List<TourOfferImagePathDTO> findAllOfferDataPaths(Long offerId);
+
+  List<TourOfferImagePathDTO> getOfferPaths(TourOfferFullDTO tourOfferFullDTO, List<MultipartFile> files);
 }

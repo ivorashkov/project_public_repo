@@ -1,9 +1,11 @@
 package com.example.web.service.impl;
 
+import com.example.web.model.dto.AccountInfoDTO;
 import com.example.web.model.dto.OfficeDTO;
 import com.example.web.model.entity.OfficeEntity;
 import com.example.web.repository.OfficeRepository;
 import com.example.web.service.OfficeService;
+import com.example.web.util.ValidatorUtil;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class OfficeServiceImpl implements OfficeService {
 
+  private final ValidatorUtil validatorUtil;
   private final OfficeRepository officeRepository;
   private final ModelMapper modelMapper;
 
@@ -47,12 +50,11 @@ public class OfficeServiceImpl implements OfficeService {
 
   private List<OfficeDTO> saveOfficeAndReturnAllOffices(OfficeDTO officeDTO){
     var officeEntity = this.modelMapper.map(officeDTO, OfficeEntity.class);
-
     this.officeRepository.save(officeEntity);
 
-    return this.officeRepository.findAllOfficesByUserIdAsc(officeDTO.getUser().getId())
-        .stream()
-        .map(e -> this.modelMapper.map(e, OfficeDTO.class))
-        .collect(Collectors.toList());
+    List<Optional<OfficeEntity>> officeEntityList = this.officeRepository.findAllOfficesByUserIdAsc(
+        officeDTO.getUser().getId());
+
+    return this.validatorUtil.getDTOList(officeEntityList, OfficeDTO.class);
   }
 }

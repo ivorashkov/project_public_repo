@@ -22,8 +22,6 @@ public interface FileService {
   void handleAllFilesUpload
       (
           List<MultipartFile> files,
-          Long userId,
-          Long offerId,
           TourOfferFullDTO tourOfferFullDTO
       );
 

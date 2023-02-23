@@ -10,7 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface OfferDataRepository extends JpaRepository<TourOfferImagePathEntity, Long> {
 
 
-  Optional<List<TourOfferImagePathEntity>> findByOfferId(Long offerId);
-
-  Optional<List<TourOfferImagePathEntity>> findAllByOfferId(Long id);
+  List<Optional<TourOfferImagePathEntity>> findAllByOfferId(Long id);
 }

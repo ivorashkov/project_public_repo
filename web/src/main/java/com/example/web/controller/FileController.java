@@ -37,10 +37,10 @@ public class FileController {
     //localhost:8091/user/upload/all?userId=1&offerId=3
     //localhost:8091/user/upload/all?userId=1
     UserDTO userDTO = this.userService.findUserDTOById(userId);
-
+    TourOfferFullDTO offerDTO;
     if (offerId > 0) {
-      TourOfferFullDTO offerDTO = this.tourOfferService.findById(offerId, userDTO);
-      this.fileService.handleAllFilesUpload(files, userId, offerId, offerDTO);
+      offerDTO = this.tourOfferService.findById(offerId, userDTO);
+      this.fileService.handleAllFilesUpload(files, offerDTO);
       return "All files of the offer are saved";
     }
 

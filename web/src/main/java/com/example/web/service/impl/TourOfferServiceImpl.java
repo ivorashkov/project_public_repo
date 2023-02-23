@@ -108,27 +108,16 @@ public class TourOfferServiceImpl implements TourOfferService {
     return this.mapper.map(entity, TourOfferFullDTO.class);
   }
 
-  @Override
-  public TourOfferFullDTO createOffer(TourOfferCreateDTO offerDTO) {
-
-    var userEntity = this.mapper.map(this.userService.findUserDTOById(offerDTO.getUser().getId()),
-        UserEntity.class);
-
-    var tourOfferEntity = this.mapper.map(offerDTO, TourOfferEntity.class);
-
-    tourOfferEntity.setUser(userEntity);
-
-    return this.mapper.map(this.tourOfferRepository.save(tourOfferEntity), TourOfferFullDTO.class);
-  }
 
   @Override
-  public TourOfferFullDTO saveOfferPath(TourOfferFullDTO importedOfferDTO,
-      List<MultipartFile> files) {
+  public TourOfferFullDTO saveOfferAndPath(TourOfferCreateDTO importedOfferDTO) {
 
-    var tourOfferEntity = this.tourOfferRepository.findById(importedOfferDTO.getId())
+    TourOfferFullDTO offerFullDTO = createOffer(importedOfferDTO);
+
+    var tourOfferEntity = this.tourOfferRepository.findById(offerFullDTO.getId())
         .orElse(null);
 
-    UserDTO userDTO = userService.findUserDTOById(importedOfferDTO.getUser().getId());
+    UserDTO userDTO = userService.findUserDTOById(offerFullDTO.getUser().getId());
 
     tourOfferEntity.setUser(this.mapper.map(userDTO, UserEntity.class));
 
@@ -154,6 +143,18 @@ public class TourOfferServiceImpl implements TourOfferService {
     tourOfferEntity.setUser(userEntity);
 
     return this.mapper.map(tourOfferEntity, TourOfferFullDTO.class);
+  }
+
+  private TourOfferFullDTO createOffer(TourOfferCreateDTO offerDTO) {
+
+    var userEntity = this.mapper.map(this.userService.findUserDTOById(offerDTO.getUser().getId()),
+        UserEntity.class);
+
+    var tourOfferEntity = this.mapper.map(offerDTO, TourOfferEntity.class);
+
+    tourOfferEntity.setUser(userEntity);
+
+    return this.mapper.map(this.tourOfferRepository.save(tourOfferEntity), TourOfferFullDTO.class);
   }
 
   private List<Sort.Order> getOrderList(String[] sort) {

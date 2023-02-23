@@ -4,6 +4,8 @@ import com.example.web.model.dto.BaseDTO;
 import com.example.web.model.entity.BaseEntity;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.model.interfaces.DeletableObject;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
@@ -22,4 +24,8 @@ public interface ValidatorUtil {
   <E> E getCriteriaParam(E country, E city);
 
   <E extends BaseEntity> E isDeleted(E entity);
+
+  <E> List<E> getListFromOptionalList(List<Optional<E>> entities);
+
+  <E, D> List<D> getDTOList(List<E> entities, Class<D> dtoClass);
 }

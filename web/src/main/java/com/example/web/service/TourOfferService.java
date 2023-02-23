@@ -20,9 +20,9 @@ public interface TourOfferService {
 
   TourOfferFullDTO getFullOfferDTOByUserIdAndOfferId(Long userId, Long offerId);
 
-  TourOfferFullDTO createOffer(TourOfferCreateDTO offerDTO);
+//  TourOfferFullDTO createOffer(TourOfferCreateDTO offerDTO);
 
-  TourOfferFullDTO saveOfferPath(TourOfferFullDTO importedOfferDTO,List<MultipartFile> files);
+  TourOfferFullDTO saveOfferAndPath(TourOfferCreateDTO importedOfferDTO);
 
   TourOfferFullDTO findById(Long id, UserDTO userDTO);
 

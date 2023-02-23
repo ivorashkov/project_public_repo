@@ -6,20 +6,24 @@ import com.example.web.model.entity.TourOfferImagePathEntity;
 import com.example.web.model.entity.TourOfferEntity;
 import com.example.web.repository.OfferDataRepository;
 
-import com.example.web.service.OfferDataService;
+import com.example.web.service.TourOfferDataService;
+import com.example.web.util.ValidatorUtil;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
 @AllArgsConstructor
-public class OfferDataServiceImpl implements OfferDataService {
+public class TourOfferDataServiceImpl implements TourOfferDataService {
 
+  private final ValidatorUtil validatorUtil;
   private final ModelMapper mapper;
   private final OfferDataRepository offerDataRepository;
 
@@ -29,14 +33,13 @@ public class OfferDataServiceImpl implements OfferDataService {
     var tourOfferEntity = this.mapper.map(offerDTO,
         TourOfferEntity.class);
 
-    var dataPathEntity = new TourOfferImagePathEntity(initPath.toString(),tourOfferEntity);
+    var dataPathEntity = new TourOfferImagePathEntity(initPath.toString(), tourOfferEntity);
 
     this.offerDataRepository.save(dataPathEntity);
   }
 
   @Override
   public void saveAll(List<TourOfferEntity> offers, Path initPath) {
-    //todo check if its working
     offers
         .stream()
         .map(e -> this.mapper.map(e, TourOfferFullDTO.class))
@@ -45,12 +48,24 @@ public class OfferDataServiceImpl implements OfferDataService {
 
   @Override
   public List<TourOfferImagePathDTO> findAllOfferDataPaths(Long offerId) {
-    List<TourOfferImagePathEntity> offerDataPathEntities =
-        this.offerDataRepository.findAllByOfferId(offerId).orElse(null);
 
-    return offerDataPathEntities.stream()
-        .filter(Objects::nonNull)
-        .map(e -> this.mapper.map(e, TourOfferImagePathDTO.class))
-        .collect(Collectors.toList());
+    List<TourOfferImagePathEntity> offerDataPathEntities = this.validatorUtil.getListFromOptionalList
+        (
+            this.offerDataRepository.findAllByOfferId(offerId)
+        );
+
+    return this.validatorUtil.getDTOList(offerDataPathEntities, TourOfferImagePathDTO.class);
+  }
+
+  @Override
+  public List<TourOfferImagePathDTO> getOfferPaths(TourOfferFullDTO tourOfferFullDTO,
+      List<MultipartFile> files) {
+
+    List<TourOfferImagePathEntity> paths = this.validatorUtil.getListFromOptionalList
+        (
+            this.offerDataRepository.findAllByOfferId(tourOfferFullDTO.getId())
+        );
+
+    return this.validatorUtil.getDTOList(paths, TourOfferImagePathDTO.class);
   }
 }

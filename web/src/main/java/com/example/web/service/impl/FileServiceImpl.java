@@ -8,9 +8,7 @@ import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.service.AccountInfoService;
 import com.example.web.service.FileService;
-import com.example.web.service.OfferDataService;
-import com.example.web.service.TourOfferService;
-import com.example.web.service.UserService;
+import com.example.web.service.TourOfferDataService;
 import java.util.List;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -33,13 +31,13 @@ import java.util.stream.Stream;
 public class FileServiceImpl implements FileService {
 
 
-  private final OfferDataService offerDataService;
+  private final TourOfferDataService offerDataService;
   private final AccountInfoService additionalInfoService;
   private final Path rootLocation;
 
   public FileServiceImpl
       (
-          OfferDataService offerDataService,
+          TourOfferDataService offerDataService,
           StorageProperties properties,
           AccountInfoService additionalInfoService
       ) {
@@ -52,14 +50,17 @@ public class FileServiceImpl implements FileService {
   public void handleAllFilesUpload
       (
           List<MultipartFile> files,
-          Long userId,
-          Long offerId,
           TourOfferFullDTO tourOfferFullDTO
       ) {
 
     files.forEach(file -> {
 
-      Path path = handleSingleFileUpload(file, userId, offerId);
+      Path path = handleSingleFileUpload
+          (
+              file,
+              tourOfferFullDTO.getUser().getId(),
+              tourOfferFullDTO.getId()
+          );
 
       this.offerDataService.saveFileUri(tourOfferFullDTO, path);
 

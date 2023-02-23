@@ -6,6 +6,9 @@ import com.example.web.model.enums.RoleType;
 import com.example.web.util.ValidatorUtil;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -91,6 +94,28 @@ public class ValidatorUtilImpl implements ValidatorUtil {
   @Override
   public <E extends BaseEntity> E isDeleted(E entity) {
     return entity.isDeleted() ? null : entity;
+  }
+
+  /**
+   * Expects List<Optional<Elements> and converts it into List<NonOptional>
+   */
+  @Override
+  public <E> List<E> getListFromOptionalList(List<Optional<E>> entities) {
+    return entities
+        .stream()
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Return DTO List From Entity List
+   */
+  @Override
+  public <E, D> List<D> getDTOList(List<E> entities, Class<D> dtoClass){
+    return entities.stream()
+        .map(objectEntity -> this.mapper.map(objectEntity, dtoClass))
+        .collect(Collectors.toList());
   }
 
 }
