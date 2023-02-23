@@ -10,8 +10,6 @@ public interface AccountInfoService {
 
   void saveFileUri(UserDTO userDTO, Path initPath);
 
-  void saveAll(List<UserEntity> users, Path initPath);
-
   //this could be used in Admin panel
   List<AccountInfoDTO> findAllAccountDataPaths(UserDTO user);
 }

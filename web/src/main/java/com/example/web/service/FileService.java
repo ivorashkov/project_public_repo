@@ -17,8 +17,6 @@ public interface FileService {
 
   Resource loadAsResource(String filename);
 
-  void deleteAll();
-
   void handleAllFilesUpload
       (
           List<MultipartFile> files,
@@ -33,6 +31,4 @@ public interface FileService {
           UserDTO userDTO
       );
 
-//  void store(MultipartFile file, Long userId, Path path);
-//  Path pathInitialization(Long userId, Long offerId, String formatAddonTemplate);
 }

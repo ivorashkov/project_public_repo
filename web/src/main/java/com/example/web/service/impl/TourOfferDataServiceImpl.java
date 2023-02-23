@@ -25,7 +25,6 @@ public class TourOfferDataServiceImpl implements TourOfferDataService {
 
   @Override
   public void saveFileUri(TourOfferFullDTO offerDTO, Path initPath) {
-
     var tourOfferEntity = this.mapper.map(offerDTO,
         TourOfferEntity.class);
 
@@ -35,16 +34,7 @@ public class TourOfferDataServiceImpl implements TourOfferDataService {
   }
 
   @Override
-  public void saveAll(List<TourOfferEntity> offers, Path initPath) {
-    offers
-        .stream()
-        .map(e -> this.mapper.map(e, TourOfferFullDTO.class))
-        .forEach(e -> saveFileUri(e, initPath));
-  }
-
-  @Override
   public List<TourOfferImagePathDTO> findAllOfferDataPaths(Long offerId) {
-
     List<TourOfferImagePathEntity> offerDataPathEntities = this.validatorUtil.getListFromOptionalList
         (
             this.offerDataRepository.findAllByOfferId(offerId)
@@ -55,7 +45,6 @@ public class TourOfferDataServiceImpl implements TourOfferDataService {
 
   @Override
   public List<TourOfferImagePathDTO> getOfferPaths(TourOfferFullDTO tourOfferFullDTO) {
-
     List<TourOfferImagePathEntity> paths = this.validatorUtil.getListFromOptionalList
         (
             this.offerDataRepository.findAllByOfferId(tourOfferFullDTO.getId())

@@ -11,8 +11,6 @@ public interface TourOfferDataService {
 
   void saveFileUri(TourOfferFullDTO offerDTO, Path initPath);
 
-  void saveAll(List<TourOfferEntity> offers, Path initPath);
-
   List<TourOfferImagePathDTO> findAllOfferDataPaths(Long offerId);
 
   List<TourOfferImagePathDTO> getOfferPaths(TourOfferFullDTO tourOfferFullDTO);

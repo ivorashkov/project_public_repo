@@ -112,7 +112,7 @@ public class ValidatorUtilImpl implements ValidatorUtil {
    * Return DTO List From Entity List
    */
   @Override
-  public <E, D> List<D> getDTOList(List<E> entities, Class<D> dtoClass){
+  public <E, D> List<D> getDTOList(List<E> entities, Class<D> dtoClass) {
     return entities.stream()
         .map(objectEntity -> this.mapper.map(objectEntity, dtoClass))
         .collect(Collectors.toList());

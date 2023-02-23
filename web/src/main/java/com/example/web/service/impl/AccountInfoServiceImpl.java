@@ -41,14 +41,6 @@ public class AccountInfoServiceImpl implements AccountInfoService {
   }
 
   @Override
-  public void saveAll(List<UserEntity> users, Path initPath) {
-    users
-        .stream()
-        .map(e -> this.mapper.map(e, UserDTO.class))
-        .forEach(e -> saveFileUri(e, initPath));
-  }
-
-  @Override
   public List<AccountInfoDTO> findAllAccountDataPaths(UserDTO user) {
 
     List<AccountInfoEntity> accountInfoEntity =this.validatorUtil.getListFromOptionalList
