@@ -43,7 +43,7 @@ public class TourOfferController {
   ) {
 
     List<TourOfferDocPathDTO> offerDataPathDTO = this.offerDataService.findAllOfferDataPaths(offerId);
-    TourOfferFullDTO tourOfferFullDTO = this.tourOfferService.editOffer(offerId, userId, offerDataPathDTO);
+    TourOfferFullDTO tourOfferFullDTO = this.tourOfferService.getOfferWithPathsDTOs(offerId, userId, offerDataPathDTO);
     /** http://localhost:8091/offer/edit?offerId=1&userId=1 */
     return this.validatorUtil.responseEntity(tourOfferFullDTO);
   }

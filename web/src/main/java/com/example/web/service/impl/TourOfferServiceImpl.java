@@ -90,7 +90,8 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public TourOfferFullDTO editOffer(Long offerId, Long userId, List<TourOfferDocPathDTO> pathDTO) {
+  public TourOfferFullDTO getOfferWithPathsDTOs(Long offerId, Long userId, List<TourOfferDocPathDTO> pathDTO) {
+
     TourOfferFullDTO offerDTO = getFullOfferDTOByUserIdAndOfferId(userId,
         offerId);
     offerDTO.setPaths(pathDTO);
@@ -124,14 +125,6 @@ public class TourOfferServiceImpl implements TourOfferService {
   @Override
   public TourOfferFullDTO saveOfferPath(TourOfferFullDTO importedOfferDTO,
       List<MultipartFile> files) {
-//todo check if its working
-
-//    this.fileService.handleAllFilesUpload
-//        (
-//            files,
-//            importedOfferDTO.getUser().getId(),
-//            importedOfferDTO.getId()
-//        );
 
     var tourOfferEntity = this.tourOfferRepository.findById(importedOfferDTO.getId())
         .orElse(null);

@@ -17,7 +17,7 @@ public interface TourOfferService {
 
   TourOfferFullDTO findById(Long id);
 
-  TourOfferFullDTO editOffer(Long offerId, Long userId, List<TourOfferDocPathDTO> pathDTO);
+  TourOfferFullDTO getOfferWithPathsDTOs(Long offerId, Long userId, List<TourOfferDocPathDTO> pathDTO);
 
   TourOfferFullDTO getFullOfferDTOByUserIdAndOfferId(Long userId, Long offerId);
 
