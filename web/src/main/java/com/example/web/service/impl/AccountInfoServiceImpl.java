@@ -23,8 +23,8 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AccountInfoServiceImpl implements AccountInfoService {
 
-  private final ValidatorUtil validatorUtil;
   private final AccountInfoRepository additionalAccountInfoRepository;
+  private final ValidatorUtil validatorUtil;
   private final ModelMapper mapper;
 
   @Override

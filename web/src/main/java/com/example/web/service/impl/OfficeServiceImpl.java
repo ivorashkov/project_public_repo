@@ -1,6 +1,5 @@
 package com.example.web.service.impl;
 
-import com.example.web.model.dto.AccountInfoDTO;
 import com.example.web.model.dto.OfficeDTO;
 import com.example.web.model.entity.OfficeEntity;
 import com.example.web.repository.OfficeRepository;
@@ -8,7 +7,7 @@ import com.example.web.service.OfficeService;
 import com.example.web.util.ValidatorUtil;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -17,8 +16,8 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class OfficeServiceImpl implements OfficeService {
 
-  private final ValidatorUtil validatorUtil;
   private final OfficeRepository officeRepository;
+  private final ValidatorUtil validatorUtil;
   private final ModelMapper modelMapper;
 
   @Override

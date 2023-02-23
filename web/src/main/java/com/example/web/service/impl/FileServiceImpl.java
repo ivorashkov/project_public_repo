@@ -29,8 +29,8 @@ import java.util.stream.Stream;
 @Service
 public class FileServiceImpl implements FileService {
 
-  private final TourOfferDataService offerDataService;
   private final AccountInfoService additionalInfoService;
+  private final TourOfferDataService offerDataService;
   private final Path rootLocation;
 
   public FileServiceImpl

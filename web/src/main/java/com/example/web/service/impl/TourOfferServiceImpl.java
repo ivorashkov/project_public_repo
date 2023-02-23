@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @AllArgsConstructor
@@ -30,8 +29,9 @@ public class TourOfferServiceImpl implements TourOfferService {
 
   private final TourOfferRepository tourOfferRepository;
   private final UserService userService;
-  private final ModelMapper mapper;
+
   private ValidatorUtil validatorUtil;
+  private final ModelMapper mapper;
 
 
   @Override

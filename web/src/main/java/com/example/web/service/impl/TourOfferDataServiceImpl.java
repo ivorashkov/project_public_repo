@@ -19,9 +19,9 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class TourOfferDataServiceImpl implements TourOfferDataService {
 
+  private final OfferDataRepository offerDataRepository;
   private final ValidatorUtil validatorUtil;
   private final ModelMapper mapper;
-  private final OfferDataRepository offerDataRepository;
 
   @Override
   public void saveFileUri(TourOfferFullDTO offerDTO, Path initPath) {
