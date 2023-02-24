@@ -58,12 +58,17 @@ public class TourOfferEntity extends BaseEntity {
   @Column
   private double discount;
 
-//  @ManyToOne(fetch = FetchType.EAGER)
   @ManyToOne(fetch = FetchType.LAZY)
   private UserEntity user;
 
   @Column(name = "transport_type", nullable = false)
   @Enumerated(EnumType.STRING)
   private TransportType transportType;
+
+  @OneToMany(
+      fetch = FetchType.EAGER,
+      mappedBy = "offer"
+  )
+  private List<TourOfferImagePathEntity> paths;
 
 }

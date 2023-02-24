@@ -18,7 +18,7 @@ values
     ('deno74@abv.bg', 'deno', 'kolov', '542321322','22222222','denok','1','2');
 
 
-INSERT INTO offices (address, city, country, phone_number, user_id)
+INSERT INTO offices (address, city, country, phone, user_id)
 VALUES ('ulitsa1','Byala','Bulgaria','123456','1'),
        ('ulitsa2','Ruse','Bulgaria','13678','1'),
        ('ulitsa3','Sofia','Bulgaria','987743','1');

@@ -16,9 +16,6 @@ import lombok.Setter;
 public class TourOfferCreateDTO extends BaseDTO {
 
   @Expose
-  private UserDTO user;
-
-  @Expose
   private String title;
 
   @Expose
@@ -44,6 +41,9 @@ public class TourOfferCreateDTO extends BaseDTO {
 
   @Expose
   private double discount;
+
+  @Expose
+  private UserDTO user;
 
   @Expose
   private TransportType transportType;

@@ -17,6 +17,6 @@ public class RoleDTO {
   private Long id;
 
   @Expose
-  private RoleType roleType;
+  private RoleType roleName;
 
 }

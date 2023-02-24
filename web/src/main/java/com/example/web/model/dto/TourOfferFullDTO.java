@@ -20,9 +20,6 @@ public class TourOfferFullDTO extends BaseDTO {
   private String title;
 
   @Expose
-  private UserDTO user;
-
-  @Expose
   private String country;
 
   @Expose
@@ -42,6 +39,9 @@ public class TourOfferFullDTO extends BaseDTO {
 
   @Expose
   private double discount;
+
+  @Expose
+  private UserDTO user;
 
   @Expose
   private TransportType transportType;

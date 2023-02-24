@@ -83,7 +83,6 @@ public class FileServiceImpl implements FileService {
     });
   }
 
-
   public Path handleSingleFileUpload(MultipartFile file, Long userId, Long offerId) {
 
     /** http://localhost:8091/home/upload?userId=1&offerId=-1 */

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AdminPanelRepository extends JpaRepository<UserEntity, Long> {
-  List<UserEntity> findAllByActiveFalseAndOrderById();
+//  List<UserEntity> findAllByActiveFalseAndOrderById();
 
 
 }

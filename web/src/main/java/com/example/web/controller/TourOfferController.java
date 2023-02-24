@@ -39,10 +39,11 @@ public class TourOfferController {
       @RequestParam(name = "userId", required = true) Long userId
   ) {
 
-    List<TourOfferImagePathDTO> offerDataPathDTO = this.tourOfferDataService.findAllOfferDataPaths(
-        offerId);
-    TourOfferFullDTO tourOfferFullDTO = this.tourOfferService.getOfferWithPathsDTOs(offerId, userId,
-        offerDataPathDTO);
+//    List<TourOfferImagePathDTO> offerDataPathDTO = this.tourOfferDataService.findAllOfferDataPaths(
+//        offerId);
+    TourOfferFullDTO tourOfferFullDTO =
+        this.tourOfferService.getOfferWithPathsAndUsersDTOs(offerId, userId);
+
     /** http://localhost:8091/offer/edit?offerId=1&userId=1 */
     return this.validatorUtil.responseEntity(tourOfferFullDTO);
   }
@@ -84,7 +85,6 @@ public class TourOfferController {
 
     TourOfferCreateDTO createOfferDTO = new TourOfferCreateDTO
         (
-            userDTO,
             "new Title",
             LocalDateTime.now(),
             "Testoniq",
@@ -94,17 +94,16 @@ public class TourOfferController {
             BigDecimal.valueOf(110.11),
             "testche",
             0,
+            userDTO,
             TransportType.airplane
         );
 
     /** DTO + FILES **/
     TourOfferFullDTO tourOfferFullDTO = this.tourOfferService.saveOfferAndPath(createOfferDTO);
+
     this.fileService.handleAllFilesUpload(files, tourOfferFullDTO);
 
-    List<TourOfferImagePathDTO> pathDTOS = this.tourOfferDataService.getOfferPaths(
-        tourOfferFullDTO);
-
-    tourOfferFullDTO.setPaths(pathDTOS);
+    tourOfferFullDTO.setPaths(this.tourOfferDataService.getOfferPaths(tourOfferFullDTO));
 
     return this.validatorUtil.responseEntity(tourOfferFullDTO);
   }
@@ -114,7 +113,7 @@ public class TourOfferController {
     UserDTO user = this.userService.findUserDTOById(3L);
 
     return new TourOfferCreateDTO(
-        user,
+
         "new Title",
         LocalDateTime.now(),
         "Testoniq",
@@ -124,6 +123,7 @@ public class TourOfferController {
         BigDecimal.valueOf(11.11),
         "testche",
         0,
+        user,
         TransportType.airplane);
   }
 

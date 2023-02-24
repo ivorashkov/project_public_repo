@@ -1,7 +1,6 @@
 package com.example.web.service.impl;
 
 import com.example.web.model.dto.TourOfferCreateDTO;
-import com.example.web.model.dto.TourOfferImagePathDTO;
 import com.example.web.model.dto.TourOfferPagingDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
@@ -11,7 +10,6 @@ import com.example.web.repository.TourOfferRepository;
 import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
-import java.util.Objects;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -29,13 +27,14 @@ public class TourOfferServiceImpl implements TourOfferService {
 
   private final TourOfferRepository tourOfferRepository;
   private final UserService userService;
-
-  private ValidatorUtil validatorUtil;
-  private final ModelMapper mapper;
-
+  private final ValidatorUtil validatorUtil;
 
   @Override
   public Page<TourOfferPagingDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
+    //TODO ***********************************
+    //TODO ***********************************
+    //TODO ***********************************
+    //TODO ***********************************
 
     Page<TourOfferPagingDTO> offerDTOS = null;
     try {
@@ -44,11 +43,12 @@ public class TourOfferServiceImpl implements TourOfferService {
 
       offerDTOS = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntity,
           TourOfferPagingDTO.class);
+
       return offerDTOS;
 
     } catch (Exception e) {
-
-      return offerDTOS;
+      throw new NullPointerException(
+          "Issue while trying to extract Offers initialSearchResult" + e.getMessage());
     }
   }
 
@@ -60,6 +60,10 @@ public class TourOfferServiceImpl implements TourOfferService {
       String city,
       String... sorts
   ) {
+    //TODO ***********************************
+    //TODO ***********************************
+    //TODO ***********************************
+    //TODO ***********************************
     Page<TourOfferPagingDTO> offers = null;
     try {
       final List<Sort.Order> orders = getOrderList(sorts);//added
@@ -83,78 +87,73 @@ public class TourOfferServiceImpl implements TourOfferService {
       return offers;
 
     } catch (Exception e) {
-      return offers;
+      throw new NullPointerException(
+          "Issue while trying to extract Offers searchAndFilterOffers" + e.getMessage());
     }
   }
 
   @Override
-  public TourOfferFullDTO getOfferWithPathsDTOs(Long offerId, Long userId,
-      List<TourOfferImagePathDTO> pathDTO) {
+  public TourOfferFullDTO getOfferWithPathsAndUsersDTOs(Long offerId, Long userId) {
 
-    TourOfferFullDTO offerDTO = getFullOfferDTOByUserIdAndOfferId(userId,
-        offerId);
-    offerDTO.setPaths(pathDTO);
+    var tourEntity = this.tourOfferRepository.findByIdAndUserId(offerId, userId);
 
-    return offerDTO;
+    var userEntity = this.validatorUtil.getEntityFromDTO(this.userService.findUserDTOById(userId),
+        UserEntity.class);
 
+    //TODO ***********************************
+    //TODO ***********************************
+    //TODO ***********************************
+    //TODO ***********************************
+    //TODO CHECK IF OFFER WAS DELETED???
+    tourEntity.get().setUser(userEntity);
+
+    return this.validatorUtil.getDTOFromEntity(tourEntity.get(), TourOfferFullDTO.class);
   }
-
-  @Override
-  public TourOfferFullDTO getFullOfferDTOByUserIdAndOfferId(Long userId, Long offerId) {
-
-    TourOfferEntity entity = this.tourOfferRepository.findByIdAndUserId(offerId, userId)
-        .orElse(null);
-
-    return this.mapper.map(entity, TourOfferFullDTO.class);
-  }
-
 
   @Override
   public TourOfferFullDTO saveOfferAndPath(TourOfferCreateDTO importedOfferDTO) {
 
-    TourOfferFullDTO offerFullDTO = createOffer(importedOfferDTO);
+    var userEntity = this.validatorUtil.getEntityFromDTO
+        (this.userService.findUserDTOById(importedOfferDTO.getUser().getId()), UserEntity.class);
 
-    var tourOfferEntity = this.tourOfferRepository.findById(offerFullDTO.getId())
-        .orElse(null);
+    var tourOfferEntity = this.validatorUtil.getEntityFromDTO
+        (importedOfferDTO, TourOfferEntity.class);
+    tourOfferEntity.setUser(userEntity);
 
-    UserDTO userDTO = userService.findUserDTOById(offerFullDTO.getUser().getId());
+    return this.validatorUtil.getDTOFromEntity
+        (this.tourOfferRepository.save(tourOfferEntity), TourOfferFullDTO.class);
 
-    tourOfferEntity.setUser(this.mapper.map(userDTO, UserEntity.class));
-
-    return this.mapper.map(tourOfferEntity, TourOfferFullDTO.class);
   }
 
   @Override
   public void deleteOffer(Long userId, Long offerId) {
-    var offerEntity =
-        this.tourOfferRepository.findByIdAndUserId(offerId, userId).orElse(null);
+    //TODO ***********************************
+    //TODO ***********************************
+    //TODO ***********************************
+    //TODO ***********************************
 
-    if (!Objects.isNull(offerEntity)) {
-      offerEntity.setDeleted(true);
-      this.tourOfferRepository.save(offerEntity);
-    }
+    var offerEntity =
+        this.tourOfferRepository.findByIdAndUserId(offerId, userId);
+
+    offerEntity.ifPresent(entity -> {
+      entity.setDeleted(true);
+      this.tourOfferRepository.save(entity);
+    });
   }
 
   @Override
   public TourOfferFullDTO findById(Long id, UserDTO userDTO) {
-    UserEntity userEntity = this.mapper.map(userDTO, UserEntity.class);
+    //TODO ***********************************
+    //TODO ***********************************
+    //TODO ***********************************
+    //TODO ***********************************
+    var userEntity = this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class);
 
-    TourOfferEntity tourOfferEntity = this.tourOfferRepository.findById(id).orElse(null);
-    tourOfferEntity.setUser(userEntity);
+    var tourOfferEntity = this.tourOfferRepository.findById(id);
 
-    return this.mapper.map(tourOfferEntity, TourOfferFullDTO.class);
-  }
+    tourOfferEntity.ifPresent(e -> e.setUser(userEntity));
 
-  private TourOfferFullDTO createOffer(TourOfferCreateDTO offerDTO) {
-
-    var userEntity = this.mapper.map(this.userService.findUserDTOById(offerDTO.getUser().getId()),
-        UserEntity.class);
-
-    var tourOfferEntity = this.mapper.map(offerDTO, TourOfferEntity.class);
-
-    tourOfferEntity.setUser(userEntity);
-
-    return this.mapper.map(this.tourOfferRepository.save(tourOfferEntity), TourOfferFullDTO.class);
+    return this.validatorUtil.getDTOFromEntity(tourOfferEntity, TourOfferFullDTO.class);
   }
 
   private List<Sort.Order> getOrderList(String[] sort) {

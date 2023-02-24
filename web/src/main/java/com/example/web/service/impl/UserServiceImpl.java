@@ -5,6 +5,8 @@ import com.example.web.model.dto.UserLoginDTO;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.repository.UserRepository;
 import com.example.web.service.UserService;
+import com.example.web.util.ValidatorUtil;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -14,17 +16,18 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
-  private final ModelMapper mapper;
+  private final ValidatorUtil validatorUtil;
 
   @Override
   public UserDTO findUserDTOById(Long id) {
-    return this.mapper.map(this.userRepository.findUserEntityById(id), UserDTO.class);
+    //todo OPTIONAL CHECK
+    return this.validatorUtil.getDTOFromEntity(this.userRepository.findUserEntityById(id), UserDTO.class);
   }
 
   @Override
   public String create(UserDTO userDTO) {
     try{
-      this.userRepository.save(this.mapper.map(userDTO, UserEntity.class));
+      this.userRepository.save(this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class));
 
       return "User " + userDTO.getUsername() + " created.";
     } catch (Exception e){
@@ -35,9 +38,9 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public String deleteUser(UserDTO userDTO) {
-    //todo check
+    //todo OPTIONAL CHECK
     try{
-      this.userRepository.findById(userDTO.getId()).orElse(null).setDeleted(true);
+      this.userRepository.findById(userDTO.getId()).ifPresent(e -> e.setDeleted(true));
 
       return "User " + userDTO.getUsername() + " was deleted.";
     }catch (Exception e){
@@ -48,9 +51,9 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public String updateUser(UserDTO userDTO) {
-    //todo check
+    //todo OPTIONAL CHECK
     try {
-      this.userRepository.save(this.mapper.map(userDTO, UserEntity.class));
+      this.userRepository.save(this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class));
 
       return "User " + userDTO.getUsername() + " saved.";
     } catch (Exception e) {

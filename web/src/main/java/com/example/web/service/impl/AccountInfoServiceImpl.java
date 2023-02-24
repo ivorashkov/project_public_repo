@@ -50,6 +50,4 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 
     return this.validatorUtil.getDTOList(accountInfoEntity, AccountInfoDTO.class);
   }
-
-
 }

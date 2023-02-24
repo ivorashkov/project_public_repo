@@ -40,7 +40,6 @@ public class ValidatorUtilImpl implements ValidatorUtil {
    **/
   @Override
   public <E extends UserEntity> boolean isAdmin(E entity) {
-    //validatorUtil.isAdmin(userRepository.findUserEntityByFirstName("ivo").orElse(null));
     return entity.getRole().getRoleName().equals(RoleType.admin);
   }
 
@@ -48,7 +47,6 @@ public class ValidatorUtilImpl implements ValidatorUtil {
    * Works
    **/
   @Override
-  //validatorUtil.isActive(userRepository.findUserEntityByFirstName("ivo").orElse(null));
   public <E extends UserEntity> boolean isActive(E entity) {
     return entity.isActive();
   }
@@ -116,6 +114,22 @@ public class ValidatorUtilImpl implements ValidatorUtil {
     return entities.stream()
         .map(objectEntity -> this.mapper.map(objectEntity, dtoClass))
         .collect(Collectors.toList());
+  }
+
+  /**
+   * maps Entity to DTO
+   */
+  @Override
+  public <E, D> D getDTOFromEntity(E entity, Class<D> dtoClass) {
+    return this.mapper.map(entity, dtoClass);
+  }
+
+  /**
+   *maps DTO to Entity
+   */
+  @Override
+  public <D, E> E getEntityFromDTO(D dto, Class<E> entityClass) {
+    return this.mapper.map(dto, entityClass);
   }
 
 }
