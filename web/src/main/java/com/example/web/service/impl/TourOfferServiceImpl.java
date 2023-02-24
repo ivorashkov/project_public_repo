@@ -33,7 +33,7 @@ public class TourOfferServiceImpl implements TourOfferService {
   public Page<TourOfferPagingDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
     //TODO ***********************************
     //TODO ***********************************
-    //TODO ***********************************
+    //TODO Адекватно ли е тук да има try-catch или има по-добър вариант
     //TODO ***********************************
 
     Page<TourOfferPagingDTO> offerDTOS = null;
@@ -62,7 +62,7 @@ public class TourOfferServiceImpl implements TourOfferService {
   ) {
     //TODO ***********************************
     //TODO ***********************************
-    //TODO ***********************************
+    //TODO Адекватно ли е тук да има try-catch или има по-добър вариант
     //TODO ***********************************
     Page<TourOfferPagingDTO> offers = null;
     try {
@@ -101,10 +101,11 @@ public class TourOfferServiceImpl implements TourOfferService {
         UserEntity.class);
 
     //TODO ***********************************
+    //TODO tourEntity е Optional каква е най-добрата опция да работим с него
+    //TODO *************************************
+    //TODO тук ли трябва да направим проверка ако офертата е изтрита - isDeleted(true)
     //TODO ***********************************
     //TODO ***********************************
-    //TODO ***********************************
-    //TODO CHECK IF OFFER WAS DELETED???
     tourEntity.get().setUser(userEntity);
 
     return this.validatorUtil.getDTOFromEntity(tourEntity.get(), TourOfferFullDTO.class);
@@ -129,7 +130,7 @@ public class TourOfferServiceImpl implements TourOfferService {
   public void deleteOffer(Long userId, Long offerId) {
     //TODO ***********************************
     //TODO ***********************************
-    //TODO ***********************************
+    //TODO Добре ли е структориран този метод и по-скоро обработката на Опшанъла
     //TODO ***********************************
 
     var offerEntity =
@@ -145,7 +146,8 @@ public class TourOfferServiceImpl implements TourOfferService {
   public TourOfferFullDTO findById(Long id, UserDTO userDTO) {
     //TODO ***********************************
     //TODO ***********************************
-    //TODO ***********************************
+    //TODO тук сетваме User заради fetch.LAZY към ентитито преди да го обърнем в ДТО
+    //TODO има ли по-добър вариант или е направено ОК.
     //TODO ***********************************
     var userEntity = this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class);
 

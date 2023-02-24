@@ -20,12 +20,21 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserDTO findUserDTOById(Long id) {
-    //todo OPTIONAL CHECK
+    //TODO *******************************
+    //TODO *******************************
+    //TODO Тук вземаме опшънъл но не го обработваме директно а използваме валидатор метод
+    //TODO става ли по този начин или трябва да се наблегне и направи опшънъл проверка
+    //TODO ИД-то се очаква да идва от фронта от логнатия акаунт, не би трябвало да е празно.
+    //TODO *******************************
     return this.validatorUtil.getDTOFromEntity(this.userRepository.findUserEntityById(id), UserDTO.class);
   }
 
   @Override
   public String create(UserDTO userDTO) {
+    //TODO *******************************
+    //TODO *******************************
+    //TODO Както в TourOfferService, окей ли е да се използва try-catch или има по-добър и чист вариант
+    //TODO *******************************
     try{
       this.userRepository.save(this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class));
 
@@ -38,7 +47,11 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public String deleteUser(UserDTO userDTO) {
-    //todo OPTIONAL CHECK
+    //TODO *******************************
+    //TODO *******************************
+    //TODO  окей ли е да се използва try-catch или има по-добър и чист вариант
+    //TODO  за хващане на празен обект?
+    //TODO *******************************
     try{
       this.userRepository.findById(userDTO.getId()).ifPresent(e -> e.setDeleted(true));
 
@@ -51,7 +64,11 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public String updateUser(UserDTO userDTO) {
-    //todo OPTIONAL CHECK
+    //TODO *******************************
+    //TODO *******************************
+    //TODO  окей ли е да се използва try-catch или има по-добър и чист вариант
+    //TODO *****************************
+    //TODO *******************************
     try {
       this.userRepository.save(this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class));
 
