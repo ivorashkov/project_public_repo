@@ -106,7 +106,7 @@ public class TourOfferServiceImpl implements TourOfferService {
     //TODO тук ли трябва да направим проверка ако офертата е изтрита - isDeleted(true)
     //TODO ***********************************
     //TODO ***********************************
-    tourEntity.get().setUser(userEntity);
+    tourEntity.ifPresent(e -> e.setUser(userEntity));
 
     return this.validatorUtil.getDTOFromEntity(tourEntity.get(), TourOfferFullDTO.class);
   }
@@ -155,6 +155,8 @@ public class TourOfferServiceImpl implements TourOfferService {
 
     tourOfferEntity.ifPresent(e -> e.setUser(userEntity));
 
+    //todo тук ще има ексепшън най-вероятно ако офертата излезе празна, трябва ли да има
+    //todo допълнителна проверка и примерно да се сетне throw exception?
     return this.validatorUtil.getDTOFromEntity(tourOfferEntity, TourOfferFullDTO.class);
   }
 
