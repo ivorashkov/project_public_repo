@@ -29,13 +29,9 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 
   @Override
   public void saveFileUri(UserDTO userDTO, Path absoluteDocumentLocation) {
-    /**
-     * to check if its working correctly after i removed userservice.findEntityById
-     * with DTO method.
-     */
 
-    Optional<AccountInfoEntity> isAlreadyInDB = this.additionalAccountInfoRepository.findByDocumentLocation(
-        absoluteDocumentLocation.toString());
+    Optional<AccountInfoEntity> isAlreadyInDB =
+        this.additionalAccountInfoRepository.findByDocumentLocation(absoluteDocumentLocation.toString());
 
     if (isAlreadyInDB.isEmpty()) {
       var userEntity = this.mapper.map(userDTO, UserEntity.class);

@@ -10,6 +10,7 @@ import com.example.web.service.TourOfferDataService;
 import com.example.web.util.ValidatorUtil;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -17,20 +18,25 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class TourOfferDataServiceImpl implements TourOfferDataService {
+public class TourOfferImagePathServiceImpl implements TourOfferDataService {
 
   private final OfferDataRepository offerDataRepository;
   private final ValidatorUtil validatorUtil;
   private final ModelMapper mapper;
 
   @Override
-  public void saveFileUri(TourOfferFullDTO offerDTO, Path initPath) {
-    var tourOfferEntity = this.mapper.map(offerDTO,
-        TourOfferEntity.class);
+  public void saveFileUri(TourOfferFullDTO offerDTO, Path absoluteDocumentLocation) {
+    Optional<TourOfferImagePathEntity> isAlreadyInDB =
+        this.offerDataRepository.findByDocumentLocation(absoluteDocumentLocation.toString());
 
-    var dataPathEntity = new TourOfferImagePathEntity(initPath.toString(), tourOfferEntity);
+    if (isAlreadyInDB.isEmpty()){
+      var tourOfferEntity = this.mapper.map(offerDTO,
+          TourOfferEntity.class);
 
-    this.offerDataRepository.save(dataPathEntity);
+      var dataPathEntity = new TourOfferImagePathEntity(absoluteDocumentLocation.toString(), tourOfferEntity);
+
+      this.offerDataRepository.save(dataPathEntity);
+    }
   }
 
   @Override

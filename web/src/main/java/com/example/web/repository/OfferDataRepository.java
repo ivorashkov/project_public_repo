@@ -1,6 +1,7 @@
 package com.example.web.repository;
 
 import com.example.web.model.entity.TourOfferImagePathEntity;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,6 @@ public interface OfferDataRepository extends JpaRepository<TourOfferImagePathEnt
 
 
   List<Optional<TourOfferImagePathEntity>> findAllByOfferId(Long id);
+
+  Optional<TourOfferImagePathEntity> findByDocumentLocation(String path);
 }
