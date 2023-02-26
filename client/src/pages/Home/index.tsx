@@ -2,8 +2,6 @@ import { Grid } from "../../components/Grid";
 import { Section } from "../../components/Section";
 import { Shell } from "../../components/Shell";
 
-
-
 export const Home = () => {
     const dummyObj = 
         [
@@ -37,8 +35,7 @@ export const Home = () => {
         <>
             <Section>
                 <Shell>
-                    {/* <Grid offers={dummyObj}/> */}
-                    <h1>test</h1>
+                    <Grid offers={dummyObj}/>
                 </Shell>
             </Section>
         </>
