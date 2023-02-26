@@ -6,14 +6,17 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.Singular;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
@@ -57,6 +60,7 @@ public class TourOfferEntity extends BaseEntity {
 
   @Column
   private double discount;
+
 
   @ManyToOne(fetch = FetchType.LAZY)
   private UserEntity user;

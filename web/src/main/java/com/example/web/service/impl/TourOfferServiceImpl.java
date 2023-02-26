@@ -151,9 +151,10 @@ public class TourOfferServiceImpl implements TourOfferService {
     //TODO ***********************************
     var userEntity = this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class);
 
-    var tourOfferEntity = this.tourOfferRepository.findById(id);
+    var tourOfferEntity = this.tourOfferRepository.findById(id)
+        .orElseThrow(NullPointerException::new);
 
-    tourOfferEntity.ifPresent(e -> e.setUser(userEntity));
+    tourOfferEntity.setUser(userEntity);
 
     //todo тук ще има ексепшън най-вероятно ако офертата излезе празна, трябва ли да има
     //todo допълнителна проверка и примерно да се сетне throw exception?
