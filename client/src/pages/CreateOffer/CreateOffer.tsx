@@ -1,22 +1,22 @@
+import { FormEvent, HTMLAttributes, memo } from "react";
 import { Section } from "../../components/Section";
 import { Shell } from "../../components/Shell";
 import { OfferData } from "../../types";
 
 export const CreateOffer = () => {
-
-    const submitOnClick = (e: React.FormEvent<HTMLFormElement & EventTarget> ,data: OfferData) => {
+    const submitOnClick  = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         let formData = new FormData(e.currentTarget);
-    }
+    };
 
     return (
         <Section>
             <Shell>
-                <div className="form" onSubmit={submitOnClick}>
+                <div className="form">
                     <h2>Create an offer</h2>
 
                     <div className="form__content">
-                        <form action="">
+                        <form action="" onSubmit={submitOnClick}>
                             <div className="form__row">
                                 <label htmlFor="title">Title</label>
 
