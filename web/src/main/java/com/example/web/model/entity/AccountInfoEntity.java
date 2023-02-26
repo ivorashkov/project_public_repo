@@ -17,6 +17,7 @@ import lombok.Setter;
 @Table(name = "additional_user_info")
 public class AccountInfoEntity extends BaseEntity {
 
+
   @Column(name = "document_path", nullable = false)
   private String documentLocation;
 

@@ -28,25 +28,33 @@ public class AccountInfoServiceImpl implements AccountInfoService {
   private final ModelMapper mapper;
 
   @Override
-  public void saveFileUri(UserDTO userDTO, Path initPath) {
+  public void saveFileUri(UserDTO userDTO, Path absoluteDocumentLocation) {
     /**
      * to check if its working correctly after i removed userservice.findEntityById
      * with DTO method.
      */
-    var userEntity = this.mapper.map(userDTO, UserEntity.class);
 
-    var additionalInfoEntity = new AccountInfoEntity(initPath.toString(), userEntity);
+    Optional<AccountInfoEntity> isAlreadyInDB = this.additionalAccountInfoRepository.findByDocumentLocation(
+        absoluteDocumentLocation.toString());
 
-    this.additionalAccountInfoRepository.save(additionalInfoEntity);
+    if (isAlreadyInDB.isEmpty()) {
+      var userEntity = this.mapper.map(userDTO, UserEntity.class);
+
+      var additionalInfoEntity = new AccountInfoEntity(absoluteDocumentLocation.toString(),
+          userEntity);
+
+      this.additionalAccountInfoRepository.save(additionalInfoEntity);
+    }
   }
+
 
   @Override
   public List<AccountInfoDTO> findAllAccountDataPaths(UserDTO user) {
 
-    List<AccountInfoEntity> accountInfoEntity =this.validatorUtil.getListFromOptionalList
-            (
-                this.additionalAccountInfoRepository.findAllByUserId(user.getId())
-            );
+    List<AccountInfoEntity> accountInfoEntity = this.validatorUtil.getListFromOptionalList
+        (
+            this.additionalAccountInfoRepository.findAllByUserId(user.getId())
+        );
 
     return this.validatorUtil.getDTOList(accountInfoEntity, AccountInfoDTO.class);
   }

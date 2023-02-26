@@ -89,9 +89,7 @@ public class FileServiceImpl implements FileService {
     Path initPath = pathInitialization(userId, offerId,
         ConstantMessages.FORMAT_ADDON_TEMPLATE);
 
-    store(file, initPath);
-
-    return initPath;
+    return store(file, initPath);
   }
 
   private Path pathInitialization(Long userId, Long offerId, String stringFormat) {
@@ -120,13 +118,14 @@ public class FileServiceImpl implements FileService {
     return Paths.get(stringDirectory.toString());
   }
 
-  private void store(MultipartFile file, Path pathFromInitialization) {
+  private Path store(MultipartFile file, Path pathFromInitialization) {
+    Path destinationFile;
     try {
       if (file.isEmpty()) {
         throw new StorageException("Failed to store empty file.");
       }
 
-      Path destinationFile = pathFromInitialization
+      destinationFile = pathFromInitialization
           .resolve(Paths.get(file.getOriginalFilename()))
           .normalize().toAbsolutePath();
 
@@ -143,6 +142,7 @@ public class FileServiceImpl implements FileService {
     } catch (IOException e) {
       throw new StorageException("Failed to store file.", e);
     }
+    return destinationFile;
   }
 
   @Override

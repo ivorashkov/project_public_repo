@@ -28,7 +28,7 @@ public class FileController {
     return this.validatorUtil.responseEntity(userService.findUserDTOById(userId));
   }
 
-  @PostMapping("/upload/all")
+  @PatchMapping("/upload/all")
   public String handleAllFilesUpload(
       @RequestParam("file") List<MultipartFile> files,
       @RequestParam(name = "userId") Long userId,
