@@ -1,5 +1,6 @@
 import { Shell } from "../Shell";
 import { Nav } from "../Nav";
+import './Header.scss';
 
 export const Header = () => {
     return (
