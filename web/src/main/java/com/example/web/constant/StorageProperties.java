@@ -11,5 +11,7 @@ public class StorageProperties {
 
   //TODO: PLEASE ENTER YOUR FULL PATH:
   private String location =
-      "C:\\Users\\User\\Desktop\\Java\\WebProject\\version_1.0.1-crashed\\web\\src\\main\\resources\\static\\directory_storage";
+      "C:\\Users\\User\\Desktop\\Java\\WebProject\\web_progress\\web\\src\\main\\resources\\static\\directory_storage";
+
 }
+

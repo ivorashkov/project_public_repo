@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class TourOfferServiceImpl implements TourOfferService {
     //TODO Адекватно ли е тук да има try-catch или има по-добър вариант
     //TODO ***********************************
 
-    Page<TourOfferPagingDTO> offerDTOS = null;
+    Page<TourOfferPagingDTO> offerDTOS;
     try {
       Page<TourOfferEntity> offerEntity = this.tourOfferRepository
           .findAll_TourOffers_ByDate(PageRequest.of(pageNumber, pageSize));
@@ -94,7 +95,7 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public TourOfferFullDTO getOfferWithPathsAndUsersDTOs(Long offerId, Long userId) {
+  public TourOfferFullDTO findByIdAndUserId(Long offerId, Long userId) {
     /**
      *  extracting tourEntity if not exist will be thrown exception
      */
@@ -107,19 +108,6 @@ public class TourOfferServiceImpl implements TourOfferService {
     tourEntity.setUser(userEntity);
 
     return this.validatorUtil.getDTOFromEntity(tourEntity, TourOfferFullDTO.class);
-  }
-
-  @Override
-  public TourOfferFullDTO findById(Long id, UserDTO userDTO) {
-
-    var tourOfferEntity = this.tourOfferRepository.findById(id)
-        .orElseThrow(() -> new TourOfferNotFoundException());
-
-    var userEntity = this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class);
-
-    tourOfferEntity.setUser(userEntity);
-
-    return this.validatorUtil.getDTOFromEntity(tourOfferEntity, TourOfferFullDTO.class);
   }
 
   @Override
@@ -157,7 +145,9 @@ public class TourOfferServiceImpl implements TourOfferService {
       String sortCriteria = columns[0];
       String directionCriteria = columns[1];
 
-      orders.add(new Sort.Order(getDirectionOfSort(directionCriteria), sortCriteria));
+      Direction directionOfSort = getDirectionOfSort(directionCriteria);
+      orders.add(new Sort.Order(directionOfSort, sortCriteria));
+
     }
     return orders;
   }

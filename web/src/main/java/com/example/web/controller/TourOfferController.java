@@ -1,7 +1,6 @@
 package com.example.web.controller;
 
 import com.example.web.model.dto.TourOfferCreateDTO;
-import com.example.web.model.dto.TourOfferImagePathDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.model.enums.TransportType;
@@ -40,7 +39,7 @@ public class TourOfferController {
   ) {
 
     TourOfferFullDTO tourOfferFullDTO =
-        this.tourOfferService.getOfferWithPathsAndUsersDTOs(offerId, userId);
+        this.tourOfferService.findByIdAndUserId(offerId, userId);
 
     /** http://localhost:8091/offer/edit?offerId=1&userId=1 */
     return this.validatorUtil.responseEntity(tourOfferFullDTO);
@@ -99,7 +98,7 @@ public class TourOfferController {
     /** DTO + FILES **/
     TourOfferFullDTO tourOfferFullDTO = this.tourOfferService.saveOfferAndPath(createOfferDTO);
 
-    this.fileService.handleAllFilesUpload(files, tourOfferFullDTO);
+    this.fileService.handleAllFilesUpload(files,tourOfferFullDTO.getUser().getId(), tourOfferFullDTO.getId());
 
     tourOfferFullDTO.setPaths(this.tourOfferDataService.getOfferPaths(tourOfferFullDTO));
 

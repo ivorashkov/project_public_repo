@@ -11,24 +11,17 @@ import java.util.stream.Stream;
 
 public interface FileService {
 
+  void handleAllFilesUpload
+      (
+          List<MultipartFile> files,
+          Long userId,
+          Long offerId
+      );
+
   Stream<Path> loadAll();
 
   Path load(String filename);
 
   Resource loadAsResource(String filename);
-
-  void handleAllFilesUpload
-      (
-          List<MultipartFile> files,
-          TourOfferFullDTO tourOfferFullDTO
-      );
-
-  void handleAllFilesUpload
-      (
-          List<MultipartFile> files,
-          Long userId,
-          Long offerId,
-          UserDTO userDTO
-      );
 
 }

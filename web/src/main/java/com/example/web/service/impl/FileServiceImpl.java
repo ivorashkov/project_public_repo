@@ -9,6 +9,8 @@ import com.example.web.model.dto.UserDTO;
 import com.example.web.service.AccountInfoService;
 import com.example.web.service.FileService;
 import com.example.web.service.TourOfferDataService;
+import com.example.web.service.TourOfferService;
+import com.example.web.service.UserService;
 import java.util.List;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -29,58 +31,42 @@ import java.util.stream.Stream;
 @Service
 public class FileServiceImpl implements FileService {
 
+  private final TourOfferService tourOfferService;
+  private final UserService userService;
   private final AccountInfoService additionalInfoService;
   private final TourOfferDataService offerDataService;
   private final Path rootLocation;
 
   public FileServiceImpl
       (
-          TourOfferDataService offerDataService,
+          TourOfferService tourOfferService,
+          UserService userService, TourOfferDataService offerDataService,
           StorageProperties properties,
           AccountInfoService additionalInfoService
       ) {
+    this.tourOfferService = tourOfferService;
+    this.userService = userService;
     this.offerDataService = offerDataService;
     this.rootLocation = Paths.get(properties.getLocation());
     this.additionalInfoService = additionalInfoService;
   }
 
   @Override
-  public void handleAllFilesUpload
-      (
-          List<MultipartFile> files,
-          TourOfferFullDTO tourOfferFullDTO
-      ) {
-
+  public void handleAllFilesUpload(List<MultipartFile> files, Long userId, Long offerId) {
     files.forEach(file -> {
-
-      Path path = handleSingleFileUpload
-          (
-              file,
-              tourOfferFullDTO.getUser().getId(),
-              tourOfferFullDTO.getId()
-          );
-
-      this.offerDataService.saveFileUri(tourOfferFullDTO, path);
-
-    });
-  }
-
-  @Override
-  public void handleAllFilesUpload
-      (
-          List<MultipartFile> files,
-          Long userId,
-          Long offerId,
-          UserDTO userDTO
-      ) {
-
-    files.forEach(file -> {
-
       Path path = handleSingleFileUpload(file, userId, offerId);
 
-      this.additionalInfoService.saveFileUri(userDTO, path);
+      if (offerId > 0) {
+        TourOfferFullDTO offerDTO = this.tourOfferService.findByIdAndUserId(offerId, userId);
+        this.offerDataService.saveFileUri(offerDTO, path);
 
+      } else {
+        UserDTO userDTO = this.userService.findUserDTOById(userId);
+        this.additionalInfoService.saveFileUri(userDTO, path);
+
+      }
     });
+
   }
 
   public Path handleSingleFileUpload(MultipartFile file, Long userId, Long offerId) {
@@ -105,7 +91,9 @@ public class FileServiceImpl implements FileService {
       /** creating folder if such does not exist **/
       new File(stringDirectory.toString()).mkdirs();
 
-    } else if (offerId >= 0) {
+    }
+
+    if (offerId >= 0) {
 
       /** then we should create Offer directory with offerId */
       stringDirectory
@@ -131,8 +119,7 @@ public class FileServiceImpl implements FileService {
 
       if (!destinationFile.getParent().equals(pathFromInitialization.toAbsolutePath())) {
         // This is a security check
-        throw new StorageException(
-            "Cannot store file outside current directory.");
+        throw new StorageException("Cannot store file outside current directory.");
       }
 
       try (InputStream inputStream = file.getInputStream()) {
