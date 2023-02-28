@@ -1,5 +1,6 @@
 package com.example.web.service.impl;
 
+import com.example.web.exception.TourOfferNotFoundException;
 import com.example.web.model.dto.TourOfferCreateDTO;
 import com.example.web.model.dto.TourOfferPagingDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
@@ -10,6 +11,7 @@ import com.example.web.repository.TourOfferRepository;
 import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -93,21 +95,18 @@ public class TourOfferServiceImpl implements TourOfferService {
 
   @Override
   public TourOfferFullDTO getOfferWithPathsAndUsersDTOs(Long offerId, Long userId) {
+    /**
+     *  extracting tourEntity if not exist will be thrown exception
+     */
+    var tourEntity = this.tourOfferRepository.findByIdAndUserId(offerId, userId)
+        .orElseThrow(() -> new TourOfferNotFoundException());
 
-    var tourEntity = this.tourOfferRepository.findByIdAndUserId(offerId, userId);
+    var userEntity = this.validatorUtil.getEntityFromDTO
+        (this.userService.findUserDTOById(userId), UserEntity.class);
 
-    var userEntity = this.validatorUtil.getEntityFromDTO(this.userService.findUserDTOById(userId),
-        UserEntity.class);
+    tourEntity.setUser(userEntity);
 
-    //TODO ***********************************
-    //TODO tourEntity е Optional каква е най-добрата опция да работим с него
-    //TODO *************************************
-    //TODO тук ли трябва да направим проверка ако офертата е изтрита - isDeleted(true)
-    //TODO ***********************************
-    //TODO ***********************************
-    tourEntity.ifPresent(e -> e.setUser(userEntity));
-
-    return this.validatorUtil.getDTOFromEntity(tourEntity.get(), TourOfferFullDTO.class);
+    return this.validatorUtil.getDTOFromEntity(tourEntity, TourOfferFullDTO.class);
   }
 
   @Override
@@ -127,10 +126,6 @@ public class TourOfferServiceImpl implements TourOfferService {
 
   @Override
   public void deleteOffer(Long userId, Long offerId) {
-    //TODO ***********************************
-    //TODO ***********************************
-    //TODO Добре ли е структориран този метод и по-скоро обработката на Опшанъла
-    //TODO ***********************************
 
     var offerEntity =
         this.tourOfferRepository.findByIdAndUserId(offerId, userId);
@@ -143,18 +138,14 @@ public class TourOfferServiceImpl implements TourOfferService {
 
   @Override
   public TourOfferFullDTO findById(Long id, UserDTO userDTO) {
-    //TODO ***********************************
-    //TODO ***********************************
-    //TODO тук сетваме User заради fetch.LAZY към ентитито преди да го обърнем в ДТО
-    //TODO има ли по-добър вариант или е направено ОК.
-    //TODO ***********************************
+
     var userEntity = this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class);
 
     //TODO сложил съм nullPointerException да се хвърля при липса на такава оферта
     //todo възможно ли е да се избегне Ексепшъна и да се игнорира просто или да се върне някакъв
     //todo код с който да се потвърди че няма такъв обект, а ако съществува само тогава да се обработи и прати
     var tourOfferEntity = this.tourOfferRepository.findById(id)
-        .orElseThrow(NullPointerException::new);
+        .orElseThrow(() -> new TourOfferNotFoundException());
 
     tourOfferEntity.setUser(userEntity);
 
