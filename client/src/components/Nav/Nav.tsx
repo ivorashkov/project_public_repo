@@ -15,6 +15,10 @@ export const Nav = () => {
                 <li>
                     <Link to='/login'>Login</Link>
                 </li>
+
+                <li>
+                    <Link to='/offer/create'>Create an offer</Link>
+                </li>
             </ul>
         </nav>
     );
