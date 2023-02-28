@@ -52,8 +52,7 @@ public class FileServiceImpl implements FileService {
   }
 
   @Override
-  public void handleAllFilesUpload(List<MultipartFile> files, Long userId, Long offerId) {
-
+  public boolean handleAllFilesUpload(List<MultipartFile> files, Long userId, Long offerId) {
     files.forEach(file -> {
       Path path = handleSingleFileUpload(file, userId, offerId);
 
@@ -64,10 +63,9 @@ public class FileServiceImpl implements FileService {
       } else {
         UserDTO userDTO = this.userService.findUserDTOById(userId);
         this.additionalInfoService.saveFileUri(userDTO, path);
-
       }
     });
-
+      return true;
   }
 
   public Path handleSingleFileUpload(MultipartFile file, Long userId, Long offerId) {
