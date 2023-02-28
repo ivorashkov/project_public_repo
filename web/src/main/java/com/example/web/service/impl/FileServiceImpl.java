@@ -1,8 +1,8 @@
 package com.example.web.service.impl;
 
 import com.example.web.constant.ConstantMessages;
-import com.example.web.constant.StorageException;
-import com.example.web.constant.StorageFileNotFoundException;
+import com.example.web.exception.StorageException;
+import com.example.web.exception.StorageFileNotFoundException;
 import com.example.web.constant.StorageProperties;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;

@@ -1,4 +1,4 @@
-package com.example.web.constant;
+package com.example.web.exception;
 
 public class StorageFileNotFoundException extends StorageException {
 
