@@ -1,6 +1,5 @@
 package com.example.web.model.dto;
 
-import com.example.web.model.interfaces.DTO;
 import lombok.Getter;
 import lombok.Setter;
 
