@@ -110,6 +110,19 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
+  public TourOfferFullDTO findById(Long id, UserDTO userDTO) {
+
+    var tourOfferEntity = this.tourOfferRepository.findById(id)
+        .orElseThrow(() -> new TourOfferNotFoundException());
+
+    var userEntity = this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class);
+
+    tourOfferEntity.setUser(userEntity);
+
+    return this.validatorUtil.getDTOFromEntity(tourOfferEntity, TourOfferFullDTO.class);
+  }
+
+  @Override
   public TourOfferFullDTO saveOfferAndPath(TourOfferCreateDTO importedOfferDTO) {
 
     var userEntity = this.validatorUtil.getEntityFromDTO
@@ -134,24 +147,6 @@ public class TourOfferServiceImpl implements TourOfferService {
       entity.setDeleted(true);
       this.tourOfferRepository.save(entity);
     });
-  }
-
-  @Override
-  public TourOfferFullDTO findById(Long id, UserDTO userDTO) {
-
-    var userEntity = this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class);
-
-    //TODO сложил съм nullPointerException да се хвърля при липса на такава оферта
-    //todo възможно ли е да се избегне Ексепшъна и да се игнорира просто или да се върне някакъв
-    //todo код с който да се потвърди че няма такъв обект, а ако съществува само тогава да се обработи и прати
-    var tourOfferEntity = this.tourOfferRepository.findById(id)
-        .orElseThrow(() -> new TourOfferNotFoundException());
-
-    tourOfferEntity.setUser(userEntity);
-
-    //todo тук ще има ексепшън най-вероятно ако офертата излезе празна, трябва ли да има
-    //todo допълнителна проверка и примерно да се сетне throw exception?
-    return this.validatorUtil.getDTOFromEntity(tourOfferEntity, TourOfferFullDTO.class);
   }
 
   private List<Sort.Order> getOrderList(String[] sort) {

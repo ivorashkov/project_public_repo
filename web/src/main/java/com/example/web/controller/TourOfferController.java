@@ -39,8 +39,6 @@ public class TourOfferController {
       @RequestParam(name = "userId", required = true) Long userId
   ) {
 
-//    List<TourOfferImagePathDTO> offerDataPathDTO = this.tourOfferDataService.findAllOfferDataPaths(
-//        offerId);
     TourOfferFullDTO tourOfferFullDTO =
         this.tourOfferService.getOfferWithPathsAndUsersDTOs(offerId, userId);
 
