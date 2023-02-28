@@ -30,10 +30,11 @@ public class TourOfferImagePathServiceImpl implements TourOfferDataService {
         this.offerDataRepository.findByDocumentLocation(absoluteDocumentLocation.toString());
 
     if (isAlreadyInDB.isEmpty()){
-      var tourOfferEntity = this.mapper.map(offerDTO,
-          TourOfferEntity.class);
+      var tourOfferEntity =
+          this.validatorUtil.getEntityFromDTO(offerDTO,TourOfferEntity.class);
 
-      var dataPathEntity = new TourOfferImagePathEntity(absoluteDocumentLocation.toString(), tourOfferEntity);
+      var dataPathEntity =
+          new TourOfferImagePathEntity(absoluteDocumentLocation.toString(), tourOfferEntity);
 
       this.offerDataRepository.save(dataPathEntity);
     }
