@@ -43,16 +43,16 @@ public class OfficeServiceImpl implements OfficeService {
 
   @Override
   public List<OfficeDTO> editOffice(OfficeDTO officeDTO) {
-
     return saveOfficeAndReturnAllOffices(officeDTO);
   }
 
-  private List<OfficeDTO> saveOfficeAndReturnAllOffices(OfficeDTO officeDTO){
-    var officeEntity = this.modelMapper.map(officeDTO, OfficeEntity.class);
+  private List<OfficeDTO> saveOfficeAndReturnAllOffices(OfficeDTO officeDTO) {
+    var officeEntity = this.validatorUtil.getEntityFromDTO(officeDTO, OfficeEntity.class);
     this.officeRepository.save(officeEntity);
 
-    List<Optional<OfficeEntity>> officeEntityList = this.officeRepository.findAllOfficesByUserIdAsc(
-        officeDTO.getUser().getId());
+    List<OfficeEntity> officeEntityList =
+        this.validatorUtil.getListFromOptionalList
+            (this.officeRepository.findAllOfficesByUserIdAsc(officeDTO.getUser().getId()));
 
     return this.validatorUtil.getDTOList(officeEntityList, OfficeDTO.class);
   }

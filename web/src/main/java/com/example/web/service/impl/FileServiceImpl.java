@@ -53,6 +53,7 @@ public class FileServiceImpl implements FileService {
 
   @Override
   public void handleAllFilesUpload(List<MultipartFile> files, Long userId, Long offerId) {
+
     files.forEach(file -> {
       Path path = handleSingleFileUpload(file, userId, offerId);
 
@@ -130,37 +131,6 @@ public class FileServiceImpl implements FileService {
       throw new StorageException("Failed to store file.", e);
     }
     return destinationFile;
-  }
-
-  @Override
-  public Stream<Path> loadAll() {
-    try {
-      return Files.walk(this.rootLocation, 1)
-          .filter(path -> !path.equals(this.rootLocation))
-          .map(this.rootLocation::relativize);
-    } catch (IOException e) {
-      throw new StorageException("Failed to read stored files", e);
-    }
-  }
-
-  @Override
-  public Path load(String filename) {
-    return rootLocation.resolve(filename);
-  }
-
-  @Override
-  public Resource loadAsResource(String filename) {
-    try {
-      Path file = load(filename);
-      Resource resource = new UrlResource(file.toUri());
-      if (resource.exists() || resource.isReadable()) {
-        return resource;
-      } else {
-        throw new StorageFileNotFoundException("Could not read file: " + filename);
-      }
-    } catch (MalformedURLException e) {
-      throw new StorageFileNotFoundException("Could not read file: " + filename, e);
-    }
   }
 
 }

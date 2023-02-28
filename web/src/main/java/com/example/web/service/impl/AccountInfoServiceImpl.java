@@ -25,7 +25,6 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 
   private final AccountInfoRepository additionalAccountInfoRepository;
   private final ValidatorUtil validatorUtil;
-  private final ModelMapper mapper;
 
   @Override
   public void saveFileUri(UserDTO userDTO, Path absoluteDocumentLocation) {
@@ -34,7 +33,7 @@ public class AccountInfoServiceImpl implements AccountInfoService {
         this.additionalAccountInfoRepository.findByDocumentLocation(absoluteDocumentLocation.toString());
 
     if (isAlreadyInDB.isEmpty()) {
-      var userEntity = this.mapper.map(userDTO, UserEntity.class);
+      var userEntity = this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class);
 
       var additionalInfoEntity = new AccountInfoEntity(absoluteDocumentLocation.toString(),
           userEntity);

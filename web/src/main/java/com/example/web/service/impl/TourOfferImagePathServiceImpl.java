@@ -22,7 +22,6 @@ public class TourOfferImagePathServiceImpl implements TourOfferDataService {
 
   private final OfferDataRepository offerDataRepository;
   private final ValidatorUtil validatorUtil;
-  private final ModelMapper mapper;
 
   @Override
   public void saveFileUri(TourOfferFullDTO offerDTO, Path absoluteDocumentLocation) {
@@ -42,10 +41,8 @@ public class TourOfferImagePathServiceImpl implements TourOfferDataService {
 
   @Override
   public List<TourOfferImagePathDTO> findAllOfferDataPaths(Long offerId) {
-    List<TourOfferImagePathEntity> offerDataPathEntities = this.validatorUtil.getListFromOptionalList
-        (
-            this.offerDataRepository.findAllByOfferId(offerId)
-        );
+    List<TourOfferImagePathEntity> offerDataPathEntities =
+        this.validatorUtil.getListFromOptionalList(this.offerDataRepository.findAllByOfferId(offerId));
 
     return this.validatorUtil.getDTOList(offerDataPathEntities, TourOfferImagePathDTO.class);
   }
@@ -53,9 +50,7 @@ public class TourOfferImagePathServiceImpl implements TourOfferDataService {
   @Override
   public List<TourOfferImagePathDTO> getOfferPaths(TourOfferFullDTO tourOfferFullDTO) {
     List<TourOfferImagePathEntity> paths = this.validatorUtil.getListFromOptionalList
-        (
-            this.offerDataRepository.findAllByOfferId(tourOfferFullDTO.getId())
-        );
+        (this.offerDataRepository.findAllByOfferId(tourOfferFullDTO.getId()));
 
     return this.validatorUtil.getDTOList(paths, TourOfferImagePathDTO.class);
   }

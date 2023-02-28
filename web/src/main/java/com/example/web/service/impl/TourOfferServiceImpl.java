@@ -62,11 +62,8 @@ public class TourOfferServiceImpl implements TourOfferService {
       String city,
       String... sorts
   ) {
-    //TODO ***********************************
-    //TODO ***********************************
-    //TODO Адекватно ли е тук да има try-catch или има по-добър вариант
-    //TODO ***********************************
-    Page<TourOfferPagingDTO> offers = null;
+
+    Page<TourOfferPagingDTO> offers;
     try {
       final List<Sort.Order> orders = getOrderList(sorts);//added
 
@@ -96,11 +93,9 @@ public class TourOfferServiceImpl implements TourOfferService {
 
   @Override
   public TourOfferFullDTO findByIdAndUserId(Long offerId, Long userId) {
-    /**
-     *  extracting tourEntity if not exist will be thrown exception
-     */
+
     var tourEntity = this.tourOfferRepository.findByIdAndUserId(offerId, userId)
-        .orElseThrow(() -> new TourOfferNotFoundException());
+        .orElseThrow(TourOfferNotFoundException::new);
 
     var userEntity = this.validatorUtil.getEntityFromDTO
         (this.userService.findUserDTOById(userId), UserEntity.class);
@@ -128,13 +123,11 @@ public class TourOfferServiceImpl implements TourOfferService {
   @Override
   public void deleteOffer(Long userId, Long offerId) {
 
-    var offerEntity =
-        this.tourOfferRepository.findByIdAndUserId(offerId, userId);
-
-    offerEntity.ifPresent(entity -> {
-      entity.setDeleted(true);
-      this.tourOfferRepository.save(entity);
-    });
+    this.tourOfferRepository.findByIdAndUserId(offerId, userId)
+        .ifPresent(entity -> {
+          entity.setDeleted(true);
+          this.tourOfferRepository.save(entity);
+        });
   }
 
   private List<Sort.Order> getOrderList(String[] sort) {
@@ -165,5 +158,4 @@ public class TourOfferServiceImpl implements TourOfferService {
   private String getCriteriaParam(String country, String city) {
     return this.validatorUtil.getCriteriaParam(country, city);
   }
-
 }

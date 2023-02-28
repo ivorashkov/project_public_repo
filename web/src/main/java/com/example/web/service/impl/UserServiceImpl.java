@@ -1,5 +1,6 @@
 package com.example.web.service.impl;
 
+import com.example.web.exception.UserNotFoundException;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.model.dto.UserLoginDTO;
 import com.example.web.model.entity.UserEntity;
@@ -20,13 +21,10 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserDTO findUserDTOById(Long id) {
-    //TODO *******************************
-    //TODO *******************************
-    //TODO Тук вземаме опшънъл но не го обработваме директно а използваме валидатор метод
-    //TODO става ли по този начин или трябва да се наблегне и направи опшънъл проверка
-    //TODO ИД-то се очаква да идва от фронта от логнатия акаунт, не би трябвало да е празно.
-    //TODO *******************************
-    return this.validatorUtil.getDTOFromEntity(this.userRepository.findUserEntityById(id), UserDTO.class);
+    var userEntity =
+        this.userRepository.findUserEntityById(id).orElseThrow(UserNotFoundException::new);
+
+    return this.validatorUtil.getDTOFromEntity(userEntity, UserDTO.class);
   }
 
   @Override
@@ -34,7 +32,7 @@ public class UserServiceImpl implements UserService {
     //TODO *******************************
     //TODO *******************************
     //TODO Както в TourOfferService, окей ли е да се използва try-catch или има по-добър и чист вариант
-    //TODO *******************************
+    //TODO тря се връща код а не стринг
     try{
       this.userRepository.save(this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class));
 
