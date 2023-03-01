@@ -37,8 +37,9 @@ public class TourOfferServiceImpl implements TourOfferService {
   public Page<TourOfferPagingDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
     Page<TourOfferEntity> offerEntity = null;
     Page<TourOfferPagingDTO> offerDTOS = null;
+
     try {
-      log.info("initialSearchResult {find offers page}");
+      log.info(" TourOfferServiceImpl { initialSearchResult }  {find offers page}");
       offerEntity = this.tourOfferRepository
           .findAll_TourOffers_ByDate(PageRequest.of(pageNumber, pageSize));
 
@@ -47,7 +48,7 @@ public class TourOfferServiceImpl implements TourOfferService {
     }
 
     try {
-      log.info("initialSearchResult { mapToDTO Page }");
+      log.info(" TourOfferServiceImpl { initialSearchResult }  { mapToDTO Page }");
 
       offerDTOS = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntity,
           TourOfferPagingDTO.class);
@@ -68,27 +69,24 @@ public class TourOfferServiceImpl implements TourOfferService {
       String city,
       String... sorts
   ) {
+    log.info("Loading TourOfferServiceImpl {searchAndFilterOffers}");
 
     Page<TourOfferPagingDTO> offers = null;
     try {
-      log.info("Filtering Offers {Get Order List}");
       final List<Sort.Order> orders = getOrderList(sorts);//added
 
       final Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(orders));
 
-      log.info("Filtering Offers {Get Criteria Param}");
       final String criteria = getCriteriaParam(country, city);
 
       final Page<TourOfferEntity> offerEntities;
 
       if (criteria == null) {
-        log.info("Filtering Offers {Missing criteria param filtering}");
 
         offerEntities = tourOfferRepository.findAll_TourOffers_ByDate(pageable);
         offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities,
             TourOfferPagingDTO.class);
       } else {
-        log.info("Filtering Offers {Criteria param filtering}");
 
         offerEntities = tourOfferRepository.findAllByCriteria(criteria, pageable);
         offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities,
@@ -96,17 +94,17 @@ public class TourOfferServiceImpl implements TourOfferService {
       }
 
     } catch (PageWithOffersNotFoundException e) {
-      log.error("Issue while trying to extract filtered Offers Page {}", e.getMessage());
+      log.error("Error while trying to extract filtered Offers Page {}", e.getMessage());
     }
     return offers;
   }
 
   @Override
   public TourOfferFullDTO findByIdAndUserId(Long offerId, Long userId) {
-    TourOfferEntity tourEntity = null;
+    log.info("TourOfferServiceImpl  { findByIdAndUserId }");
 
+    TourOfferEntity tourEntity = null;
     try {
-      log.info("TourOfferServiceImpl -  findByIdAndUserId ");
       tourEntity = this.tourOfferRepository.findByIdAndUserId(offerId, userId)
           .orElseThrow(TourOfferNotFoundException::new);
 
@@ -116,7 +114,7 @@ public class TourOfferServiceImpl implements TourOfferService {
       tourEntity.setUser(userEntity);
 
     } catch (TourOfferNotFoundException e) {
-      log.error("Error while trying to find Offer By User ID and Offer ID {}", e.getMessage());
+      log.error("Error TourOfferServiceImpl { findByIdAndUserId } {}", e.getMessage());
     }
 
     return this.validatorUtil.getDTOFromEntity(tourEntity, TourOfferFullDTO.class);
@@ -124,18 +122,16 @@ public class TourOfferServiceImpl implements TourOfferService {
 
   @Override
   public TourOfferFullDTO saveOfferAndPath(TourOfferCreateDTO importedOfferDTO) {
-    TourOfferEntity tourOfferEntity = null;
+    log.info("TourOfferServiceImpl {saveOfferAndPath}");
 
+    TourOfferEntity tourOfferEntity = null;
     try {
-      log.info("TourOfferServiceImpl {saveOfferAndPath} getEntityFromDTO{findUserDTOById}");
       var userEntity = this.validatorUtil.getEntityFromDTO
           (this.userService.findUserDTOById(importedOfferDTO.getUser().getId()), UserEntity.class);
 
-      log.info("TourOfferServiceImpl {saveOfferAndPath} getEntityFromDTO");
       tourOfferEntity = this.validatorUtil.getEntityFromDTO
           (importedOfferDTO, TourOfferEntity.class);
 
-      log.info("TourOfferServiceImpl {saveOfferAndPath} set User");
       tourOfferEntity.setUser(userEntity);
 
     } catch (TourOfferNotFoundException e) {

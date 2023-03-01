@@ -12,8 +12,10 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class AccountInfoServiceImpl implements AccountInfoService {
@@ -23,7 +25,7 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 
   @Override
   public void saveFileUri(UserDTO userDTO, Path absoluteDocumentLocation) {
-
+    log.info("Loading AccountInfoServiceImpl {saveFileUri} ");
     Optional<AccountInfoEntity> isAlreadyInDB =
         this.additionalAccountInfoRepository.findByDocumentLocation(absoluteDocumentLocation.toString());
 
@@ -40,7 +42,7 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 
   @Override
   public List<AccountInfoDTO> findAllAccountDataPaths(UserDTO user) {
-
+    log.info("Loading AccountInfoServiceImpl {findAllAccountDataPaths}");
     List<AccountInfoEntity> accountInfoEntity = this.validatorUtil.getListFromOptionalList
         (
             this.additionalAccountInfoRepository.findAllByUserId(user.getId())

@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class OfficeServiceImpl implements OfficeService {
@@ -22,13 +24,13 @@ public class OfficeServiceImpl implements OfficeService {
 
   @Override
   public List<OfficeDTO> addOffice(OfficeDTO officeDTO) {
-
+    log.info("Loading OfficeServiceImpl { addOffice }");
     return saveOfficeAndReturnAllOffices(officeDTO);
   }
 
   @Override
   public void deleteOffice(OfficeDTO officeDTO) {
-
+    log.info("Loading OfficeServiceImpl { deleteOffice }");
     Optional<OfficeEntity> officeEntity = this.officeRepository.findByIdAndUserId
         (
             officeDTO.getId(),
@@ -43,10 +45,12 @@ public class OfficeServiceImpl implements OfficeService {
 
   @Override
   public List<OfficeDTO> editOffice(OfficeDTO officeDTO) {
+    log.info("Loading OfficeServiceImpl {editOffice}");
     return saveOfficeAndReturnAllOffices(officeDTO);
   }
 
   private List<OfficeDTO> saveOfficeAndReturnAllOffices(OfficeDTO officeDTO) {
+    log.info("Loading OfficeServiceImpl {saveOfficeAndReturnAllOffices}");
     var officeEntity = this.validatorUtil.getEntityFromDTO(officeDTO, OfficeEntity.class);
     this.officeRepository.save(officeEntity);
 

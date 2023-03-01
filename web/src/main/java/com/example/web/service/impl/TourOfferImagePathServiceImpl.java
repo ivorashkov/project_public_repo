@@ -26,6 +26,8 @@ public class TourOfferImagePathServiceImpl implements TourOfferDataService {
 
   @Override
   public void saveFileUri(TourOfferFullDTO offerDTO, Path absoluteDocumentLocation) {
+    log.info("Loading TourOfferImagePathServiceImpl {saveFileUri} ");
+
     Optional<TourOfferFilePathEntity> isAlreadyInDB =
         this.offerDataRepository.findByDocumentLocation(absoluteDocumentLocation.toString());
 
@@ -42,18 +44,17 @@ public class TourOfferImagePathServiceImpl implements TourOfferDataService {
 
   @Override
   public List<TourOfferFilePathDTO> findAllOfferDataPaths(Long offerId) {
-    List<TourOfferFilePathEntity> offerDataPathEntities = null;
+    log.info("Loading TourOfferImagePathServiceImpl { findAllOfferDataPaths }");
 
+    List<TourOfferFilePathEntity> offerDataPathEntities = null;
     try {
-      log.info("TourOfferImagePathServiceImpl {findAllOfferDataPaths}");
 
       offerDataPathEntities =
           this.validatorUtil.getListFromOptionalList(
               this.offerDataRepository.findAllByOfferId(offerId));
 
     } catch (TourOfferNotFoundException e) {
-
-      log.error("Error while searching for Offer files {}", e.getMessage());
+      log.error("Error while loading TourOfferImagePathServiceImpl { findAllOfferDataPaths } {}", e.getMessage());
     }
 
     return this.validatorUtil.getDTOList(offerDataPathEntities, TourOfferFilePathDTO.class);
@@ -61,16 +62,15 @@ public class TourOfferImagePathServiceImpl implements TourOfferDataService {
 
   @Override
   public List<TourOfferFilePathDTO> getOfferPaths(TourOfferFullDTO tourOfferFullDTO) {
+    log.info("Loading TourOfferImagePathServiceImpl { getOfferPaths }");
+
     List<TourOfferFilePathEntity> paths = null;
-
     try {
-      log.info("Loading Offer Files");
-
       paths = this.validatorUtil.getListFromOptionalList
           (this.offerDataRepository.findAllByOfferId(tourOfferFullDTO.getId()));
 
     }catch (TourOfferNotFoundException e){
-      log.error("TourOfferImagePathServiceImpl {getOfferPaths} {}", e.getMessage());
+      log.error("Error while loading TourOfferImagePathServiceImpl {getOfferPaths} {}", e.getMessage());
     }
 
     return this.validatorUtil.getDTOList(paths, TourOfferFilePathDTO.class);

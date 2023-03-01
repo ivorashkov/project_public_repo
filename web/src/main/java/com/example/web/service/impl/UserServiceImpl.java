@@ -7,11 +7,11 @@ import com.example.web.model.entity.UserEntity;
 import com.example.web.repository.UserRepository;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -21,59 +21,58 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserDTO findUserDTOById(Long id) {
-    var userEntity =
-        this.userRepository.findUserEntityById(id).orElseThrow(UserNotFoundException::new);
+    log.info("Loading UserServiceImpl {findUserDTOById} ");
+    UserEntity userEntity = null;
+    try {
+      userEntity =
+          this.userRepository.findUserEntityById(id).orElseThrow(UserNotFoundException::new);
+
+    } catch (UserNotFoundException e) {
+      log.error("Error while loading UserServiceImpl {findUserDTOById} {}", e.getMessage());
+    }
 
     return this.validatorUtil.getDTOFromEntity(userEntity, UserDTO.class);
   }
 
   @Override
-  public String create(UserDTO userDTO) {
-    //TODO *******************************
-    //TODO *******************************
-    //TODO Както в TourOfferService, окей ли е да се използва try-catch или има по-добър и чист вариант
-    //TODO тря се връща код а не стринг или ДТО
-    try{
-      this.userRepository.save(this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class));
-
-      return "User " + userDTO.getUsername() + " created.";
-    } catch (Exception e){
-
-      return "Unable to create user " + e.getMessage();
-    }
-  }
-
-  @Override
-  public String deleteUser(UserDTO userDTO) {
-    //TODO *******************************
-    //TODO *******************************
-    //TODO  окей ли е да се използва try-catch или има по-добър и чист вариант
-    //TODO  за хващане на празен обект?
-    //TODO *******************************
-    try{
-      this.userRepository.findById(userDTO.getId()).ifPresent(e -> e.setDeleted(true));
-
-      return "User " + userDTO.getUsername() + " was deleted.";
-    }catch (Exception e){
-
-      return "Unable to delete user" + userDTO.getUsername() + " " + e.getMessage();
-    }
-  }
-
-  @Override
-  public String updateUser(UserDTO userDTO) {
-    //TODO *******************************
-    //TODO *******************************
-    //TODO  окей ли е да се използва try-catch или има по-добър и чист вариант
-    //TODO *****************************
-    //TODO *******************************
+  public boolean create(UserDTO userDTO) {
+    log.info("Loading UserServiceImpl { create } ");
     try {
       this.userRepository.save(this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class));
 
-      return "User " + userDTO.getUsername() + " saved.";
+      return true;
     } catch (Exception e) {
+      log.error("Error while loading UserServiceImpl { create } {} ", e.getMessage());
+      return false;
+    }
+  }
 
-      return "User not saved " + e.getMessage();
+  @Override
+  public boolean deleteUser(UserDTO userDTO) {
+    log.info("Loading UserServiceImpl { deleteUser } ");
+    try {
+      this.userRepository.findById(userDTO.getId())
+          .ifPresentOrElse(e -> e.setDeleted(true), UserNotFoundException::new);
+
+      return true;
+    } catch (UserNotFoundException e) {
+
+      log.error("Error while loading UserServiceImpl {deleteUser} ");
+      return false;
+    }
+  }
+
+  @Override
+  public boolean updateUser(UserDTO userDTO) {
+    log.info("Loading UserServiceImpl { updateUser }");
+    try {
+      this.userRepository.save(this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class));
+
+      return true;
+    } catch (Exception e) {
+      log.error("Error while loading UserServiceImpl { updateUser } {}", e.getMessage());
+
+      return false;
     }
   }
 
