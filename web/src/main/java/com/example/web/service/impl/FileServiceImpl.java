@@ -2,7 +2,6 @@ package com.example.web.service.impl;
 
 import com.example.web.constant.ConstantMessages;
 import com.example.web.exception.StorageException;
-import com.example.web.exception.StorageFileNotFoundException;
 import com.example.web.constant.StorageProperties;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
@@ -12,22 +11,19 @@ import com.example.web.service.TourOfferDataService;
 import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import java.util.List;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.stream.Stream;
 
-
+@Slf4j
 @Service
 public class FileServiceImpl implements FileService {
 
@@ -53,6 +49,8 @@ public class FileServiceImpl implements FileService {
 
   @Override
   public boolean handleAllFilesUpload(List<MultipartFile> files, Long userId, Long offerId) {
+    log.info("FileServiceImpl { handleAllFilesUpload } {}, {}",userId, offerId);
+
     files.forEach(file -> {
       Path path = handleSingleFileUpload(file, userId, offerId);
 
@@ -125,8 +123,10 @@ public class FileServiceImpl implements FileService {
         Files.copy(inputStream, destinationFile,
             StandardCopyOption.REPLACE_EXISTING);
       }
+
     } catch (IOException e) {
-      throw new StorageException("Failed to store file.", e);
+      log.error("Failed to store file in FileServiceImpl {}", e.getMessage());
+      throw new StorageException();
     }
     return destinationFile;
   }

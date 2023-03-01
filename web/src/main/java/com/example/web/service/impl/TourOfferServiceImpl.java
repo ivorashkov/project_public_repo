@@ -35,17 +35,15 @@ public class TourOfferServiceImpl implements TourOfferService {
 
   @Override
   public Page<TourOfferPagingDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
-    Page<TourOfferEntity> offerEntity;
-    Page<TourOfferPagingDTO> offerDTOS;
+    Page<TourOfferEntity> offerEntity=null;
+    Page<TourOfferPagingDTO> offerDTOS=null;
     try {
       log.info("initialSearchResult {find offers page}");
-
       offerEntity = this.tourOfferRepository
           .findAll_TourOffers_ByDate(PageRequest.of(pageNumber, pageSize));
-    } catch (Exception e) {
 
+    } catch (PageWithOffersNotFoundException e) {
       log.error("Issue while trying to extract Offers initialSearchResult {}", e.getMessage());
-      throw new PageWithOffersNotFoundException();
     }
 
     try {
@@ -54,13 +52,12 @@ public class TourOfferServiceImpl implements TourOfferService {
       offerDTOS = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntity,
           TourOfferPagingDTO.class);
 
-      return offerDTOS;
 
-    } catch (Exception e) {
-
+    } catch (MapEntityPageIntoDtoPageException e) {
       log.error("Issue while trying to extract Offers initialSearchResult {}", e.getMessage());
-      throw new MapEntityPageIntoDtoPageException();
     }
+
+    return offerDTOS;
   }
 
   @Override
@@ -72,7 +69,7 @@ public class TourOfferServiceImpl implements TourOfferService {
       String... sorts
   ) {
 
-    Page<TourOfferPagingDTO> offers;
+    Page<TourOfferPagingDTO> offers = null;
     try {
       log.info("Filtering Offers {Get Order List}");
       final List<Sort.Order> orders = getOrderList(sorts);//added
@@ -97,13 +94,11 @@ public class TourOfferServiceImpl implements TourOfferService {
         offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities,
             TourOfferPagingDTO.class);
       }
-      return offers;
 
-    } catch (Exception e) {
-
+    } catch (PageWithOffersNotFoundException e) {
       log.error("Issue while trying to extract filtered Offers Page {}", e.getMessage());
-      throw new PageWithOffersNotFoundException();
     }
+    return offers;
   }
 
   @Override
@@ -136,9 +131,8 @@ public class TourOfferServiceImpl implements TourOfferService {
       log.info("TourOfferServiceImpl {saveOfferAndPath} set User");
       tourOfferEntity.setUser(userEntity);
 
-    } catch (Exception e) {
+    } catch (TourOfferNotFoundException e) {
       log.error("Exception while trying to save Offer {}", e.getMessage());
-      throw new TourOfferNotFoundException();
     }
 
     return this.validatorUtil.getDTOFromEntity

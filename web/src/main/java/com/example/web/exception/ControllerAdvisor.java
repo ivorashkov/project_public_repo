@@ -12,7 +12,6 @@ import org.springframework.web.context.request.WebRequest;
 @ControllerAdvice
 public class ControllerAdvisor {
 
-
   @ExceptionHandler(TourOfferNotFoundException.class)
   public ResponseEntity<Object> handleTourOfferNotFoundException(
       TourOfferNotFoundException ex, WebRequest request) {
@@ -44,7 +43,7 @@ public class ControllerAdvisor {
     body.put("timestamp", LocalDateTime.now());
     body.put("message", "Error while trying to Map Page<Offer> into Page<DTO>");
 
-    return new ResponseEntity<>(body, HttpStatus.FOUND);
+    return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
   }
 
   @ExceptionHandler(PageWithOffersNotFoundException.class)
@@ -55,8 +54,18 @@ public class ControllerAdvisor {
     body.put("timestamp", LocalDateTime.now());
     body.put("message", "Page not found");
 
-    return new ResponseEntity<>(body, HttpStatus.FOUND);
+    return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
   }
 
+  @ExceptionHandler(StorageException.class)
+  public ResponseEntity<Object> handleStorageException
+      (StorageException ex, WebRequest request){
+
+    Map<String,Object>  body = new LinkedHashMap<>();
+    body.put("timestamp", LocalDateTime.now());
+    body.put("message", "Issue while trying to store file");
+
+    return new ResponseEntity<>(body, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+  }
 
 }
