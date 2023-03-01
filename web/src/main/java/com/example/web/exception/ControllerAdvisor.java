@@ -52,6 +52,7 @@ public class ControllerAdvisor {
     Map<String, Object> body = new LinkedHashMap<>();
     body.put("timestamp", LocalDateTime.now());
     body.put("message", "Page not found");
+//    body.put("additional", ex); stack trace
 
     return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
   }
@@ -62,6 +63,7 @@ public class ControllerAdvisor {
     Map<String, Object> body = new LinkedHashMap<>();
     body.put("timestamp", LocalDateTime.now());
     body.put("message", "Issue while trying to store file");
+//    body.put("additional", ex); stack trace
 
     return new ResponseEntity<>(body, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
   }
@@ -85,4 +87,5 @@ public class ControllerAdvisor {
 
     return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
   }
+
 }
