@@ -7,14 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
 
 @ControllerAdvice
 public class ControllerAdvisor {
 
   @ExceptionHandler(TourOfferNotFoundException.class)
   public ResponseEntity<Object> handleTourOfferNotFoundException(
-      TourOfferNotFoundException ex, WebRequest request) {
+      TourOfferNotFoundException ex) {
 
     Map<String, Object> body = new LinkedHashMap<>();
     body.put("timestamp", LocalDateTime.now());
@@ -25,8 +24,8 @@ public class ControllerAdvisor {
 
 
   @ExceptionHandler(UserNotFoundException.class)
-  public ResponseEntity<Object> handleUserNotFoundException(
-      UserNotFoundException ex, WebRequest request) {
+  public ResponseEntity<Object> handleUserNotFoundException
+      (UserNotFoundException ex) {
 
     Map<String, Object> body = new LinkedHashMap<>();
     body.put("timestamp", LocalDateTime.now());
@@ -37,9 +36,9 @@ public class ControllerAdvisor {
 
   @ExceptionHandler(MapEntityPageIntoDtoPageException.class)
   public ResponseEntity<Object> handleMapEntityPageIntoDTOPageException
-      (MapEntityPageIntoDtoPageException ex, WebRequest request){
+      (MapEntityPageIntoDtoPageException ex) {
 
-    Map<String,Object>  body = new LinkedHashMap<>();
+    Map<String, Object> body = new LinkedHashMap<>();
     body.put("timestamp", LocalDateTime.now());
     body.put("message", "Error while trying to Map Page<Offer> into Page<DTO>");
 
@@ -48,9 +47,9 @@ public class ControllerAdvisor {
 
   @ExceptionHandler(PageWithOffersNotFoundException.class)
   public ResponseEntity<Object> handlePageWithOffersNotFoundException
-      (PageWithOffersNotFoundException ex, WebRequest request){
+      (PageWithOffersNotFoundException ex) {
 
-    Map<String,Object>  body = new LinkedHashMap<>();
+    Map<String, Object> body = new LinkedHashMap<>();
     body.put("timestamp", LocalDateTime.now());
     body.put("message", "Page not found");
 
@@ -58,10 +57,9 @@ public class ControllerAdvisor {
   }
 
   @ExceptionHandler(StorageException.class)
-  public ResponseEntity<Object> handleStorageException
-      (StorageException ex, WebRequest request){
+  public ResponseEntity<Object> handleStorageException(StorageException ex) {
 
-    Map<String,Object>  body = new LinkedHashMap<>();
+    Map<String, Object> body = new LinkedHashMap<>();
     body.put("timestamp", LocalDateTime.now());
     body.put("message", "Issue while trying to store file");
 
@@ -69,11 +67,21 @@ public class ControllerAdvisor {
   }
 
   @ExceptionHandler(TourOfferFilePathNotFoundException.class)
-  public ResponseEntity<Object> handleTourOfferFilePathNotFoundException(){
+  public ResponseEntity<Object> handleTourOfferFilePathNotFoundException() {
 
-    Map<String,Object>  body = new LinkedHashMap<>();
+    Map<String, Object> body = new LinkedHashMap<>();
     body.put("timestamp", LocalDateTime.now());
     body.put("message", "Issue while trying to find Offer files");
+
+    return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+  }
+
+  @ExceptionHandler(NoDataFoundException.class)
+  public ResponseEntity<Object> handleNodataFoundException(NoDataFoundException ex) {
+
+    Map<String, Object> body = new LinkedHashMap<>();
+    body.put("timestamp", LocalDateTime.now());
+    body.put("message", "No cities found");
 
     return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
   }
