@@ -8,7 +8,7 @@ public interface OfficeService {
 
   List<OfficeDTO> addOffice(OfficeDTO officeDTO);
 
-  void deleteOffice(OfficeDTO officeDTO);
+  boolean deleteOffice(OfficeDTO officeDTO);
 
   List<OfficeDTO> editOffice(OfficeDTO officeDTO);
 }

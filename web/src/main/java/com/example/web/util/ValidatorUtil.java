@@ -17,6 +17,8 @@ public interface ValidatorUtil {
 
   <E> ResponseEntity<E> responseEntity(E entity);
 
+  <E> ResponseEntity<E> responseEntityBoolean(boolean b);
+
   <T, D> Page<D> mapEntityPageIntoDtoPage(Page<T> entities, Class<D> dtoClass);
 
   <E> E getCriteriaParam(E country, E city);

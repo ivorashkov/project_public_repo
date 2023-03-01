@@ -29,7 +29,7 @@ public class OfficeServiceImpl implements OfficeService {
   }
 
   @Override
-  public void deleteOffice(OfficeDTO officeDTO) {
+  public boolean deleteOffice(OfficeDTO officeDTO) {
     log.info("Loading OfficeServiceImpl { deleteOffice }");
     Optional<OfficeEntity> officeEntity = this.officeRepository.findByIdAndUserId
         (
@@ -40,6 +40,11 @@ public class OfficeServiceImpl implements OfficeService {
     if (officeEntity.isPresent()) {
       officeEntity.get().setDeleted(true);
       this.officeRepository.save(officeEntity.get());
+
+      return true;
+    }else{
+
+      return false;
     }
   }
 

@@ -3,7 +3,6 @@ package com.example.web.service;
 import com.example.web.model.dto.TourOfferCreateDTO;
 import com.example.web.model.dto.TourOfferPagingDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
-import com.example.web.model.dto.UserDTO;
 import org.springframework.data.domain.Page;
 
 public interface TourOfferService {
@@ -17,5 +16,5 @@ public interface TourOfferService {
 
   TourOfferFullDTO saveOfferAndPath(TourOfferCreateDTO importedOfferDTO);
 
-  void deleteOffer(Long userId, Long offerId);
+  boolean deleteOffer(Long userId, Long offerId);
 }

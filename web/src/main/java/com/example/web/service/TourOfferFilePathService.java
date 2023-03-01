@@ -5,7 +5,7 @@ import com.example.web.model.dto.TourOfferFullDTO;
 import java.nio.file.Path;
 import java.util.List;
 
-public interface TourOfferDataService {
+public interface TourOfferFilePathService {
 
   void saveFileUri(TourOfferFullDTO offerDTO, Path initPath);
 

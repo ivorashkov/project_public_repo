@@ -7,7 +7,7 @@ import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.service.AccountInfoService;
 import com.example.web.service.FileService;
-import com.example.web.service.TourOfferDataService;
+import com.example.web.service.TourOfferFilePathService;
 import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import java.util.List;
@@ -30,13 +30,13 @@ public class FileServiceImpl implements FileService {
   private final TourOfferService tourOfferService;
   private final UserService userService;
   private final AccountInfoService additionalInfoService;
-  private final TourOfferDataService offerDataService;
+  private final TourOfferFilePathService offerDataService;
   private final Path rootLocation;
 
   public FileServiceImpl
       (
           TourOfferService tourOfferService,
-          UserService userService, TourOfferDataService offerDataService,
+          UserService userService, TourOfferFilePathService offerDataService,
           StorageProperties properties,
           AccountInfoService additionalInfoService
       ) {

@@ -6,16 +6,13 @@ import com.example.web.model.enums.RoleType;
 import com.example.web.util.ValidatorUtil;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 @Component
 public class ValidatorUtilImpl implements ValidatorUtil {
@@ -65,6 +62,15 @@ public class ValidatorUtilImpl implements ValidatorUtil {
       return ResponseEntity.notFound().build();
     } else {
       return ResponseEntity.ok(entity);
+    }
+  }
+
+  @Override
+  public <E> ResponseEntity<E> responseEntityBoolean(boolean b){
+    if (b){
+      return ResponseEntity.ok().build();
+    }else{
+      return ResponseEntity.badRequest().build();
     }
   }
 

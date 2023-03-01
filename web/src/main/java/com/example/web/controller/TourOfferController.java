@@ -5,7 +5,7 @@ import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.model.enums.TransportType;
 import com.example.web.service.FileService;
-import com.example.web.service.TourOfferDataService;
+import com.example.web.service.TourOfferFilePathService;
 import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
@@ -27,7 +27,7 @@ public class TourOfferController {
 
   private final UserService userService;
   private final FileService fileService;
-  private final TourOfferDataService tourOfferDataService;
+  private final TourOfferFilePathService tourOfferDataService;
   private final TourOfferService tourOfferService;
 
   private final ValidatorUtil validatorUtil;
@@ -60,13 +60,13 @@ public class TourOfferController {
   }
 
   @DeleteMapping("/delete")
-  public void deleteOffer(
+  public ResponseEntity<Object> deleteOffer(
       @RequestParam("userId") Long userId,
       @RequestParam("offerId") Long offerId
   ) {
 
     //localhost:8091/offer/delete?userId=1&offerId=1
-    this.tourOfferService.deleteOffer(userId, offerId);
+    return this.validatorUtil.responseEntityBoolean(this.tourOfferService.deleteOffer(userId, offerId));
   }
 
   @PostMapping(value = "/create", consumes = {"multipart/form-data"})

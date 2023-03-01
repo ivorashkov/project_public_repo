@@ -7,7 +7,7 @@ import com.example.web.model.entity.TourOfferFilePathEntity;
 import com.example.web.model.entity.TourOfferEntity;
 import com.example.web.repository.OfferDataRepository;
 
-import com.example.web.service.TourOfferDataService;
+import com.example.web.service.TourOfferFilePathService;
 import com.example.web.util.ValidatorUtil;
 import java.nio.file.Path;
 import java.util.List;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class TourOfferImagePathServiceImpl implements TourOfferDataService {
+public class TourOfferFilePathServiceImpl implements TourOfferFilePathService {
 
   private final OfferDataRepository offerDataRepository;
   private final ValidatorUtil validatorUtil;

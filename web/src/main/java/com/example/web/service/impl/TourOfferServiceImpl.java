@@ -12,6 +12,7 @@ import com.example.web.repository.TourOfferRepository;
 import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -143,13 +144,23 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public void deleteOffer(Long userId, Long offerId) {
+  public boolean deleteOffer(Long userId, Long offerId) {
 
-    this.tourOfferRepository.findByIdAndUserId(offerId, userId)
-        .ifPresent(entity -> {
-          entity.setDeleted(true);
-          this.tourOfferRepository.save(entity);
-        });
+    Optional<TourOfferEntity> offer =
+        this.tourOfferRepository.findByIdAndUserId(offerId, userId);
+
+    if (offer.isEmpty()) {
+
+      return false;
+    } else {
+      offer.ifPresent(o ->
+      {
+        o.setDeleted(true);
+        this.tourOfferRepository.save(offer.get());
+      });
+
+      return true;
+    }
   }
 
   private List<Sort.Order> getOrderList(String[] sort) {

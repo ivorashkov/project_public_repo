@@ -26,7 +26,7 @@ public class FileController {
   }
 
   @PatchMapping("/upload/all")
-  public ResponseEntity handleAllFilesUpload(
+  public ResponseEntity<Object> handleAllFilesUpload(
       @RequestParam("file") List<MultipartFile> files,
       @RequestParam(name = "userId") Long userId,
       @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
@@ -34,9 +34,8 @@ public class FileController {
     //localhost:8091/user/upload/all?userId=1&offerId=3
     //localhost:8091/user/upload/all?userId=1
 
-    this.fileService.handleAllFilesUpload(files, userId, offerId);
-    //todo check
-    return ResponseEntity.ok().build();
+    return this.validatorUtil.responseEntityBoolean
+        (this.fileService.handleAllFilesUpload(files, userId, offerId));
   }
 
 }
