@@ -45,7 +45,8 @@ public class TourOfferServiceImpl implements TourOfferService {
           .findAll_TourOffers_ByDate(PageRequest.of(pageNumber, pageSize));
 
     } catch (PageWithOffersNotFoundException e) {
-      log.error(" [ERROR] Issue while trying to extract Offers initialSearchResult {}", e.getMessage());
+      log.error(" [ERROR] Issue while trying to extract Offers initialSearchResult {}",
+          e.getMessage());
     }
 
     try {
@@ -56,7 +57,8 @@ public class TourOfferServiceImpl implements TourOfferService {
 
 
     } catch (MapEntityPageIntoDtoPageException e) {
-      log.error(" [ERROR] Issue while trying to extract Offers initialSearchResult {}", e.getMessage());
+      log.error(" [ERROR] Issue while trying to extract Offers initialSearchResult {}",
+          e.getMessage());
     }
 
     return offerDTOS;
@@ -145,21 +147,21 @@ public class TourOfferServiceImpl implements TourOfferService {
 
   @Override
   public boolean deleteOffer(Long userId, Long offerId) {
+    log.info(" [INFO] Loading TourOfferServiceImpl { deleteOffer }");
 
-    Optional<TourOfferEntity> offer =
-        this.tourOfferRepository.findByIdAndUserId(offerId, userId);
+    try {
+      TourOfferEntity offer =
+          this.tourOfferRepository.findByIdAndUserId(offerId, userId)
+              .orElseThrow(TourOfferNotFoundException::new);
 
-    if (offer.isEmpty()) {
+      offer.setDeleted(true);
+
+      return this.tourOfferRepository.save(offer).isPresent();
+    } catch (TourOfferNotFoundException e) {
+      log.error(" [ERROR] Error while loading TourOfferServiceImpl { deleteOffer } {} ",
+          e.getMessage());
 
       return false;
-    } else {
-      offer.ifPresent(o ->
-      {
-        o.setDeleted(true);
-        this.tourOfferRepository.save(offer.get());
-      });
-
-      return true;
     }
   }
 
