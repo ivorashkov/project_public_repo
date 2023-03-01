@@ -6,14 +6,12 @@ import com.example.web.exception.TourOfferNotFoundException;
 import com.example.web.model.dto.TourOfferCreateDTO;
 import com.example.web.model.dto.TourOfferPagingDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
-import com.example.web.model.dto.UserDTO;
 import com.example.web.model.entity.TourOfferEntity;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.repository.TourOfferRepository;
 import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -125,16 +123,26 @@ public class TourOfferServiceImpl implements TourOfferService {
   @Override
   public TourOfferFullDTO saveOfferAndPath(TourOfferCreateDTO importedOfferDTO) {
 
-    var userEntity = this.validatorUtil.getEntityFromDTO
-        (this.userService.findUserDTOById(importedOfferDTO.getUser().getId()), UserEntity.class);
+    TourOfferEntity tourOfferEntity = null;
+    try {
+      log.info("TourOfferServiceImpl {saveOfferAndPath} getEntityFromDTO{findUserDTOById}");
+      var userEntity = this.validatorUtil.getEntityFromDTO
+          (this.userService.findUserDTOById(importedOfferDTO.getUser().getId()), UserEntity.class);
 
-    var tourOfferEntity = this.validatorUtil.getEntityFromDTO
-        (importedOfferDTO, TourOfferEntity.class);
-    tourOfferEntity.setUser(userEntity);
+      log.info("TourOfferServiceImpl {saveOfferAndPath} getEntityFromDTO");
+      tourOfferEntity = this.validatorUtil.getEntityFromDTO
+          (importedOfferDTO, TourOfferEntity.class);
+
+      log.info("TourOfferServiceImpl {saveOfferAndPath} set User");
+      tourOfferEntity.setUser(userEntity);
+
+    } catch (Exception e) {
+      log.error("Exception while trying to save Offer {}", e.getMessage());
+      throw new TourOfferNotFoundException();
+    }
 
     return this.validatorUtil.getDTOFromEntity
         (this.tourOfferRepository.save(tourOfferEntity), TourOfferFullDTO.class);
-
   }
 
   @Override
@@ -163,12 +171,13 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   private Sort.Direction getDirectionOfSort(String directionCriteria) {
-    //Order order1 = new Order(Sort.Direction.DESC, "published");
+
     if ("ASC".equalsIgnoreCase(directionCriteria)) {
       return Sort.Direction.ASC;
     } else if ("DESC".equalsIgnoreCase(directionCriteria)) {
       return Sort.Direction.DESC;
     }
+
     return null;
   }
 

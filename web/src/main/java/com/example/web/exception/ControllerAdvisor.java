@@ -42,9 +42,21 @@ public class ControllerAdvisor {
 
     Map<String,Object>  body = new LinkedHashMap<>();
     body.put("timestamp", LocalDateTime.now());
+    body.put("message", "Error while trying to Map Page<Offer> into Page<DTO>");
+
+    return new ResponseEntity<>(body, HttpStatus.FOUND);
+  }
+
+  @ExceptionHandler(PageWithOffersNotFoundException.class)
+  public ResponseEntity<Object> handlePageWithOffersNotFoundException
+      (PageWithOffersNotFoundException ex, WebRequest request){
+
+    Map<String,Object>  body = new LinkedHashMap<>();
+    body.put("timestamp", LocalDateTime.now());
     body.put("message", "Page not found");
 
     return new ResponseEntity<>(body, HttpStatus.FOUND);
   }
+
 
 }

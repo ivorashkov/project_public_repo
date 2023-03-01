@@ -1,5 +1,8 @@
 package com.example.web.exception;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class StorageFileNotFoundException extends StorageException {
 
   public StorageFileNotFoundException(String message) {
