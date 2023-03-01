@@ -59,6 +59,7 @@ public class TourOfferServiceImpl implements TourOfferService {
       return offerDTOS;
 
     } catch (Exception e) {
+
       log.error("Issue while trying to extract Offers initialSearchResult {}", e.getMessage());
       throw new MapEntityPageIntoDtoPageException();
     }
@@ -75,20 +76,25 @@ public class TourOfferServiceImpl implements TourOfferService {
 
     Page<TourOfferPagingDTO> offers;
     try {
+      log.info("Filtering Offers {Get Order List}");
       final List<Sort.Order> orders = getOrderList(sorts);//added
 
       final Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(orders));
 
+      log.info("Filtering Offers {Get Criteria Param}");
       final String criteria = getCriteriaParam(country, city);
 
       final Page<TourOfferEntity> offerEntities;
 
       if (criteria == null) {
-        //works
+        log.info("Filtering Offers {Missing criteria param filtering}");
+
         offerEntities = tourOfferRepository.findAll_TourOffers_ByDate(pageable);
         offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities,
             TourOfferPagingDTO.class);
       } else {
+        log.info("Filtering Offers {Criteria param filtering}");
+
         offerEntities = tourOfferRepository.findAllByCriteria(criteria, pageable);
         offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities,
             TourOfferPagingDTO.class);
@@ -96,8 +102,9 @@ public class TourOfferServiceImpl implements TourOfferService {
       return offers;
 
     } catch (Exception e) {
-      throw new NullPointerException(
-          "Issue while trying to extract Offers searchAndFilterOffers" + e.getMessage());
+
+      log.error("Issue while trying to extract filtered Offers Page {}", e.getMessage());
+      throw new PageWithOffersNotFoundException();
     }
   }
 

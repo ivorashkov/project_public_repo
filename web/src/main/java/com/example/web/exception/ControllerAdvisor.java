@@ -36,4 +36,15 @@ public class ControllerAdvisor {
     return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
   }
 
+  @ExceptionHandler(MapEntityPageIntoDtoPageException.class)
+  public ResponseEntity<Object> handleMapEntityPageIntoDTOPageException
+      (MapEntityPageIntoDtoPageException ex, WebRequest request){
+
+    Map<String,Object>  body = new LinkedHashMap<>();
+    body.put("timestamp", LocalDateTime.now());
+    body.put("message", "Page not found");
+
+    return new ResponseEntity<>(body, HttpStatus.FOUND);
+  }
+
 }
