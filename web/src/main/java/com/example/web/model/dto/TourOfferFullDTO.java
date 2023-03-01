@@ -47,6 +47,6 @@ public class TourOfferFullDTO extends BaseDTO {
   private TransportType transportType;
 
   @Expose
-  private List<TourOfferImagePathDTO> paths;
+  private List<TourOfferFilePathDTO> paths;
 
 }

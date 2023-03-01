@@ -68,4 +68,13 @@ public class ControllerAdvisor {
     return new ResponseEntity<>(body, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
   }
 
+  @ExceptionHandler(TourOfferFilePathNotFoundException.class)
+  public ResponseEntity<Object> handleTourOfferFilePathNotFoundException(){
+
+    Map<String,Object>  body = new LinkedHashMap<>();
+    body.put("timestamp", LocalDateTime.now());
+    body.put("message", "Issue while trying to find Offer files");
+
+    return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+  }
 }

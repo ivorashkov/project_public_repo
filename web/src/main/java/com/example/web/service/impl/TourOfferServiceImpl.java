@@ -35,8 +35,8 @@ public class TourOfferServiceImpl implements TourOfferService {
 
   @Override
   public Page<TourOfferPagingDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
-    Page<TourOfferEntity> offerEntity=null;
-    Page<TourOfferPagingDTO> offerDTOS=null;
+    Page<TourOfferEntity> offerEntity = null;
+    Page<TourOfferPagingDTO> offerDTOS = null;
     try {
       log.info("initialSearchResult {find offers page}");
       offerEntity = this.tourOfferRepository
@@ -103,22 +103,29 @@ public class TourOfferServiceImpl implements TourOfferService {
 
   @Override
   public TourOfferFullDTO findByIdAndUserId(Long offerId, Long userId) {
+    TourOfferEntity tourEntity = null;
 
-    var tourEntity = this.tourOfferRepository.findByIdAndUserId(offerId, userId)
-        .orElseThrow(TourOfferNotFoundException::new);
+    try {
+      log.info("TourOfferServiceImpl -  findByIdAndUserId ");
+      tourEntity = this.tourOfferRepository.findByIdAndUserId(offerId, userId)
+          .orElseThrow(TourOfferNotFoundException::new);
 
-    var userEntity = this.validatorUtil.getEntityFromDTO
-        (this.userService.findUserDTOById(userId), UserEntity.class);
+      var userEntity = this.validatorUtil.getEntityFromDTO
+          (this.userService.findUserDTOById(userId), UserEntity.class);
 
-    tourEntity.setUser(userEntity);
+      tourEntity.setUser(userEntity);
+
+    } catch (TourOfferNotFoundException e) {
+      log.error("Error while trying to find Offer By User ID and Offer ID {}", e.getMessage());
+    }
 
     return this.validatorUtil.getDTOFromEntity(tourEntity, TourOfferFullDTO.class);
   }
 
   @Override
   public TourOfferFullDTO saveOfferAndPath(TourOfferCreateDTO importedOfferDTO) {
-
     TourOfferEntity tourOfferEntity = null;
+
     try {
       log.info("TourOfferServiceImpl {saveOfferAndPath} getEntityFromDTO{findUserDTOById}");
       var userEntity = this.validatorUtil.getEntityFromDTO

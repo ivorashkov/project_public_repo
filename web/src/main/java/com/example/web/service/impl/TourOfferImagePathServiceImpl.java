@@ -1,8 +1,9 @@
 package com.example.web.service.impl;
 
-import com.example.web.model.dto.TourOfferImagePathDTO;
+import com.example.web.exception.TourOfferNotFoundException;
+import com.example.web.model.dto.TourOfferFilePathDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
-import com.example.web.model.entity.TourOfferImagePathEntity;
+import com.example.web.model.entity.TourOfferFilePathEntity;
 import com.example.web.model.entity.TourOfferEntity;
 import com.example.web.repository.OfferDataRepository;
 
@@ -12,10 +13,10 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-
+@Slf4j
 @Service
 @AllArgsConstructor
 public class TourOfferImagePathServiceImpl implements TourOfferDataService {
@@ -25,33 +26,53 @@ public class TourOfferImagePathServiceImpl implements TourOfferDataService {
 
   @Override
   public void saveFileUri(TourOfferFullDTO offerDTO, Path absoluteDocumentLocation) {
-    Optional<TourOfferImagePathEntity> isAlreadyInDB =
+    Optional<TourOfferFilePathEntity> isAlreadyInDB =
         this.offerDataRepository.findByDocumentLocation(absoluteDocumentLocation.toString());
 
-    if (isAlreadyInDB.isEmpty()){
+    if (isAlreadyInDB.isEmpty()) {
       var tourOfferEntity =
-          this.validatorUtil.getEntityFromDTO(offerDTO,TourOfferEntity.class);
+          this.validatorUtil.getEntityFromDTO(offerDTO, TourOfferEntity.class);
 
       var dataPathEntity =
-          new TourOfferImagePathEntity(absoluteDocumentLocation.toString(), tourOfferEntity);
+          new TourOfferFilePathEntity(absoluteDocumentLocation.toString(), tourOfferEntity);
 
       this.offerDataRepository.save(dataPathEntity);
     }
   }
 
   @Override
-  public List<TourOfferImagePathDTO> findAllOfferDataPaths(Long offerId) {
-    List<TourOfferImagePathEntity> offerDataPathEntities =
-        this.validatorUtil.getListFromOptionalList(this.offerDataRepository.findAllByOfferId(offerId));
+  public List<TourOfferFilePathDTO> findAllOfferDataPaths(Long offerId) {
+    List<TourOfferFilePathEntity> offerDataPathEntities = null;
 
-    return this.validatorUtil.getDTOList(offerDataPathEntities, TourOfferImagePathDTO.class);
+    try {
+      log.info("TourOfferImagePathServiceImpl {findAllOfferDataPaths}");
+
+      offerDataPathEntities =
+          this.validatorUtil.getListFromOptionalList(
+              this.offerDataRepository.findAllByOfferId(offerId));
+
+    } catch (TourOfferNotFoundException e) {
+
+      log.error("Error while searching for Offer files {}", e.getMessage());
+    }
+
+    return this.validatorUtil.getDTOList(offerDataPathEntities, TourOfferFilePathDTO.class);
   }
 
   @Override
-  public List<TourOfferImagePathDTO> getOfferPaths(TourOfferFullDTO tourOfferFullDTO) {
-    List<TourOfferImagePathEntity> paths = this.validatorUtil.getListFromOptionalList
-        (this.offerDataRepository.findAllByOfferId(tourOfferFullDTO.getId()));
+  public List<TourOfferFilePathDTO> getOfferPaths(TourOfferFullDTO tourOfferFullDTO) {
+    List<TourOfferFilePathEntity> paths = null;
 
-    return this.validatorUtil.getDTOList(paths, TourOfferImagePathDTO.class);
+    try {
+      log.info("Loading Offer Files");
+
+      paths = this.validatorUtil.getListFromOptionalList
+          (this.offerDataRepository.findAllByOfferId(tourOfferFullDTO.getId()));
+
+    }catch (TourOfferNotFoundException e){
+      log.error("TourOfferImagePathServiceImpl {getOfferPaths} {}", e.getMessage());
+    }
+
+    return this.validatorUtil.getDTOList(paths, TourOfferFilePathDTO.class);
   }
 }

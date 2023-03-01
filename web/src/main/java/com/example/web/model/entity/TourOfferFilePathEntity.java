@@ -18,8 +18,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tour_offer_pictures")
-public class TourOfferImagePathEntity extends BaseEntity implements DeletableObject {
+@Table(name = "tour_offer_file")
+public class TourOfferFilePathEntity extends BaseEntity implements DeletableObject {
 
   @Column(name = "picture_uri", nullable = false, unique = false)
   private String documentLocation;

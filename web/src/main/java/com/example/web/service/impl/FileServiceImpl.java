@@ -104,7 +104,8 @@ public class FileServiceImpl implements FileService {
   }
 
   private Path store(MultipartFile file, Path pathFromInitialization) {
-    Path destinationFile;
+    Path destinationFile=null;
+
     try {
       if (file.isEmpty()) {
         throw new StorageException("Failed to store empty file.");
@@ -126,8 +127,8 @@ public class FileServiceImpl implements FileService {
 
     } catch (IOException e) {
       log.error("Failed to store file in FileServiceImpl {}", e.getMessage());
-      throw new StorageException();
     }
+
     return destinationFile;
   }
 
