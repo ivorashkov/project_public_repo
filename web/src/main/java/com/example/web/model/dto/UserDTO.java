@@ -1,5 +1,6 @@
 package com.example.web.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +16,7 @@ public class UserDTO extends BaseDTO {
   @Expose
   private Long id;
 
+//  @JsonIgnore
   @Expose
   private boolean isActive;
 

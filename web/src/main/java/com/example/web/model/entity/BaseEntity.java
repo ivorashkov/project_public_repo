@@ -1,6 +1,7 @@
 package com.example.web.model.entity;
 
 import com.example.web.model.interfaces.DeletableObject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

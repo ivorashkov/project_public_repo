@@ -12,7 +12,6 @@ import com.example.web.repository.TourOfferRepository;
 import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -36,9 +35,8 @@ public class TourOfferServiceImpl implements TourOfferService {
 
   @Override
   public Page<TourOfferPagingDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
-    Page<TourOfferEntity> offerEntity = null;
-    Page<TourOfferPagingDTO> offerDTOS = null;
 
+    Page<TourOfferEntity> offerEntity = null;
     try {
       log.info(" [INFO]  TourOfferServiceImpl { initialSearchResult }  {find offers page}");
       offerEntity = this.tourOfferRepository
@@ -52,16 +50,15 @@ public class TourOfferServiceImpl implements TourOfferService {
     try {
       log.info(" [INFO]  TourOfferServiceImpl { initialSearchResult }  { mapToDTO Page }");
 
-      offerDTOS = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntity,
+      return this.validatorUtil.mapEntityPageIntoDtoPage(offerEntity,
           TourOfferPagingDTO.class);
-
 
     } catch (MapEntityPageIntoDtoPageException e) {
       log.error(" [ERROR] Issue while trying to extract Offers initialSearchResult {}",
           e.getMessage());
-    }
 
-    return offerDTOS;
+      throw e;
+    }
   }
 
   @Override
@@ -96,10 +93,12 @@ public class TourOfferServiceImpl implements TourOfferService {
             TourOfferPagingDTO.class);
       }
 
+      return offers;
     } catch (PageWithOffersNotFoundException e) {
       log.error(" [ERROR] Error while trying to extract filtered Offers Page {}", e.getMessage());
+
+      throw e;
     }
-    return offers;
   }
 
   @Override
@@ -108,6 +107,7 @@ public class TourOfferServiceImpl implements TourOfferService {
 
     TourOfferEntity tourEntity = null;
     try {
+
       tourEntity = this.tourOfferRepository.findByIdAndUserId(offerId, userId)
           .orElseThrow(TourOfferNotFoundException::new);
 
@@ -116,33 +116,36 @@ public class TourOfferServiceImpl implements TourOfferService {
 
       tourEntity.setUser(userEntity);
 
+      return this.validatorUtil.getDTOFromEntity(tourEntity, TourOfferFullDTO.class);
     } catch (TourOfferNotFoundException e) {
       log.error(" [ERROR] Error TourOfferServiceImpl { findByIdAndUserId } {}", e.getMessage());
-    }
 
-    return this.validatorUtil.getDTOFromEntity(tourEntity, TourOfferFullDTO.class);
+      throw e;
+    }
   }
 
   @Override
   public TourOfferFullDTO saveOfferAndPath(TourOfferCreateDTO importedOfferDTO) {
     log.info(" [INFO] TourOfferServiceImpl {saveOfferAndPath}");
 
-    TourOfferEntity tourOfferEntity = null;
     try {
+
       var userEntity = this.validatorUtil.getEntityFromDTO
           (this.userService.findUserDTOById(importedOfferDTO.getUser().getId()), UserEntity.class);
 
-      tourOfferEntity = this.validatorUtil.getEntityFromDTO
+      var tourOfferEntity = this.validatorUtil.getEntityFromDTO
           (importedOfferDTO, TourOfferEntity.class);
 
       tourOfferEntity.setUser(userEntity);
 
+      return this.validatorUtil.getDTOFromEntity
+          (this.tourOfferRepository.save(tourOfferEntity), TourOfferFullDTO.class);
+
     } catch (TourOfferNotFoundException e) {
       log.error(" [ERROR] Exception while trying to save Offer {}", e.getMessage());
-    }
 
-    return this.validatorUtil.getDTOFromEntity
-        (this.tourOfferRepository.save(tourOfferEntity), TourOfferFullDTO.class);
+      throw e;
+    }
   }
 
   @Override
@@ -161,7 +164,8 @@ public class TourOfferServiceImpl implements TourOfferService {
       log.error(" [ERROR] Error while loading TourOfferServiceImpl { deleteOffer } {} ",
           e.getMessage());
 
-      return false;
+      throw e;
+      //return false
     }
   }
 
