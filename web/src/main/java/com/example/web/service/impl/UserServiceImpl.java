@@ -21,14 +21,14 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserDTO findUserDTOById(Long id) {
-    log.info("Loading UserServiceImpl {findUserDTOById} ");
+    log.info(" [INFO] Loading UserServiceImpl {findUserDTOById} ");
     UserEntity userEntity = null;
     try {
       userEntity =
           this.userRepository.findUserEntityById(id).orElseThrow(UserNotFoundException::new);
 
     } catch (UserNotFoundException e) {
-      log.error("Error while loading UserServiceImpl {findUserDTOById} {}", e.getMessage());
+      log.error(" [ERROR] Error while loading UserServiceImpl {findUserDTOById} {}", e.getMessage());
     }
 
     return this.validatorUtil.getDTOFromEntity(userEntity, UserDTO.class);
@@ -36,20 +36,20 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public boolean create(UserDTO userDTO) {
-    log.info("Loading UserServiceImpl { create } ");
+    log.info(" [INFO] Loading UserServiceImpl { create } ");
     try {
       this.userRepository.save(this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class));
 
       return true;
     } catch (Exception e) {
-      log.error("Error while loading UserServiceImpl { create } {} ", e.getMessage());
+      log.error(" [ERROR] Error while loading UserServiceImpl { create } {} ", e.getMessage());
       return false;
     }
   }
 
   @Override
   public boolean deleteUser(UserDTO userDTO) {
-    log.info("Loading UserServiceImpl { deleteUser } ");
+    log.info(" [INFO] Loading UserServiceImpl { deleteUser } ");
     try {
       this.userRepository.findById(userDTO.getId())
           .ifPresentOrElse(e -> e.setDeleted(true), UserNotFoundException::new);
@@ -57,20 +57,20 @@ public class UserServiceImpl implements UserService {
       return true;
     } catch (UserNotFoundException e) {
 
-      log.error("Error while loading UserServiceImpl {deleteUser} ");
+      log.error(" [ERROR] Error while loading UserServiceImpl {deleteUser} ");
       return false;
     }
   }
 
   @Override
   public boolean updateUser(UserDTO userDTO) {
-    log.info("Loading UserServiceImpl { updateUser }");
+    log.info(" [INFO] Loading UserServiceImpl { updateUser }");
     try {
       this.userRepository.save(this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class));
 
       return true;
     } catch (Exception e) {
-      log.error("Error while loading UserServiceImpl { updateUser } {}", e.getMessage());
+      log.error(" [ERROR] Error while loading UserServiceImpl { updateUser } {}", e.getMessage());
 
       return false;
     }

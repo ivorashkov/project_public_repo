@@ -49,7 +49,7 @@ public class FileServiceImpl implements FileService {
 
   @Override
   public boolean handleAllFilesUpload(List<MultipartFile> files, Long userId, Long offerId) {
-    log.info("FileServiceImpl { handleAllFilesUpload } {}, {}",userId, offerId);
+    log.info(" [INFO] FileServiceImpl { handleAllFilesUpload } {}, {}",userId, offerId);
 
     files.forEach(file -> {
       Path path = handleSingleFileUpload(file, userId, offerId);
@@ -126,7 +126,7 @@ public class FileServiceImpl implements FileService {
       }
 
     } catch (IOException e) {
-      log.error("Failed to store file in FileServiceImpl {}", e.getMessage());
+      log.error(" [ERROR] Failed to store file in FileServiceImpl {}", e.getMessage());
     }
 
     return destinationFile;

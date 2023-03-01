@@ -4,6 +4,7 @@ import com.example.web.model.dto.UserDTO;
 import com.example.web.service.FileService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class FileController {
   private final ValidatorUtil validatorUtil;
 
   @GetMapping("/{id}")
-  public ResponseEntity<UserDTO> response(@PathVariable("id") Long userId) {
+  public ResponseEntity<UserDTO> response(@PathVariable("id") @Valid Long userId) {
     return this.validatorUtil.responseEntity(userService.findUserDTOById(userId));
   }
 

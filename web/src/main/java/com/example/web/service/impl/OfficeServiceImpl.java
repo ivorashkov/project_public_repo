@@ -24,13 +24,13 @@ public class OfficeServiceImpl implements OfficeService {
 
   @Override
   public List<OfficeDTO> addOffice(OfficeDTO officeDTO) {
-    log.info("Loading OfficeServiceImpl { addOffice }");
+    log.info(" [INFO] Loading OfficeServiceImpl { addOffice }");
     return saveOfficeAndReturnAllOffices(officeDTO);
   }
 
   @Override
   public boolean deleteOffice(OfficeDTO officeDTO) {
-    log.info("Loading OfficeServiceImpl { deleteOffice }");
+    log.info(" [INFO] Loading OfficeServiceImpl { deleteOffice }");
     Optional<OfficeEntity> officeEntity = this.officeRepository.findByIdAndUserId
         (
             officeDTO.getId(),
@@ -50,12 +50,12 @@ public class OfficeServiceImpl implements OfficeService {
 
   @Override
   public List<OfficeDTO> editOffice(OfficeDTO officeDTO) {
-    log.info("Loading OfficeServiceImpl {editOffice}");
+    log.info(" [INFO] Loading OfficeServiceImpl {editOffice}");
     return saveOfficeAndReturnAllOffices(officeDTO);
   }
 
   private List<OfficeDTO> saveOfficeAndReturnAllOffices(OfficeDTO officeDTO) {
-    log.info("Loading OfficeServiceImpl {saveOfficeAndReturnAllOffices}");
+    log.info(" [INFO] Loading OfficeServiceImpl {saveOfficeAndReturnAllOffices}");
     var officeEntity = this.validatorUtil.getEntityFromDTO(officeDTO, OfficeEntity.class);
     this.officeRepository.save(officeEntity);
 

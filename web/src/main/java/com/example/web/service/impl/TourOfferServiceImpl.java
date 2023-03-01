@@ -40,23 +40,23 @@ public class TourOfferServiceImpl implements TourOfferService {
     Page<TourOfferPagingDTO> offerDTOS = null;
 
     try {
-      log.info(" TourOfferServiceImpl { initialSearchResult }  {find offers page}");
+      log.info(" [INFO]  TourOfferServiceImpl { initialSearchResult }  {find offers page}");
       offerEntity = this.tourOfferRepository
           .findAll_TourOffers_ByDate(PageRequest.of(pageNumber, pageSize));
 
     } catch (PageWithOffersNotFoundException e) {
-      log.error("Issue while trying to extract Offers initialSearchResult {}", e.getMessage());
+      log.error(" [ERROR] Issue while trying to extract Offers initialSearchResult {}", e.getMessage());
     }
 
     try {
-      log.info(" TourOfferServiceImpl { initialSearchResult }  { mapToDTO Page }");
+      log.info(" [INFO]  TourOfferServiceImpl { initialSearchResult }  { mapToDTO Page }");
 
       offerDTOS = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntity,
           TourOfferPagingDTO.class);
 
 
     } catch (MapEntityPageIntoDtoPageException e) {
-      log.error("Issue while trying to extract Offers initialSearchResult {}", e.getMessage());
+      log.error(" [ERROR] Issue while trying to extract Offers initialSearchResult {}", e.getMessage());
     }
 
     return offerDTOS;
@@ -70,7 +70,7 @@ public class TourOfferServiceImpl implements TourOfferService {
       String city,
       String... sorts
   ) {
-    log.info("Loading TourOfferServiceImpl {searchAndFilterOffers}");
+    log.info(" [INFO] Loading TourOfferServiceImpl {searchAndFilterOffers}");
 
     Page<TourOfferPagingDTO> offers = null;
     try {
@@ -95,14 +95,14 @@ public class TourOfferServiceImpl implements TourOfferService {
       }
 
     } catch (PageWithOffersNotFoundException e) {
-      log.error("Error while trying to extract filtered Offers Page {}", e.getMessage());
+      log.error(" [ERROR] Error while trying to extract filtered Offers Page {}", e.getMessage());
     }
     return offers;
   }
 
   @Override
   public TourOfferFullDTO findByIdAndUserId(Long offerId, Long userId) {
-    log.info("TourOfferServiceImpl  { findByIdAndUserId }");
+    log.info(" [INFO] TourOfferServiceImpl  { findByIdAndUserId }");
 
     TourOfferEntity tourEntity = null;
     try {
@@ -115,7 +115,7 @@ public class TourOfferServiceImpl implements TourOfferService {
       tourEntity.setUser(userEntity);
 
     } catch (TourOfferNotFoundException e) {
-      log.error("Error TourOfferServiceImpl { findByIdAndUserId } {}", e.getMessage());
+      log.error(" [ERROR] Error TourOfferServiceImpl { findByIdAndUserId } {}", e.getMessage());
     }
 
     return this.validatorUtil.getDTOFromEntity(tourEntity, TourOfferFullDTO.class);
@@ -123,7 +123,7 @@ public class TourOfferServiceImpl implements TourOfferService {
 
   @Override
   public TourOfferFullDTO saveOfferAndPath(TourOfferCreateDTO importedOfferDTO) {
-    log.info("TourOfferServiceImpl {saveOfferAndPath}");
+    log.info(" [INFO] TourOfferServiceImpl {saveOfferAndPath}");
 
     TourOfferEntity tourOfferEntity = null;
     try {
@@ -136,7 +136,7 @@ public class TourOfferServiceImpl implements TourOfferService {
       tourOfferEntity.setUser(userEntity);
 
     } catch (TourOfferNotFoundException e) {
-      log.error("Exception while trying to save Offer {}", e.getMessage());
+      log.error(" [ERROR] Exception while trying to save Offer {}", e.getMessage());
     }
 
     return this.validatorUtil.getDTOFromEntity

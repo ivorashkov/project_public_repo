@@ -25,7 +25,7 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 
   @Override
   public void saveFileUri(UserDTO userDTO, Path absoluteDocumentLocation) {
-    log.info("Loading AccountInfoServiceImpl {saveFileUri} ");
+    log.info(" [INFO] Loading AccountInfoServiceImpl {saveFileUri} ");
     Optional<AccountInfoEntity> isAlreadyInDB =
         this.additionalAccountInfoRepository.findByDocumentLocation(absoluteDocumentLocation.toString());
 
@@ -42,7 +42,7 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 
   @Override
   public List<AccountInfoDTO> findAllAccountDataPaths(UserDTO user) {
-    log.info("Loading AccountInfoServiceImpl {findAllAccountDataPaths}");
+    log.info(" [INFO] Loading AccountInfoServiceImpl {findAllAccountDataPaths}");
     List<AccountInfoEntity> accountInfoEntity = this.validatorUtil.getListFromOptionalList
         (
             this.additionalAccountInfoRepository.findAllByUserId(user.getId())
