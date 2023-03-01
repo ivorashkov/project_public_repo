@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     //TODO *******************************
     //TODO *******************************
     //TODO Както в TourOfferService, окей ли е да се използва try-catch или има по-добър и чист вариант
-    //TODO тря се връща код а не стринг
+    //TODO тря се връща код а не стринг или ДТО
     try{
       this.userRepository.save(this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class));
 

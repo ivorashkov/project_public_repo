@@ -1,5 +1,7 @@
 package com.example.web.service.impl;
 
+import com.example.web.exception.MapEntityPageIntoDtoPageException;
+import com.example.web.exception.PageWithOffersNotFoundException;
 import com.example.web.exception.TourOfferNotFoundException;
 import com.example.web.model.dto.TourOfferCreateDTO;
 import com.example.web.model.dto.TourOfferPagingDTO;
@@ -13,6 +15,7 @@ import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +26,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class TourOfferServiceImpl implements TourOfferService {
@@ -33,15 +37,21 @@ public class TourOfferServiceImpl implements TourOfferService {
 
   @Override
   public Page<TourOfferPagingDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
-    //TODO ***********************************
-    //TODO ***********************************
-    //TODO Адекватно ли е тук да има try-catch или има по-добър вариант
-    //TODO ***********************************
-
+    Page<TourOfferEntity> offerEntity;
     Page<TourOfferPagingDTO> offerDTOS;
     try {
-      Page<TourOfferEntity> offerEntity = this.tourOfferRepository
+      log.info("initialSearchResult {find offers page}");
+
+      offerEntity = this.tourOfferRepository
           .findAll_TourOffers_ByDate(PageRequest.of(pageNumber, pageSize));
+    } catch (Exception e) {
+
+      log.error("Issue while trying to extract Offers initialSearchResult {}", e.getMessage());
+      throw new PageWithOffersNotFoundException();
+    }
+
+    try {
+      log.info("initialSearchResult { mapToDTO Page }");
 
       offerDTOS = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntity,
           TourOfferPagingDTO.class);
@@ -49,8 +59,8 @@ public class TourOfferServiceImpl implements TourOfferService {
       return offerDTOS;
 
     } catch (Exception e) {
-      throw new NullPointerException(
-          "Issue while trying to extract Offers initialSearchResult" + e.getMessage());
+      log.error("Issue while trying to extract Offers initialSearchResult {}", e.getMessage());
+      throw new MapEntityPageIntoDtoPageException();
     }
   }
 
