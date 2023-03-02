@@ -120,7 +120,6 @@ public class FileServiceImpl implements FileService {
         Files.copy(inputStream, destinationFile,
             StandardCopyOption.REPLACE_EXISTING);
       } catch (IOException e) {
-        //todo should i throw IOException
         log.error(" [ERROR] Failed to store file in FileServiceImpl {}", e.getMessage());
       }
 
@@ -130,7 +129,5 @@ public class FileServiceImpl implements FileService {
 
       throw s;
     }
-
   }
-
 }

@@ -54,7 +54,9 @@ public class TourOfferFilePathServiceImpl implements TourOfferFilePathService {
               this.offerDataRepository.findAllByOfferId(offerId));
 
     } catch (TourOfferNotFoundException e) {
-      log.error(" [ERROR] Error while loading TourOfferImagePathServiceImpl { findAllOfferDataPaths } {}", e.getMessage());
+      log.error(
+          " [ERROR] Error while loading TourOfferImagePathServiceImpl { findAllOfferDataPaths } {}",
+          e.getMessage());
     }
 
     return this.validatorUtil.getDTOList(offerDataPathEntities, TourOfferFilePathDTO.class);
@@ -69,10 +71,28 @@ public class TourOfferFilePathServiceImpl implements TourOfferFilePathService {
       paths = this.validatorUtil.getListFromOptionalList
           (this.offerDataRepository.findAllByOfferId(tourOfferFullDTO.getId()));
 
-    }catch (TourOfferNotFoundException e){
-      log.error(" [ERROR] Error while loading TourOfferImagePathServiceImpl {getOfferPaths} {}", e.getMessage());
+    } catch (TourOfferNotFoundException e) {
+      log.error(" [ERROR] Error while loading TourOfferImagePathServiceImpl {getOfferPaths} {}",
+          e.getMessage());
     }
 
     return this.validatorUtil.getDTOList(paths, TourOfferFilePathDTO.class);
+  }
+
+  public boolean deleteOfferFilePaths(TourOfferFullDTO tourOfferFullDTO) {
+    log.info(" [INFO] Loading TourOfferFilePathServiceImpl {deleteOfferFilePaths} ");
+   try {
+     tourOfferFullDTO.getPaths()
+         .forEach(pathDTO -> {
+           this.offerDataRepository.delete
+               (this.validatorUtil.getEntityFromDTO(pathDTO, TourOfferFilePathEntity.class));
+         });
+
+     return true;
+   }catch (Exception e){
+     log.error(" [ERROR] Error while loading TourOfferFilePathServiceImpl {deleteOfferFilePaths} ");
+   }
+
+    return false;
   }
 }
