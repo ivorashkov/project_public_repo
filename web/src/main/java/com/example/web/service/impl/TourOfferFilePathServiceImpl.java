@@ -5,6 +5,7 @@ import com.example.web.model.dto.TourOfferFilePathDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.entity.TourOfferFilePathEntity;
 import com.example.web.model.entity.TourOfferEntity;
+import com.example.web.model.requestDto.TourOfferDeleteDTO;
 import com.example.web.repository.OfferDataRepository;
 
 import com.example.web.service.TourOfferFilePathService;
@@ -40,6 +41,8 @@ public class TourOfferFilePathServiceImpl implements TourOfferFilePathService {
 
       this.offerDataRepository.save(dataPathEntity);
     }
+
+    isAlreadyInDB.ifPresent(e -> e.setDeleted(false));
   }
 
   @Override
@@ -79,19 +82,24 @@ public class TourOfferFilePathServiceImpl implements TourOfferFilePathService {
     return this.validatorUtil.getDTOList(paths, TourOfferFilePathDTO.class);
   }
 
-  public boolean deleteOfferFilePaths(TourOfferFullDTO tourOfferFullDTO) {
+  @Override
+  public boolean deleteOfferFilePaths(TourOfferDeleteDTO tourOfferDeleteDTO) {
     log.info(" [INFO] Loading TourOfferFilePathServiceImpl {deleteOfferFilePaths} ");
-   try {
-     tourOfferFullDTO.getPaths()
-         .forEach(pathDTO -> {
-           this.offerDataRepository.delete
-               (this.validatorUtil.getEntityFromDTO(pathDTO, TourOfferFilePathEntity.class));
-         });
 
-     return true;
-   }catch (Exception e){
-     log.error(" [ERROR] Error while loading TourOfferFilePathServiceImpl {deleteOfferFilePaths} ");
-   }
+    try {
+      tourOfferDeleteDTO.getPaths()
+          .forEach(pathDTO -> {
+            var entity =
+                this.validatorUtil.getEntityFromDTO(pathDTO,TourOfferFilePathEntity.class);
+            entity.setDeleted(true);
+            this.offerDataRepository.save(entity);
+          });
+
+      return true;
+    } catch (Exception e) {
+      log.error(
+          " [ERROR] Error while loading TourOfferFilePathServiceImpl {deleteOfferFilePaths} ");
+    }
 
     return false;
   }

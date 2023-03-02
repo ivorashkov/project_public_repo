@@ -4,11 +4,15 @@ import com.example.web.exception.MapEntityPageIntoDtoPageException;
 import com.example.web.exception.PageWithOffersNotFoundException;
 import com.example.web.exception.TourOfferNotFoundException;
 import com.example.web.model.dto.TourOfferCreateDTO;
+import com.example.web.model.dto.TourOfferFilePathDTO;
 import com.example.web.model.dto.TourOfferPagingDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.entity.TourOfferEntity;
+import com.example.web.model.entity.TourOfferFilePathEntity;
 import com.example.web.model.entity.UserEntity;
+import com.example.web.model.requestDto.TourOfferDeleteDTO;
 import com.example.web.repository.TourOfferRepository;
+import com.example.web.service.TourOfferFilePathService;
 import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
@@ -29,6 +33,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TourOfferServiceImpl implements TourOfferService {
 
+  private final TourOfferFilePathService tourOfferFilePathService;
   private final TourOfferRepository tourOfferRepository;
   private final UserService userService;
   private final ValidatorUtil validatorUtil;
@@ -157,16 +162,21 @@ public class TourOfferServiceImpl implements TourOfferService {
           this.tourOfferRepository.findByIdAndUserId(offerId, userId)
               .orElseThrow(TourOfferNotFoundException::new);
 
-      offer.setDeleted(true);
+      TourOfferDeleteDTO dto = this.validatorUtil.getDTOFromEntity(offer, TourOfferDeleteDTO.class);
 
-      return this.tourOfferRepository.save(offer).isPresent();
+     if (this.tourOfferFilePathService.deleteOfferFilePaths(dto)){
+       offer.setDeleted(true);
+       return this.tourOfferRepository.save(offer).isPresent();
+     }
+
     } catch (TourOfferNotFoundException e) {
       log.error(" [ERROR] Error while loading TourOfferServiceImpl { deleteOffer } {} ",
           e.getMessage());
 
       throw e;
-      //return false
     }
+
+    return false;
   }
 
   private List<Sort.Order> getOrderList(String[] sort) {
