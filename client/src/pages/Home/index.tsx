@@ -1,6 +1,5 @@
 import { Grid } from "../../components/Grid";
 import { Section } from "../../components/Section";
-import { Shell } from "../../components/Shell";
 
 const dummyObj = 
 [
@@ -34,9 +33,7 @@ export const Home = () => {
     return (
         <>
             <Section>
-                <Shell>
-                    <Grid offers={dummyObj}/>
-                </Shell>
+                <Grid offers={dummyObj}/>
             </Section>
         </>
     );

@@ -41,3 +41,8 @@ export interface User {
     status: string;
 }
 
+
+export interface UserDetails {
+    email: string;
+    password: string;
+}
