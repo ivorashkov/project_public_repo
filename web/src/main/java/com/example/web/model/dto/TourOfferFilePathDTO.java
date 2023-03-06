@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TourOfferImagePathDTO extends BaseDTO {
+public class TourOfferFilePathDTO extends BaseDTO {
 
   @Expose
   private Long id;

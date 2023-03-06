@@ -1,12 +1,11 @@
 package com.example.web.controller;
 
 import com.example.web.model.dto.TourOfferCreateDTO;
-import com.example.web.model.dto.TourOfferImagePathDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.model.enums.TransportType;
 import com.example.web.service.FileService;
-import com.example.web.service.TourOfferDataService;
+import com.example.web.service.TourOfferFilePathService;
 import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
@@ -28,7 +27,7 @@ public class TourOfferController {
 
   private final UserService userService;
   private final FileService fileService;
-  private final TourOfferDataService tourOfferDataService;
+  private final TourOfferFilePathService tourOfferDataService;
   private final TourOfferService tourOfferService;
 
   private final ValidatorUtil validatorUtil;
@@ -37,12 +36,11 @@ public class TourOfferController {
   public ResponseEntity<TourOfferFullDTO> editOffer(
       @RequestParam(name = "offerId", required = true) Long offerId,
       @RequestParam(name = "userId", required = true) Long userId
+
   ) {
 
-//    List<TourOfferImagePathDTO> offerDataPathDTO = this.tourOfferDataService.findAllOfferDataPaths(
-//        offerId);
     TourOfferFullDTO tourOfferFullDTO =
-        this.tourOfferService.getOfferWithPathsAndUsersDTOs(offerId, userId);
+        this.tourOfferService.findByIdAndUserId(offerId, userId);
 
     /** http://localhost:8091/offer/edit?offerId=1&userId=1 */
     return this.validatorUtil.responseEntity(tourOfferFullDTO);
@@ -50,26 +48,35 @@ public class TourOfferController {
 
   @PostMapping("/save")
   public ResponseEntity<TourOfferFullDTO> saveOffer(
-      @RequestParam(name = "offerId") Long offerId,
-      @RequestParam(name = "userId") Long userId,
-      @RequestBody TourOfferFullDTO offerDTO
+//      @RequestParam(name = "offerId") Long offerId,
+//      @RequestParam(name = "userId") Long userId,
+//      @RequestBody TourOfferFullDTO offerDTO
+      @RequestPart(value = "file", required = false) List<MultipartFile> files
   ) {
-
+//TO BE TESTED
     //todo да говоря с кольо дали ще ми подава директно JSON обект или допълнително offerId, userId
     //TODO TO FINISH, HOW TO RECEIVE JSON OR PROCESS IT CORRECTLY
 
-    TourOfferFullDTO offerDTO1 = offerDTO;
-    return null;
+    TourOfferFullDTO offerDTO = this.tourOfferService.findByIdAndUserId(7L, 3L);
+    /** DTO + FILES **/
+
+    this.fileService.handleAllFilesUpload(files, offerDTO.getUser().getId(),
+        offerDTO.getId());
+
+    offerDTO.setPaths(this.tourOfferDataService.getOfferPaths(offerDTO));
+
+    return this.validatorUtil.responseEntity(offerDTO);
   }
 
   @DeleteMapping("/delete")
-  public void deleteOffer(
+  public ResponseEntity<Object> deleteOffer(
       @RequestParam("userId") Long userId,
       @RequestParam("offerId") Long offerId
   ) {
 
-    //localhost:8091/offer/delete?userId=1&offerId=1
-    this.tourOfferService.deleteOffer(userId, offerId);
+    //localhost:8091/offer/delete?userId=3&offerId=6
+    return this.validatorUtil.responseEntityBoolean(
+        this.tourOfferService.deleteOffer(userId, offerId));
   }
 
   @PostMapping(value = "/create", consumes = {"multipart/form-data"})
@@ -101,7 +108,8 @@ public class TourOfferController {
     /** DTO + FILES **/
     TourOfferFullDTO tourOfferFullDTO = this.tourOfferService.saveOfferAndPath(createOfferDTO);
 
-    this.fileService.handleAllFilesUpload(files, tourOfferFullDTO);
+    this.fileService.handleAllFilesUpload(files, tourOfferFullDTO.getUser().getId(),
+        tourOfferFullDTO.getId());
 
     tourOfferFullDTO.setPaths(this.tourOfferDataService.getOfferPaths(tourOfferFullDTO));
 

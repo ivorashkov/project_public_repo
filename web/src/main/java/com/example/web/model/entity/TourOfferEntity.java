@@ -10,7 +10,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.Singular;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
@@ -73,6 +72,6 @@ public class TourOfferEntity extends BaseEntity {
       fetch = FetchType.EAGER,
       mappedBy = "offer"
   )
-  private List<TourOfferImagePathEntity> paths;
+  private List<TourOfferFilePathEntity> paths;
 
 }

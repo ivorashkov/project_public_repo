@@ -1,86 +1,69 @@
 package com.example.web.service.impl;
 
 import com.example.web.constant.ConstantMessages;
-import com.example.web.constant.StorageException;
-import com.example.web.constant.StorageFileNotFoundException;
-import com.example.web.constant.StorageProperties;
+import com.example.web.exception.StorageException;
+import com.example.web.constant.StoragePath;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.service.AccountInfoService;
 import com.example.web.service.FileService;
-import com.example.web.service.TourOfferDataService;
+import com.example.web.service.TourOfferFilePathService;
+import com.example.web.service.TourOfferService;
+import com.example.web.service.UserService;
+import java.io.IOException;
 import java.util.List;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.stream.Stream;
 
-
+@Slf4j
 @Service
 public class FileServiceImpl implements FileService {
 
+  private final TourOfferService tourOfferService;
+  private final UserService userService;
   private final AccountInfoService additionalInfoService;
-  private final TourOfferDataService offerDataService;
+  private final TourOfferFilePathService offerDataService;
   private final Path rootLocation;
 
   public FileServiceImpl
       (
-          TourOfferDataService offerDataService,
-          StorageProperties properties,
+          TourOfferService tourOfferService,
+          UserService userService, TourOfferFilePathService offerDataService,
+          StoragePath properties,
           AccountInfoService additionalInfoService
       ) {
+    this.tourOfferService = tourOfferService;
+    this.userService = userService;
     this.offerDataService = offerDataService;
     this.rootLocation = Paths.get(properties.getLocation());
     this.additionalInfoService = additionalInfoService;
   }
 
   @Override
-  public void handleAllFilesUpload
-      (
-          List<MultipartFile> files,
-          TourOfferFullDTO tourOfferFullDTO
-      ) {
+  public boolean handleAllFilesUpload(List<MultipartFile> files, Long userId, Long offerId) {
+    log.info(" [INFO] FileServiceImpl { handleAllFilesUpload } {}, {}",userId, offerId);
 
     files.forEach(file -> {
-
-      Path path = handleSingleFileUpload
-          (
-              file,
-              tourOfferFullDTO.getUser().getId(),
-              tourOfferFullDTO.getId()
-          );
-
-      this.offerDataService.saveFileUri(tourOfferFullDTO, path);
-
-    });
-  }
-
-  @Override
-  public void handleAllFilesUpload
-      (
-          List<MultipartFile> files,
-          Long userId,
-          Long offerId,
-          UserDTO userDTO
-      ) {
-
-    files.forEach(file -> {
-
       Path path = handleSingleFileUpload(file, userId, offerId);
 
-      this.additionalInfoService.saveFileUri(userDTO, path);
+      if (offerId > 0) {
+        TourOfferFullDTO offerDTO = this.tourOfferService.findByIdAndUserId(offerId, userId);
+        this.offerDataService.saveFileUri(offerDTO, path);
 
+      } else {
+        UserDTO userDTO = this.userService.findUserDTOById(userId);
+        this.additionalInfoService.saveFileUri(userDTO, path);
+      }
     });
+      return true;
   }
 
   public Path handleSingleFileUpload(MultipartFile file, Long userId, Long offerId) {
@@ -104,9 +87,9 @@ public class FileServiceImpl implements FileService {
       /** if the user has no directory already -> \\ creating folders using template %s_%d **/
       /** creating folder if such does not exist **/
       new File(stringDirectory.toString()).mkdirs();
+    }
 
-    } else if (offerId >= 0) {
-
+    if (offerId >= 0) {
       /** then we should create Offer directory with offerId */
       stringDirectory
           .append(ConstantMessages.DIRECTORY_SEPARATOR)
@@ -129,51 +112,22 @@ public class FileServiceImpl implements FileService {
           .resolve(Paths.get(file.getOriginalFilename()))
           .normalize().toAbsolutePath();
 
-      if (!destinationFile.getParent().equals(pathFromInitialization.toAbsolutePath())) {
-        // This is a security check
-        throw new StorageException(
-            "Cannot store file outside current directory.");
+      if (!destinationFile.getParent().equals(pathFromInitialization.toAbsolutePath())){
+        throw new StorageException("Cannot store file outside current directory.");
       }
 
-      try (InputStream inputStream = file.getInputStream()) {
+      try(InputStream inputStream = file.getInputStream()) {
         Files.copy(inputStream, destinationFile,
             StandardCopyOption.REPLACE_EXISTING);
+      } catch (IOException e) {
+        log.error(" [ERROR] Failed to store file in FileServiceImpl {}", e.getMessage());
       }
-    } catch (IOException e) {
-      throw new StorageException("Failed to store file.", e);
-    }
-    return destinationFile;
-  }
 
-  @Override
-  public Stream<Path> loadAll() {
-    try {
-      return Files.walk(this.rootLocation, 1)
-          .filter(path -> !path.equals(this.rootLocation))
-          .map(this.rootLocation::relativize);
-    } catch (IOException e) {
-      throw new StorageException("Failed to read stored files", e);
+      return destinationFile;
+    }catch (StorageException s){
+      log.error(" [ERROR] Failed to store file in FileServiceImpl {}", s.getMessage());
+
+      throw s;
     }
   }
-
-  @Override
-  public Path load(String filename) {
-    return rootLocation.resolve(filename);
-  }
-
-  @Override
-  public Resource loadAsResource(String filename) {
-    try {
-      Path file = load(filename);
-      Resource resource = new UrlResource(file.toUri());
-      if (resource.exists() || resource.isReadable()) {
-        return resource;
-      } else {
-        throw new StorageFileNotFoundException("Could not read file: " + filename);
-      }
-    } catch (MalformedURLException e) {
-      throw new StorageFileNotFoundException("Could not read file: " + filename, e);
-    }
-  }
-
 }
