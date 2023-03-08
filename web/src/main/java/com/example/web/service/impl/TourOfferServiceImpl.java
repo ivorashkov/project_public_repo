@@ -3,12 +3,11 @@ package com.example.web.service.impl;
 import com.example.web.exception.MapEntityPageIntoDtoPageException;
 import com.example.web.exception.PageWithOffersNotFoundException;
 import com.example.web.exception.TourOfferNotFoundException;
-import com.example.web.model.dto.TourOfferCreateDTO;
-import com.example.web.model.dto.TourOfferFilePathDTO;
-import com.example.web.model.dto.TourOfferPagingDTO;
+import com.example.web.model.requestDto.TourOfferCreateDTO;
+import com.example.web.model.requestDto.TourOfferEditDTO;
+import com.example.web.model.responseDTO.TourOfferPagingDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.entity.TourOfferEntity;
-import com.example.web.model.entity.TourOfferFilePathEntity;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.model.requestDto.TourOfferDeleteDTO;
 import com.example.web.repository.TourOfferRepository;
@@ -164,10 +163,10 @@ public class TourOfferServiceImpl implements TourOfferService {
 
       TourOfferDeleteDTO dto = this.validatorUtil.getDTOFromEntity(offer, TourOfferDeleteDTO.class);
 
-     if (this.tourOfferFilePathService.deleteOfferFilePaths(dto)){
-       offer.setDeleted(true);
-       return this.tourOfferRepository.save(offer).isPresent();
-     }
+      if (this.tourOfferFilePathService.deleteOfferFilePaths(dto)) {
+        offer.setDeleted(true);
+        return this.tourOfferRepository.save(offer).isPresent();
+      }
 
     } catch (TourOfferNotFoundException e) {
       log.error(" [ERROR] Error while loading TourOfferServiceImpl { deleteOffer } {} ",
@@ -177,6 +176,35 @@ public class TourOfferServiceImpl implements TourOfferService {
     }
 
     return false;
+  }
+
+  @Override
+  public boolean deleteOfferFilePaths(TourOfferFullDTO offerFullDTO) {
+    log.info("[INFO] Loading TourOfferServiceImpl {deleteOfferFilePaths}");
+    try {
+      this.tourOfferFilePathService.deleteOfferFilePaths
+          (this.validatorUtil.getDTOFromEntity(offerFullDTO, TourOfferDeleteDTO.class));
+
+      return true;
+    } catch (Exception e) {
+      log.error("[ERROR] while loading TourOfferServiceImpl {deleteOfferFilePaths}");
+    }
+    return false;
+  }
+
+  @Override
+  public TourOfferFullDTO setNewProperties(TourOfferEditDTO editDTO, TourOfferFullDTO fullDTO){
+    fullDTO.setDiscount(editDTO.getDiscount());
+    fullDTO.setTitle(editDTO.getTitle());
+    fullDTO.setCountry(editDTO.getCountry());
+    fullDTO.setCity(editDTO.getCity());
+    fullDTO.setDuration(editDTO.getDuration());
+    fullDTO.setStars(editDTO.getStars());
+    fullDTO.setPrice(editDTO.getPrice());
+    fullDTO.setDescription(editDTO.getDescription());
+    fullDTO.setDiscount(editDTO.getDiscount());
+    fullDTO.setTransportType(editDTO.getTransportType());
+    return fullDTO;
   }
 
   private List<Sort.Order> getOrderList(String[] sort) {

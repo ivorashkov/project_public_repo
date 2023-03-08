@@ -1,5 +1,7 @@
-package com.example.web.model.dto;
+package com.example.web.model.responseDTO;
 
+import com.example.web.model.dto.BaseDTO;
+import com.example.web.model.dto.TourOfferFilePathDTO;
 import com.example.web.model.enums.TransportType;
 import com.google.gson.annotations.Expose;
 import java.math.BigDecimal;
@@ -11,13 +13,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class TourOfferFullDTO extends BaseDTO {
+public class TourOfferPagingDTO extends BaseDTO {
 
   @Expose
   private Long id;
 
   @Expose
   private String title;
+
+  @Expose
+  private String date;
 
   @Expose
   private String country;
@@ -39,9 +44,6 @@ public class TourOfferFullDTO extends BaseDTO {
 
   @Expose
   private double discount;
-
-  @Expose
-  private UserDTO user;
 
   @Expose
   private TransportType transportType;

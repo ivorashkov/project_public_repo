@@ -100,7 +100,8 @@ public class TourOfferFilePathServiceImpl implements TourOfferFilePathService {
       log.error(
           " [ERROR] Error while loading TourOfferFilePathServiceImpl {deleteOfferFilePaths} ");
     }
-
     return false;
   }
+
+
 }

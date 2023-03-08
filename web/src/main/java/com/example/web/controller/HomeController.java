@@ -1,6 +1,6 @@
 package com.example.web.controller;
 
-import com.example.web.model.dto.TourOfferPagingDTO;
+import com.example.web.model.responseDTO.TourOfferPagingDTO;
 import com.example.web.service.TourOfferService;
 import com.example.web.util.ValidatorUtil;
 import lombok.AllArgsConstructor;

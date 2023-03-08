@@ -1,7 +1,8 @@
 package com.example.web.service;
 
-import com.example.web.model.dto.TourOfferCreateDTO;
-import com.example.web.model.dto.TourOfferPagingDTO;
+import com.example.web.model.requestDto.TourOfferCreateDTO;
+import com.example.web.model.requestDto.TourOfferEditDTO;
+import com.example.web.model.responseDTO.TourOfferPagingDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import org.springframework.data.domain.Page;
 
@@ -17,4 +18,8 @@ public interface TourOfferService {
   TourOfferFullDTO saveOfferAndPath(TourOfferCreateDTO importedOfferDTO);
 
   boolean deleteOffer(Long userId, Long offerId);
+
+  boolean deleteOfferFilePaths(TourOfferFullDTO offerFullDTO);
+
+  TourOfferFullDTO setNewProperties(TourOfferEditDTO editDTO, TourOfferFullDTO fullDTO);
 }

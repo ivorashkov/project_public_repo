@@ -49,21 +49,23 @@ public class FileServiceImpl implements FileService {
 
   @Override
   public boolean handleAllFilesUpload(List<MultipartFile> files, Long userId, Long offerId) {
-    log.info(" [INFO] FileServiceImpl { handleAllFilesUpload } {}, {}",userId, offerId);
+    log.info(" [INFO] FileServiceImpl { handleAllFilesUpload } {}, {}", userId, offerId);
 
-    files.forEach(file -> {
-      Path path = handleSingleFileUpload(file, userId, offerId);
+    files.stream()
+        .filter(f -> !f.isEmpty())
+        .forEach(file -> {
+          Path path = handleSingleFileUpload(file, userId, offerId);
 
-      if (offerId > 0) {
-        TourOfferFullDTO offerDTO = this.tourOfferService.findByIdAndUserId(offerId, userId);
-        this.offerDataService.saveFileUri(offerDTO, path);
+          if (offerId > 0) {
+            TourOfferFullDTO offerDTO = this.tourOfferService.findByIdAndUserId(offerId, userId);
+            this.offerDataService.saveFileUri(offerDTO, path);
 
-      } else {
-        UserDTO userDTO = this.userService.findUserDTOById(userId);
-        this.additionalInfoService.saveFileUri(userDTO, path);
-      }
-    });
-      return true;
+          } else {
+            UserDTO userDTO = this.userService.findUserDTOById(userId);
+            this.additionalInfoService.saveFileUri(userDTO, path);
+          }
+        });
+    return true;
   }
 
   public Path handleSingleFileUpload(MultipartFile file, Long userId, Long offerId) {
@@ -112,11 +114,11 @@ public class FileServiceImpl implements FileService {
           .resolve(Paths.get(file.getOriginalFilename()))
           .normalize().toAbsolutePath();
 
-      if (!destinationFile.getParent().equals(pathFromInitialization.toAbsolutePath())){
+      if (!destinationFile.getParent().equals(pathFromInitialization.toAbsolutePath())) {
         throw new StorageException("Cannot store file outside current directory.");
       }
 
-      try(InputStream inputStream = file.getInputStream()) {
+      try (InputStream inputStream = file.getInputStream()) {
         Files.copy(inputStream, destinationFile,
             StandardCopyOption.REPLACE_EXISTING);
       } catch (IOException e) {
@@ -124,7 +126,7 @@ public class FileServiceImpl implements FileService {
       }
 
       return destinationFile;
-    }catch (StorageException s){
+    } catch (StorageException s) {
       log.error(" [ERROR] Failed to store file in FileServiceImpl {}", s.getMessage());
 
       throw s;

@@ -1,9 +1,10 @@
 package com.example.web.controller;
 
-import com.example.web.model.dto.TourOfferCreateDTO;
+import com.example.web.model.requestDto.TourOfferCreateDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.model.enums.TransportType;
+import com.example.web.model.requestDto.TourOfferEditDTO;
 import com.example.web.service.FileService;
 import com.example.web.service.TourOfferFilePathService;
 import com.example.web.service.TourOfferService;
@@ -46,7 +47,7 @@ public class TourOfferController {
     return this.validatorUtil.responseEntity(tourOfferFullDTO);
   }
 
-  @PostMapping("/save")
+  @PatchMapping("/save")
   public ResponseEntity<TourOfferFullDTO> saveOffer(
 //      @RequestParam(name = "offerId") Long offerId,
 //      @RequestParam(name = "userId") Long userId,
@@ -56,15 +57,49 @@ public class TourOfferController {
 //TO BE TESTED
     //todo да говоря с кольо дали ще ми подава директно JSON обект или допълнително offerId, userId
     //TODO TO FINISH, HOW TO RECEIVE JSON OR PROCESS IT CORRECTLY
+/**
+ * Получаваме променения обект
+ * 1.Намираме го и го запазваме в ДТО
+ * 2.променяме uri към новите снимки
+ * 3.запазваме обекта в базата
+ * 4.връщаме го.
+ */
 
-    TourOfferFullDTO offerDTO = this.tourOfferService.findByIdAndUserId(7L, 3L);
-    /** DTO + FILES **/
 
-    this.fileService.handleAllFilesUpload(files, offerDTO.getUser().getId(),
-        offerDTO.getId());
+    //1. Получаваме новия обект
+    TourOfferFullDTO incoming = this.tourOfferService.findByIdAndUserId(7L, 3L);
+    UserDTO userDTO = this.userService.findUserDTOById(3L);
+    TourOfferEditDTO editDTO = new TourOfferEditDTO
+        (
+            incoming.getId(),
+            userDTO,
+            incoming.getTitle(),
+            incoming.getCountry(),
+            incoming.getCity(),
+            incoming.getDuration(),
+            incoming.getStars(),
+            incoming.getPrice(),
+            incoming.getDescription(),
+            incoming.getDiscount(),
+            incoming.getTransportType()
+        );
 
+    //2. намираме обекта в базата
+    TourOfferFullDTO offerDTO =
+        this.tourOfferService.findByIdAndUserId(editDTO.getId(), editDTO.getUser().getId());
+
+    offerDTO = this.tourOfferService.setNewProperties(editDTO, offerDTO);
+
+    //set files to delete in DB
+    this.tourOfferService.deleteOfferFilePaths(offerDTO);
+
+    //save new files
+    this.fileService.handleAllFilesUpload(files, offerDTO.getUser().getId(), offerDTO.getId());
+
+    //set new files
     offerDTO.setPaths(this.tourOfferDataService.getOfferPaths(offerDTO));
 
+    //response
     return this.validatorUtil.responseEntity(offerDTO);
   }
 
