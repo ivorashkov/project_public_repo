@@ -1,5 +1,6 @@
-package com.example.web.model.dto;
+package com.example.web.model.responseDTO;
 
+import com.example.web.model.dto.BaseDTO;
 import com.google.gson.annotations.Expose;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

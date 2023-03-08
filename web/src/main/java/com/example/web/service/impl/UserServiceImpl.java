@@ -2,7 +2,7 @@ package com.example.web.service.impl;
 
 import com.example.web.exception.UserNotFoundException;
 import com.example.web.model.dto.UserDTO;
-import com.example.web.model.dto.UserLoginDTO;
+import com.example.web.model.requestDto.UserLoginDTO;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.repository.UserRepository;
 import com.example.web.service.UserService;

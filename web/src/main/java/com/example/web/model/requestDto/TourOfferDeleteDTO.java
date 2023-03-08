@@ -1,5 +1,6 @@
 package com.example.web.model.requestDto;
 
+import com.example.web.model.dto.BaseDTO;
 import com.example.web.model.dto.TourOfferFilePathDTO;
 import com.example.web.model.enums.TransportType;
 import com.google.gson.annotations.Expose;
@@ -13,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class TourOfferDeleteDTO {
+public class TourOfferDeleteDTO extends BaseDTO {
   @Expose
   private Long id;
 

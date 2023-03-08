@@ -1,5 +1,6 @@
 package com.example.web.model.dto;
 
+import com.example.web.model.responseDTO.UserSimpleIdDTO;
 import com.google.gson.annotations.Expose;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
