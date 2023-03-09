@@ -15,13 +15,10 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
   Optional<UserEntity> findUserEntityById(@Param("id") Long id);
 
   @Query("SELECT u FROM UserEntity u "
-      + " WHERE u.username LIKE CONCAT('%',:query, '%')"
-      + " OR u.email LIKE CONCAT('%',:query, '%')"
+      + " WHERE u.email LIKE CONCAT('%',:query, '%')"
       + " AND u.isDeleted = false")
-  Optional<UserEntity> findUserEntityByEmailOrUsername(@Param("query") String criteria);
+  Optional<UserEntity> findUserEntityByEmail(@Param("query") String email);
 
-  boolean existsByUsername(String username);
-
-  boolean existsByEmail(String username);
+  boolean existsByEmail(String email);
 
 }

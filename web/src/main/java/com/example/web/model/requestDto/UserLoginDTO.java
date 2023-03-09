@@ -8,6 +8,6 @@ import lombok.Setter;
 @Data
 public class UserLoginDTO extends BaseDTO {
 
-  private String username;
+  private String email;
   private String password;
 }

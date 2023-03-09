@@ -12,8 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRegistrationDTO {
-  @Size(min = 4, max = 10)
-  private String username;
 
   @Email
   private String email;

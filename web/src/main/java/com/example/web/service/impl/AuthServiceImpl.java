@@ -1,7 +1,6 @@
 package com.example.web.service.impl;
 
 import com.example.web.constant.UserRegistrationConstants;
-import com.example.web.model.dto.UserDTO;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.model.requestDto.UserRegistrationDTO;
 import com.example.web.repository.UserRepository;
@@ -18,18 +17,13 @@ public class AuthServiceImpl implements AuthService {
 
   private final ValidatorUtil validatorUtil;
   private final UserRepository userRepository;
-  //register
+
   //login
   //logout
 
+  //register
   @Override
   public ResponseEntity<?> createUser(UserRegistrationDTO registrationDTO) {
-
-    if (this.userRepository.existsByUsername(registrationDTO.getUsername())) {
-      //username exists
-      return this.validatorUtil.responseEntityBoolean
-          (!this.userRepository.existsByUsername(registrationDTO.getUsername()));
-    }
 
     if (this.userRepository.existsByEmail(registrationDTO.getEmail())) {
       //email exists
@@ -50,20 +44,16 @@ public class AuthServiceImpl implements AuthService {
   }
 
   private UserEntity setNewUserFields(UserRegistrationDTO registrationDTO, String result) {
-    UserEntity userEntity = new UserEntity
-        (
-            UserRegistrationConstants.NOT_ACTIVE,
-            registrationDTO.getUsername(),
-            result,
-            registrationDTO.getEmail(),
-            registrationDTO.getFirstName(),
-            registrationDTO.getLastName(),
-            registrationDTO.getPhoneNumber(),
-            UserRegistrationConstants.USER_ROLE,
-            UserRegistrationConstants.APPROVED_BY_INITIAL_ID,
-            UserRegistrationConstants.HAS_NO_STAR
-            );
 
-    return userEntity;
+    return new UserEntity(
+        UserRegistrationConstants.NOT_ACTIVE,
+        result,
+        registrationDTO.getEmail(),
+        registrationDTO.getFirstName(),
+        registrationDTO.getLastName(),
+        registrationDTO.getPhoneNumber(),
+        UserRegistrationConstants.USER_ROLE,
+        UserRegistrationConstants.APPROVED_BY_INITIAL_ID,
+        UserRegistrationConstants.HAS_NO_STAR);
   }
 }

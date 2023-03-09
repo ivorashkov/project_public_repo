@@ -30,9 +30,6 @@ public class UserDTO extends BaseDTO {
   private String email;
 
   @Expose
-  private String username;
-
-  @Expose
   private RoleDTO role;
 
 
