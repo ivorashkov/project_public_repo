@@ -1,8 +1,8 @@
 package com.example.web.service.impl;
 
-import com.example.web.constant.ConstantMessages;
+import com.example.web.constant.FileConstants;
 import com.example.web.exception.StorageException;
-import com.example.web.constant.StoragePath;
+import com.example.web.constant.MainDataDirectoryConstants;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.service.AccountMandatoryActivationDataInfoService;
@@ -37,7 +37,7 @@ public class FileServiceImpl implements FileService {
       (
           TourOfferService tourOfferService,
           UserService userService, TourOfferFilePathService offerDataService,
-          StoragePath properties,
+          MainDataDirectoryConstants properties,
           AccountMandatoryActivationDataInfoService additionalInfoService
       ) {
     this.tourOfferService = tourOfferService;
@@ -72,7 +72,7 @@ public class FileServiceImpl implements FileService {
 
     /** http://localhost:8091/home/upload?userId=1&offerId=-1 */
     Path initPath = pathInitialization(userId, offerId,
-        ConstantMessages.FORMAT_ADDON_TEMPLATE);
+        FileConstants.FORMAT_ADDON_TEMPLATE);
 
     return store(file, initPath);
   }
@@ -82,8 +82,8 @@ public class FileServiceImpl implements FileService {
 
     stringDirectory
         .append(rootLocation)
-        .append(ConstantMessages.DIRECTORY_SEPARATOR)
-        .append(String.format(stringFormat, ConstantMessages.USER, userId));
+        .append(FileConstants.DIRECTORY_SEPARATOR)
+        .append(String.format(stringFormat, FileConstants.USER, userId));
 
     if (!Files.exists(Paths.get(stringDirectory.toString()))) {
       /** if the user has no directory already -> \\ creating folders using template %s_%d **/
@@ -94,8 +94,8 @@ public class FileServiceImpl implements FileService {
     if (offerId >= 0) {
       /** then we should create Offer directory with offerId */
       stringDirectory
-          .append(ConstantMessages.DIRECTORY_SEPARATOR)
-          .append(String.format(stringFormat, ConstantMessages.OFFER, offerId));
+          .append(FileConstants.DIRECTORY_SEPARATOR)
+          .append(String.format(stringFormat, FileConstants.OFFER, offerId));
 
       new File(stringDirectory.toString()).mkdirs();
     }

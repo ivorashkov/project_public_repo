@@ -1,6 +1,6 @@
 package com.example.web.constant;
 
-public class ConstantMessages {
+public class FileConstants {
     public static final String FORMAT_ADDON_TEMPLATE = "%s_%d";
     public static final String DIRECTORY_SEPARATOR = "\\";
     public static final String OFFER = "offer";
