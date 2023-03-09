@@ -6,7 +6,7 @@ import com.example.web.model.dto.UserDTO;
 import com.example.web.model.entity.AccountInfoEntity;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.repository.AccountInfoRepository;
-import com.example.web.service.AccountInfoService;
+import com.example.web.service.AccountMandatoryActivationDataInfoService;
 import com.example.web.util.ValidatorUtil;
 import java.nio.file.Path;
 import java.util.List;
@@ -18,7 +18,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class AccountInfoServiceImpl implements AccountInfoService {
+public class AccountMandatoryActivationDataInfoServiceImpl implements
+    AccountMandatoryActivationDataInfoService {
 
   private final AccountInfoRepository additionalAccountInfoRepository;
   private final ValidatorUtil validatorUtil;
