@@ -40,7 +40,6 @@ public class UserEntity extends BaseEntity {
   private String phoneNumber;
 
   @OneToOne
-  @Enumerated(EnumType.STRING)
   private RoleEntity role;
 
   @Column

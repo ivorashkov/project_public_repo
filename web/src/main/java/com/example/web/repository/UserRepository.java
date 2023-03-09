@@ -20,4 +20,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
       + " AND u.isDeleted = false")
   Optional<UserEntity> findUserEntityByEmailOrUsername(@Param("query") String criteria);
 
+  boolean existsByUsername(String username);
+
+  boolean existsByEmail(String username);
+
 }

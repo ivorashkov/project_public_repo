@@ -30,4 +30,7 @@ public class UserRegistrationDTO {
   @Size(min = 8, max = 15)
   private String passwordConfirm;
 
+  @Size(min = 10, max = 10)
+  private String phoneNumber;
+
 }
