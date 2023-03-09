@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("")
+@RequestMapping("/home")
 public class HomeController {
 
   private final TourOfferService tourOfferService;

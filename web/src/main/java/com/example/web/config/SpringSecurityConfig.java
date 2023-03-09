@@ -11,15 +11,6 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SpringSecurityConfig {
 
   @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//    http
-//        .authorizeHttpRequests()
-//        .anyRequest()
-//        .authenticated()
-    return http.build();
-  }
-
-  @Bean
   @Order(1)
   public SecurityFilterChain adminFilterChain(HttpSecurity http) throws Exception {
     http
@@ -49,7 +40,8 @@ public class SpringSecurityConfig {
   @Order(3)
   public SecurityFilterChain allAccessFilterChain(HttpSecurity http) throws Exception {
     http
-        .securityMatcher("/home/**")
+        .securityMatcher("/**")
+        .securityMatcher("/auth/**")
         .authorizeHttpRequests()
         .anyRequest()
         .authenticated()
@@ -58,4 +50,5 @@ public class SpringSecurityConfig {
 
     return http.build();
   }
+
 }
