@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class JwtServiceImpl implements JwtService {
 
-  //todo move it to application properties
+  //todo move it to application properties -> 512 bit key
   private static final String SECRET_KEY =
-      "46294A404E635266556A586E327235753878214125442A472D4B615064536756";
+      "5A7234753778214125442A472D4A614E645267556B58703273357638792F423F4528482B4D6250655368566D597133743677397A24432646294A404E63526654";
 
   @Override
   public String extractUsername(String jwtToken) {
@@ -46,15 +46,16 @@ public class JwtServiceImpl implements JwtService {
         .setSubject(userDetails.getUsername())
         .setIssuedAt(new Date(System.currentTimeMillis()))
         .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60))
-        .signWith(SignatureAlgorithm.HS256, getSignInKey())
+        .signWith(getSignInKey(), SignatureAlgorithm.HS256)
         .compact();
   }
 
   @Override
   public Claims extractAllClaims(String jwtToken) {
-    return Jwts
-        .parser()
+
+    return Jwts.parserBuilder()
         .setSigningKey(getSignInKey())
+        .build()
         .parseClaimsJws(jwtToken)
         .getBody();
   }
