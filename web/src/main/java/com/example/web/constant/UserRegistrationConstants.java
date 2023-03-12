@@ -14,5 +14,8 @@ public class UserRegistrationConstants {
   public static final int APPROVED_BY_INITIAL_ID = 0;
 
   public static final boolean HAS_NO_STAR = false;
-  public static final boolean HAS_STAR = true;
+  public static final boolean HAS_A_STAR = true;
+  public static final long REGULAR_USER_ROLE_ID = 2;
+
+
 }

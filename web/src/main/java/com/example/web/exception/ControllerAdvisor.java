@@ -22,6 +22,17 @@ public class ControllerAdvisor {
     return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
   }
 
+  @ExceptionHandler(NoSuchRoleException.class)
+  public ResponseEntity<Object> handleTourOfferNotFoundException(
+      NoSuchRoleException ex) {
+
+    Map<String, Object> body = new LinkedHashMap<>();
+    body.put("timestamp", LocalDateTime.now());
+    body.put("message", "No such Role Type, please check the existing Roles");
+
+    return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+  }
+
 
   @ExceptionHandler(UserNotFoundException.class)
   public ResponseEntity<Object> handleUserNotFoundException
