@@ -2,7 +2,7 @@ package com.example.web.service;
 
 import com.example.web.model.dto.TourOfferFilePathDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
-import com.example.web.model.requestDto.TourOfferDeleteDTO;
+import com.example.web.model.requestDto.TourOfferDeleteRequestDTO;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -14,5 +14,5 @@ public interface TourOfferFilePathService {
 
   List<TourOfferFilePathDTO> getOfferPaths(TourOfferFullDTO tourOfferFullDTO);
 
-  boolean deleteOfferFilePaths(TourOfferDeleteDTO tourOfferDeleteDTO);
+  boolean deleteOfferFilePaths(TourOfferDeleteRequestDTO tourOfferDeleteDTO);
 }

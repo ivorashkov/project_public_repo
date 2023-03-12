@@ -1,6 +1,6 @@
 package com.example.web.controller;
 
-import com.example.web.model.responseDTO.TourOfferPagingDTO;
+import com.example.web.model.responseDTO.TourOfferPagingResponseDTO;
 import com.example.web.service.TourOfferService;
 import com.example.web.util.ValidatorUtil;
 import lombok.AllArgsConstructor;
@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/home")
+@RequestMapping("/api/home")
 public class HomeController {
 
   private final TourOfferService tourOfferService;
   private final ValidatorUtil validatorUtil;
 
   @GetMapping("/search")
-  public ResponseEntity<Page<TourOfferPagingDTO>> response(
+  public ResponseEntity<Page<TourOfferPagingResponseDTO>> response(
       @RequestParam(name = "page", defaultValue = "0") Integer page,
       @RequestParam(name = "pageSize", defaultValue = "30") Integer size
   ) {
@@ -29,7 +29,7 @@ public class HomeController {
 
 
   @GetMapping("/offers")
-  public ResponseEntity<Page<TourOfferPagingDTO>> findAllAndSort(
+  public ResponseEntity<Page<TourOfferPagingResponseDTO>> findAllAndSort(
       @RequestParam(name = "page", defaultValue = "0") Integer page,
       @RequestParam(name = "pageSize", defaultValue = "30") Integer size,
       @RequestParam(name = "country", required = false) String country,

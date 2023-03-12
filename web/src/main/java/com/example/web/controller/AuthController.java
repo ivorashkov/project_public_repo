@@ -1,6 +1,8 @@
 package com.example.web.controller;
 
-import com.example.web.model.requestDto.UserRegistrationDTO;
+import com.example.web.model.requestDto.AuthenticationRequestDTO;
+import com.example.web.model.requestDto.UserRegistrationRequestDTO;
+import com.example.web.model.responseDTO.AuthenticationResponseDTO;
 import com.example.web.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -15,48 +17,27 @@ import org.springframework.web.bind.annotation.RestController;
 //@CrossOrigin(origins = "*", maxAge = 3600)
 @AllArgsConstructor
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
   private final AuthService authService;
 
   @PostMapping("/signup")
-  public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegistrationDTO registrationDTO) {
-    return this.authService.createUser(registrationDTO);
+  public ResponseEntity<AuthenticationResponseDTO> registerUser
+      (@Valid @RequestBody UserRegistrationRequestDTO registrationDTO) {
+
+    return this.authService.registerUser(registrationDTO);
+  }
+
+  @PostMapping("/authenticate")
+  public ResponseEntity<AuthenticationResponseDTO> authenticate
+      (@Valid @RequestBody AuthenticationRequestDTO authRequest) {
+
+    return this.authService.authenticate(authRequest);
   }
 
   @GetMapping
   public ResponseEntity<?> helloMethod(){
     return ResponseEntity.ok("Hello");
   }
-//  @PostMapping("/signout")
-//  public ResponseEntity<?> logoutUser() {
-//    ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
-//    return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-//        .body(new MessageResponse("You've been signed out!"));
-//  }
-
-//  @PostMapping("/signin")
-//  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-//
-//    Authentication authentication = authenticationManager
-//        .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-//
-//    SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//    UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-//
-//    ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
-//
-//    List<String> roles = userDetails.getAuthorities().stream()
-//        .map(item -> item.getAuthority())
-//        .collect(Collectors.toList());
-//
-//    return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-//        .body(new UserInfoResponse(userDetails.getId(),
-//            userDetails.getUsername(),
-//            userDetails.getEmail(),
-//            roles));
-//  }
-
 }

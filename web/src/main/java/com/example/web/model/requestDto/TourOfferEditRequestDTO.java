@@ -1,22 +1,26 @@
 package com.example.web.model.requestDto;
 
 import com.example.web.model.dto.BaseDTO;
-import com.example.web.model.dto.TourOfferFilePathDTO;
+import com.example.web.model.dto.UserDTO;
 import com.example.web.model.enums.TransportType;
 import com.google.gson.annotations.Expose;
 import java.math.BigDecimal;
-import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
-public class TourOfferDeleteDTO extends BaseDTO {
+public class TourOfferEditRequestDTO extends BaseDTO {
+
   @Expose
   private Long id;
+
+  @Expose
+  private UserDTO user;
 
   @Expose
   private String title;
@@ -44,8 +48,5 @@ public class TourOfferDeleteDTO extends BaseDTO {
 
   @Expose
   private TransportType transportType;
-
-  @Expose
-  private List<TourOfferFilePathDTO> paths;
 
 }

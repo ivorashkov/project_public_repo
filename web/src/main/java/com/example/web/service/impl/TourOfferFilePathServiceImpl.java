@@ -5,7 +5,7 @@ import com.example.web.model.dto.TourOfferFilePathDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.entity.TourOfferFilePathEntity;
 import com.example.web.model.entity.TourOfferEntity;
-import com.example.web.model.requestDto.TourOfferDeleteDTO;
+import com.example.web.model.requestDto.TourOfferDeleteRequestDTO;
 import com.example.web.repository.OfferDataRepository;
 
 import com.example.web.service.TourOfferFilePathService;
@@ -83,7 +83,7 @@ public class TourOfferFilePathServiceImpl implements TourOfferFilePathService {
   }
 
   @Override
-  public boolean deleteOfferFilePaths(TourOfferDeleteDTO tourOfferDeleteDTO) {
+  public boolean deleteOfferFilePaths(TourOfferDeleteRequestDTO tourOfferDeleteDTO) {
     log.info(" [INFO] Loading TourOfferFilePathServiceImpl {deleteOfferFilePaths} ");
 
     try {

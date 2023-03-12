@@ -1,22 +1,17 @@
 package com.example.web.model.responseDTO;
 
-import com.example.web.model.dto.BaseDTO;
-import com.google.gson.annotations.Expose;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserSimpleIdDTO extends BaseDTO {
+public class AuthenticationResponseDTO {
 
-  @Expose
-  private Long id;
-
-  @Expose
-  private boolean isActive;
-
+  private String token;
 }

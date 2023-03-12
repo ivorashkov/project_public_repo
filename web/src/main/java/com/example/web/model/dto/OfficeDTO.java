@@ -1,6 +1,6 @@
 package com.example.web.model.dto;
 
-import com.example.web.model.responseDTO.UserSimpleIdDTO;
+import com.example.web.model.responseDTO.UserSimpleIdResponseDTO;
 import com.google.gson.annotations.Expose;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,5 +29,5 @@ public class OfficeDTO extends BaseDTO{
   private String phone;
 
   @Expose
-  private UserSimpleIdDTO user;
+  private UserSimpleIdResponseDTO user;
 }

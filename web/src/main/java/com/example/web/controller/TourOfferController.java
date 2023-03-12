@@ -1,10 +1,10 @@
 package com.example.web.controller;
 
-import com.example.web.model.requestDto.TourOfferCreateDTO;
+import com.example.web.model.requestDto.TourOfferCreateRequestDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.model.enums.TransportType;
-import com.example.web.model.requestDto.TourOfferEditDTO;
+import com.example.web.model.requestDto.TourOfferEditRequestDTO;
 import com.example.web.service.FileService;
 import com.example.web.service.TourOfferFilePathService;
 import com.example.web.service.TourOfferService;
@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/offer")
+@RequestMapping("/api/offer")
 public class TourOfferController {
 
   private final UserService userService;
@@ -69,7 +69,7 @@ public class TourOfferController {
     //1. Получаваме новия обект
     TourOfferFullDTO incoming = this.tourOfferService.findByIdAndUserId(7L, 3L);
     UserDTO userDTO = this.userService.findUserDTOById(3L);
-    TourOfferEditDTO editDTO = new TourOfferEditDTO
+    TourOfferEditRequestDTO editDTO = new TourOfferEditRequestDTO
         (
             incoming.getId(),
             userDTO,
@@ -125,7 +125,7 @@ public class TourOfferController {
 
     UserDTO userDTO = this.userService.findUserDTOById(3L);
 
-    TourOfferCreateDTO createOfferDTO = new TourOfferCreateDTO
+    TourOfferCreateRequestDTO createOfferDTO = new TourOfferCreateRequestDTO
         (
             "new Title",
             LocalDateTime.now(),
@@ -152,10 +152,10 @@ public class TourOfferController {
   }
 
   @GetMapping("/test")
-  public TourOfferCreateDTO sendDTO() {
+  public TourOfferCreateRequestDTO sendDTO() {
     UserDTO user = this.userService.findUserDTOById(3L);
 
-    return new TourOfferCreateDTO(
+    return new TourOfferCreateRequestDTO(
 
         "new Title",
         LocalDateTime.now(),

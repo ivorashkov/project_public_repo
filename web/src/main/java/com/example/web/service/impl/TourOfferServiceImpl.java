@@ -3,13 +3,13 @@ package com.example.web.service.impl;
 import com.example.web.exception.MapEntityPageIntoDtoPageException;
 import com.example.web.exception.PageWithOffersNotFoundException;
 import com.example.web.exception.TourOfferNotFoundException;
-import com.example.web.model.requestDto.TourOfferCreateDTO;
-import com.example.web.model.requestDto.TourOfferEditDTO;
-import com.example.web.model.responseDTO.TourOfferPagingDTO;
+import com.example.web.model.requestDto.TourOfferCreateRequestDTO;
+import com.example.web.model.requestDto.TourOfferEditRequestDTO;
+import com.example.web.model.responseDTO.TourOfferPagingResponseDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.entity.TourOfferEntity;
 import com.example.web.model.entity.UserEntity;
-import com.example.web.model.requestDto.TourOfferDeleteDTO;
+import com.example.web.model.requestDto.TourOfferDeleteRequestDTO;
 import com.example.web.repository.TourOfferRepository;
 import com.example.web.service.TourOfferFilePathService;
 import com.example.web.service.TourOfferService;
@@ -38,7 +38,7 @@ public class TourOfferServiceImpl implements TourOfferService {
   private final ValidatorUtil validatorUtil;
 
   @Override
-  public Page<TourOfferPagingDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
+  public Page<TourOfferPagingResponseDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
 
     Page<TourOfferEntity> offerEntity = null;
     try {
@@ -55,7 +55,7 @@ public class TourOfferServiceImpl implements TourOfferService {
       log.info(" [INFO]  TourOfferServiceImpl { initialSearchResult }  { mapToDTO Page }");
 
       return this.validatorUtil.mapEntityPageIntoDtoPage(offerEntity,
-          TourOfferPagingDTO.class);
+          TourOfferPagingResponseDTO.class);
 
     } catch (MapEntityPageIntoDtoPageException e) {
       log.error(" [ERROR] Issue while trying to extract Offers initialSearchResult {}",
@@ -66,7 +66,7 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public Page<TourOfferPagingDTO> searchAndFilterOffers(
+  public Page<TourOfferPagingResponseDTO> searchAndFilterOffers(
       Integer pageNumber,
       Integer pageSize,
       String country,
@@ -75,7 +75,7 @@ public class TourOfferServiceImpl implements TourOfferService {
   ) {
     log.info(" [INFO] Loading TourOfferServiceImpl {searchAndFilterOffers}");
 
-    Page<TourOfferPagingDTO> offers = null;
+    Page<TourOfferPagingResponseDTO> offers = null;
     try {
       final List<Sort.Order> orders = getOrderList(sorts);//added
 
@@ -89,12 +89,12 @@ public class TourOfferServiceImpl implements TourOfferService {
 
         offerEntities = tourOfferRepository.findAll_TourOffers_ByDate(pageable);
         offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities,
-            TourOfferPagingDTO.class);
+            TourOfferPagingResponseDTO.class);
       } else {
 
         offerEntities = tourOfferRepository.findAllByCriteria(criteria, pageable);
         offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities,
-            TourOfferPagingDTO.class);
+            TourOfferPagingResponseDTO.class);
       }
 
       return offers;
@@ -129,7 +129,7 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public TourOfferFullDTO saveOfferAndPath(TourOfferCreateDTO importedOfferDTO) {
+  public TourOfferFullDTO saveOfferAndPath(TourOfferCreateRequestDTO importedOfferDTO) {
     log.info(" [INFO] TourOfferServiceImpl {saveOfferAndPath}");
 
     try {
@@ -161,7 +161,7 @@ public class TourOfferServiceImpl implements TourOfferService {
           this.tourOfferRepository.findByIdAndUserId(offerId, userId)
               .orElseThrow(TourOfferNotFoundException::new);
 
-      TourOfferDeleteDTO dto = this.validatorUtil.getDTOFromEntity(offer, TourOfferDeleteDTO.class);
+      TourOfferDeleteRequestDTO dto = this.validatorUtil.getDTOFromEntity(offer, TourOfferDeleteRequestDTO.class);
 
       if (this.tourOfferFilePathService.deleteOfferFilePaths(dto)) {
         offer.setDeleted(true);
@@ -183,7 +183,7 @@ public class TourOfferServiceImpl implements TourOfferService {
     log.info("[INFO] Loading TourOfferServiceImpl {deleteOfferFilePaths}");
     try {
       this.tourOfferFilePathService.deleteOfferFilePaths
-          (this.validatorUtil.getDTOFromEntity(offerFullDTO, TourOfferDeleteDTO.class));
+          (this.validatorUtil.getDTOFromEntity(offerFullDTO, TourOfferDeleteRequestDTO.class));
 
       return true;
     } catch (Exception e) {
@@ -193,7 +193,7 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public TourOfferFullDTO setNewProperties(TourOfferEditDTO editDTO, TourOfferFullDTO fullDTO){
+  public TourOfferFullDTO setNewProperties(TourOfferEditRequestDTO editDTO, TourOfferFullDTO fullDTO){
     fullDTO.setDiscount(editDTO.getDiscount());
     fullDTO.setTitle(editDTO.getTitle());
     fullDTO.setCountry(editDTO.getCountry());
