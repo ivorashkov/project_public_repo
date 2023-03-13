@@ -9,8 +9,6 @@ import com.example.web.model.requestDto.UserRegistrationRequestDTO;
 import com.example.web.model.responseDTO.AuthenticationResponseDTO;
 import com.example.web.repository.RoleTypeRepository;
 import com.example.web.repository.UserRepository;
-import com.example.web.security.AuthService;
-import com.example.web.security.JwtService;
 import com.example.web.util.ValidatorUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +48,7 @@ public class AuthServiceImpl implements AuthService {
           .orElseThrow(NoSuchRoleException::new));
       userRepository.saveAndFlush(user);
 
-      var jwtToken = this.jwtService.generateToken(user);
+      var jwtToken = this.jwtService.generateToken(new CustomUserDetails(user));
 
       return this.validatorUtil.responseEntity(
           AuthenticationResponseDTO.builder()
@@ -72,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
             authRequest.getEmail(),
-            authRequest.getPassword()
+            passwordEncoder.encode(authRequest.getPassword())
         )
     );
 
@@ -80,7 +78,7 @@ public class AuthServiceImpl implements AuthService {
     var user = this.userRepository.findUserEntityByEmail(authRequest.getEmail())
         .orElseThrow(UserNotFoundException::new);
 
-    var jwtToken = this.jwtService.generateToken(user);
+    var jwtToken = this.jwtService.generateToken(new CustomUserDetails(user));
     AuthenticationResponseDTO response = AuthenticationResponseDTO.builder()
         .token(jwtToken)
         .build();
