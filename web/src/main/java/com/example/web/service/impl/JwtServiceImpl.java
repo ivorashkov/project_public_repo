@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,8 @@ import org.springframework.stereotype.Service;
 public class JwtServiceImpl implements JwtService {
 
   //todo move it to application properties -> 512 bit key
-  private static final String SECRET_KEY =
-      "5A7234753778214125442A472D4A614E645267556B58703273357638792F423F4528482B4D6250655368566D597133743677397A24432646294A404E63526654";
+  @Value("${jwt.secret.key}")
+  private String SECRET_KEY;
 
   @Override
   public String extractUsername(String jwtToken) {

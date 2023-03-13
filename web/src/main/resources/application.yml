@@ -36,3 +36,7 @@ spring:
 #            no restriction of the size
             max-file-size: -1
             max-request-size: -1
+
+jwt:
+    secret:
+        key: 5A7234753778214125442A472D4A614E645267556B58703273357638792F423F4528482B4D6250655368566D597133743677397A24432646294A404E63526654
