@@ -1,4 +1,4 @@
-package com.example.web.model.requestDto;
+package com.example.web.payload.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,10 +1,10 @@
 package com.example.web.security.service;
 
 import com.example.web.model.enums.RoleType;
-import com.example.web.model.requestDto.AuthenticationRequestDTO;
-import com.example.web.model.requestDto.UserRegistrationRequestDTO;
-import com.example.web.model.responseDTO.AuthenticationResponseDTO;
-import com.example.web.model.responseDTO.UserRegistrationResponseDTO;
+import com.example.web.payload.request.AuthenticationRequestDTO;
+import com.example.web.payload.request.UserRegistrationRequestDTO;
+import com.example.web.payload.response.AuthenticationResponseDTO;
+import com.example.web.payload.response.UserRegistrationResponseDTO;
 import org.springframework.http.ResponseEntity;
 
 public interface AuthService {

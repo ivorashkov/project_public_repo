@@ -1,4 +1,4 @@
-package com.example.web.model.responseDTO;
+package com.example.web.payload.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.example.web.model.responseDTO;
+package com.example.web.payload.response;
 
 import com.example.web.model.dto.RoleDTO;
 import com.google.gson.annotations.Expose;

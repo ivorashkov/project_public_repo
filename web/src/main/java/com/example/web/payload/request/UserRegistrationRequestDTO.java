@@ -1,4 +1,4 @@
-package com.example.web.model.requestDto;
+package com.example.web.payload.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;

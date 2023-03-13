@@ -1,7 +1,6 @@
 package com.example.web.service;
 
 import com.example.web.model.dto.UserDTO;
-import com.example.web.model.requestDto.UserLoginRequestDTO;
 
 public interface UserService {
 
@@ -12,7 +11,5 @@ public interface UserService {
   boolean deleteUser(UserDTO userDTO);
 
   boolean updateUser(UserDTO userDTO);
-
-  boolean login(UserLoginRequestDTO userLoginDTO);
 
 }
