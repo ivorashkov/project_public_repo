@@ -5,7 +5,7 @@ import com.example.web.exception.StorageException;
 import com.example.web.constant.MainDataDirectoryConstants;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
-import com.example.web.service.AccountMandatoryActivationDataInfoService;
+import com.example.web.service.AccountActivationDataService;
 import com.example.web.service.FileService;
 import com.example.web.service.TourOfferFilePathService;
 import com.example.web.service.TourOfferService;
@@ -29,7 +29,7 @@ public class FileServiceImpl implements FileService {
 
   private final TourOfferService tourOfferService;
   private final UserService userService;
-  private final AccountMandatoryActivationDataInfoService additionalInfoService;
+  private final AccountActivationDataService additionalInfoService;
   private final TourOfferFilePathService offerDataService;
   private final Path rootLocation;
 
@@ -38,7 +38,7 @@ public class FileServiceImpl implements FileService {
           TourOfferService tourOfferService,
           UserService userService, TourOfferFilePathService offerDataService,
           MainDataDirectoryConstants properties,
-          AccountMandatoryActivationDataInfoService additionalInfoService
+          AccountActivationDataService additionalInfoService
       ) {
     this.tourOfferService = tourOfferService;
     this.userService = userService;

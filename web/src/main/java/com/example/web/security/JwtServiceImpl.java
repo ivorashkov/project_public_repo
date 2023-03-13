@@ -1,6 +1,6 @@
-package com.example.web.service.impl;
+package com.example.web.security;
 
-import com.example.web.service.JwtService;
+import com.example.web.security.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

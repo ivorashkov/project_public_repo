@@ -1,9 +1,6 @@
-package com.example.web.config;
-
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+package com.example.web.security;
 
 import com.example.web.constant.SpringSecurityConstants;
-import com.example.web.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

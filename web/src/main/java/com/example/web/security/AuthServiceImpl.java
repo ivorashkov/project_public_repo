@@ -1,18 +1,16 @@
-package com.example.web.service.impl;
+package com.example.web.security;
 
 import com.example.web.constant.UserRegistrationConstants;
 import com.example.web.exception.NoSuchRoleException;
 import com.example.web.exception.UserNotFoundException;
-import com.example.web.model.entity.RoleEntity;
 import com.example.web.model.entity.UserEntity;
-import com.example.web.model.enums.RoleType;
 import com.example.web.model.requestDto.AuthenticationRequestDTO;
 import com.example.web.model.requestDto.UserRegistrationRequestDTO;
 import com.example.web.model.responseDTO.AuthenticationResponseDTO;
 import com.example.web.repository.RoleTypeRepository;
 import com.example.web.repository.UserRepository;
-import com.example.web.service.AuthService;
-import com.example.web.service.JwtService;
+import com.example.web.security.AuthService;
+import com.example.web.security.JwtService;
 import com.example.web.util.ValidatorUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

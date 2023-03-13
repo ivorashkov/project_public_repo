@@ -1,4 +1,4 @@
-package com.example.web.service;
+package com.example.web.security;
 
 import com.example.web.model.requestDto.AuthenticationRequestDTO;
 import com.example.web.model.requestDto.UserRegistrationRequestDTO;

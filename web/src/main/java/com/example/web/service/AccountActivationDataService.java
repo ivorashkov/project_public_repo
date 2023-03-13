@@ -5,7 +5,7 @@ import com.example.web.model.dto.UserDTO;
 import java.nio.file.Path;
 import java.util.List;
 
-public interface AccountMandatoryActivationDataInfoService {
+public interface AccountActivationDataService {
 
   void saveFileUri(UserDTO userDTO, Path initPath);
 

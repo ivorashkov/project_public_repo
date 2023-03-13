@@ -1,4 +1,4 @@
-package com.example.web.service;
+package com.example.web.security;
 
 import io.jsonwebtoken.Claims;
 import java.security.Key;

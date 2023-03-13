@@ -1,9 +1,8 @@
-package com.example.web.controller;
+package com.example.web.security;
 
 import com.example.web.model.requestDto.AuthenticationRequestDTO;
 import com.example.web.model.requestDto.UserRegistrationRequestDTO;
 import com.example.web.model.responseDTO.AuthenticationResponseDTO;
-import com.example.web.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
