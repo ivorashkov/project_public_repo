@@ -1,4 +1,4 @@
-package com.example.web.model.dto.security;
+package com.example.web.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

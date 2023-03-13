@@ -1,4 +1,4 @@
-package com.example.web.model.dto.security;
+package com.example.web.security;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

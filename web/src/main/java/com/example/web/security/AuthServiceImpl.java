@@ -1,4 +1,4 @@
-package com.example.web.model.dto.security;
+package com.example.web.security;
 
 import com.example.web.constant.UserRegistrationConstants;
 import com.example.web.exception.UserNotFoundException;
