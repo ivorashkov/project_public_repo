@@ -1,4 +1,4 @@
-package com.example.web.security;
+package com.example.web.model.dto.security;
 
 import com.example.web.exception.UserNotFoundException;
 import com.example.web.model.entity.UserEntity;

@@ -1,6 +1,5 @@
-package com.example.web.security;
+package com.example.web.model.dto.security;
 
-import com.example.web.security.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

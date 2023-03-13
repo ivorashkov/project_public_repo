@@ -1,4 +1,4 @@
-package com.example.web.security;
+package com.example.web.model.dto.security;
 
 import io.jsonwebtoken.Claims;
 import java.security.Key;
