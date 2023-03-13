@@ -37,6 +37,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     final String jwtToken;
     final String userEmail;
 
+    //user is not existing or is not logged in yet.
     if (authHeader == null || !authHeader.startsWith(SpringSecurityConstants.JWT_TOKEN_BEARER)) {
       filterChain.doFilter(request, response);
       return;

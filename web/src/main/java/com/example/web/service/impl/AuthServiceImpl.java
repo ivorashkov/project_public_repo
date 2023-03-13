@@ -40,7 +40,7 @@ public class AuthServiceImpl implements AuthService {
     log.info("[ INFO ] Loading method registerUser in AuthServiceImpl");
 
     //todo check what info this method is giving back
-    try{
+    try {
       if (this.userRepository.existsByEmail(registrationDTO.getEmail())) {
         //email exists
         return this.validatorUtil.responseEntityBoolean
@@ -59,7 +59,7 @@ public class AuthServiceImpl implements AuthService {
               .token(jwtToken)
               .build());
 
-    }catch (Exception e){
+    } catch (Exception e) {
       log.error("[ ERROR WHILE LOADING registerUser in AuthServiceImpl {}]", e.getMessage());
       return this.validatorUtil.responseEntityBoolean(e.getMessage() == null);
     }
@@ -83,10 +83,10 @@ public class AuthServiceImpl implements AuthService {
         .orElseThrow(UserNotFoundException::new);
 
     var jwtToken = this.jwtService.generateToken(user);
-    return this.validatorUtil.responseEntity(
-        AuthenticationResponseDTO.builder()
-            .token(jwtToken)
-            .build());
+    AuthenticationResponseDTO response = AuthenticationResponseDTO.builder()
+        .token(jwtToken)
+        .build();
+    return this.validatorUtil.responseEntity(response);
   }
 
   private UserEntity setNewUserFields(UserRegistrationRequestDTO registrationDTO) {
