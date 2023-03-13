@@ -1,4 +1,4 @@
-package com.example.web.service.impl;
+package com.example.web.security;
 
 import com.example.web.exception.UserNotFoundException;
 import com.example.web.repository.UserRepository;

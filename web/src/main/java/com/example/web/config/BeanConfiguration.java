@@ -23,9 +23,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class BeanConfiguration {
 
-  //todo check if its using UserDetailsServiceImpl that is configured in the project
-  private final UserDetailsService userDetailsService;
-
   @Bean
   public Gson gson() {
     return new GsonBuilder()
@@ -47,26 +44,6 @@ public class BeanConfiguration {
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
     return modelMapper;
-  }
-
-  @Bean
-  public AuthenticationProvider authenticationProvider(){
-    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-    authProvider.setUserDetailsService(this.userDetailsService);
-    authProvider.setPasswordEncoder(passwordEncoder());
-
-    return authProvider;
-  }
-
-  @Bean
-  public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig)
-      throws Exception {
-    return authConfig.getAuthenticationManager();
-  }
-
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
   }
 
 }

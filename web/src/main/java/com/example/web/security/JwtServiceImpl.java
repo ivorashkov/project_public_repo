@@ -47,6 +47,7 @@ public class JwtServiceImpl implements JwtService {
         .setSubject(userDetails.getUsername())
         .setIssuedAt(new Date(System.currentTimeMillis()))
         .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60))
+        //todo add admin/user role as claim maybe??
         .signWith(getSignInKey(), SignatureAlgorithm.HS256)
         .compact();
   }
