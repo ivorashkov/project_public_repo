@@ -1,9 +1,10 @@
-package com.example.web.security;
+package com.example.web.controller;
 
 import com.example.web.model.enums.RoleType;
 import com.example.web.model.requestDto.AuthenticationRequestDTO;
 import com.example.web.model.requestDto.UserRegistrationRequestDTO;
 import com.example.web.model.responseDTO.AuthenticationResponseDTO;
+import com.example.web.security.service.AuthService;
 import com.example.web.util.ValidatorUtil;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

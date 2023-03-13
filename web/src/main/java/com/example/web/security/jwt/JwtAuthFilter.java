@@ -1,4 +1,4 @@
-package com.example.web.security;
+package com.example.web.security.jwt;
 
 import com.example.web.constant.SpringSecurityConstants;
 import jakarta.servlet.FilterChain;

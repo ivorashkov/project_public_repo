@@ -1,8 +1,9 @@
-package com.example.web.security;
+package com.example.web.security.service;
 
 import com.example.web.exception.UserNotFoundException;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.repository.UserRepository;
+import com.example.web.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

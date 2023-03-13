@@ -1,4 +1,4 @@
-package com.example.web.security;
+package com.example.web.security.service;
 
 import com.example.web.model.enums.RoleType;
 import com.example.web.model.requestDto.AuthenticationRequestDTO;

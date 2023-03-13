@@ -1,4 +1,4 @@
-package com.example.web.security;
+package com.example.web.security.service;
 
 import com.example.web.constant.UserRegistrationConstants;
 import com.example.web.exception.UserNotFoundException;
@@ -10,6 +10,8 @@ import com.example.web.model.responseDTO.AuthenticationResponseDTO;
 import com.example.web.model.responseDTO.UserRegistrationResponseDTO;
 import com.example.web.repository.RoleTypeRepository;
 import com.example.web.repository.UserRepository;
+import com.example.web.security.CustomUserDetails;
+import com.example.web.security.jwt.JwtService;
 import com.example.web.util.ValidatorUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,8 +47,7 @@ public class AuthServiceImpl implements AuthService {
       }
 
       if (!registrationDTO.getPassword().equals(registrationDTO.getPasswordConfirm())) {
-        log.error(
-            "[ ERROR ] While Loading AuthServiceImpl { registerUser } passwords are not equal");
+        log.error("[ ERROR ] While Loading AuthServiceImpl{registerUser} passwords are not equal");
         //passwords are not equal
         return null;
       }
@@ -63,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
       return this.validatorUtil.getDTOFromEntity(user, UserRegistrationResponseDTO.class);
 
     } catch (Exception e) {
-      log.error("[ ERROR WHILE LOADING registerUser in AuthServiceImpl {}]", e.getMessage());
+      log.error("[ ERROR ] WHILE LOADING registerUser in AuthServiceImpl {}]", e.getMessage());
       return null;
     }
 
