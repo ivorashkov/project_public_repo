@@ -1,5 +1,6 @@
-package com.example.web.model.dto;
+package com.example.web.model.responseDTO;
 
+import com.example.web.model.dto.RoleDTO;
 import com.google.gson.annotations.Expose;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,12 +11,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO extends BaseDTO {
-
+public class UserRegistrationResponseDTO {
   @Expose
   private Long id;
 
-//  @JsonIgnore
+  //  @JsonIgnore
   @Expose
   private boolean isActive;
 
@@ -30,4 +30,5 @@ public class UserDTO extends BaseDTO {
 
   @Expose
   private RoleDTO role;
+
 }

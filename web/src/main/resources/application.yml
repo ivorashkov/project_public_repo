@@ -14,7 +14,6 @@ spring:
         url: jdbc:mysql://localhost:3306/travel_agency_web_db?useSSL=false&createDatabaseIfNotExist=true
         username: root
 
-
         security:
             oauth2:
                 resourceserver:

@@ -4,9 +4,7 @@ import com.example.web.model.entity.UserEntity;
 import java.util.Collection;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
@@ -53,6 +50,6 @@ public class CustomUserDetails implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return !this.user.isDeleted();
+    return true;
   }
 }

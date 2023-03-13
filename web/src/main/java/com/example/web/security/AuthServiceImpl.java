@@ -1,12 +1,13 @@
 package com.example.web.security;
 
 import com.example.web.constant.UserRegistrationConstants;
-import com.example.web.exception.NoSuchRoleException;
 import com.example.web.exception.UserNotFoundException;
 import com.example.web.model.entity.UserEntity;
+import com.example.web.model.enums.RoleType;
 import com.example.web.model.requestDto.AuthenticationRequestDTO;
 import com.example.web.model.requestDto.UserRegistrationRequestDTO;
 import com.example.web.model.responseDTO.AuthenticationResponseDTO;
+import com.example.web.model.responseDTO.UserRegistrationResponseDTO;
 import com.example.web.repository.RoleTypeRepository;
 import com.example.web.repository.UserRepository;
 import com.example.web.util.ValidatorUtil;
@@ -25,39 +26,45 @@ public class AuthServiceImpl implements AuthService {
 
   private final ValidatorUtil validatorUtil;
   private final UserRepository userRepository;
-  private final RoleTypeRepository roleTypeRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
+  private final RoleTypeRepository roleTypeRepository;
 
   @Override
-  public ResponseEntity<AuthenticationResponseDTO> registerUser
-      (UserRegistrationRequestDTO registrationDTO) {
+  public UserRegistrationResponseDTO registerUser
+      (UserRegistrationRequestDTO registrationDTO, RoleType roleType) {
     log.info("[ INFO ] Loading method registerUser in AuthServiceImpl");
 
     //todo check what info this method is giving back
     try {
       if (this.userRepository.existsByEmail(registrationDTO.getEmail())) {
+        log.error("[ ERROR ] While Loading AuthServiceImpl { registerUser } email already exists ");
         //email exists
-        return this.validatorUtil.responseEntityBoolean
-            (!this.userRepository.existsByEmail(registrationDTO.getEmail()));
+        return null;
+      }
+
+      if (!registrationDTO.getPassword().equals(registrationDTO.getPasswordConfirm())) {
+        log.error(
+            "[ ERROR ] While Loading AuthServiceImpl { registerUser } passwords are not equal");
+        //passwords are not equal
+        return null;
       }
 
       var user = setNewUserFields(registrationDTO);
-      user.setRole(this.roleTypeRepository.findById(UserRegistrationConstants.REGULAR_USER_ROLE_ID)
-          .orElseThrow(NoSuchRoleException::new));
+
+      switch (roleType) {
+        case user ->  user.setRole(this.roleTypeRepository.findByRoleName(RoleType.user));
+        case admin -> user.setRole(this.roleTypeRepository.findByRoleName(RoleType.admin));
+        default -> user.setRole(this.roleTypeRepository.findByRoleName(RoleType.user));
+      }
       userRepository.saveAndFlush(user);
 
-      var jwtToken = this.jwtService.generateToken(new CustomUserDetails(user));
-
-      return this.validatorUtil.responseEntity(
-          AuthenticationResponseDTO.builder()
-              .token(jwtToken)
-              .build());
+      return this.validatorUtil.getDTOFromEntity(user, UserRegistrationResponseDTO.class);
 
     } catch (Exception e) {
       log.error("[ ERROR WHILE LOADING registerUser in AuthServiceImpl {}]", e.getMessage());
-      return this.validatorUtil.responseEntityBoolean(e.getMessage() == null);
+      return null;
     }
 
   }
@@ -70,7 +77,7 @@ public class AuthServiceImpl implements AuthService {
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
             authRequest.getEmail(),
-            passwordEncoder.encode(authRequest.getPassword())
+            authRequest.getPassword()
         )
     );
 

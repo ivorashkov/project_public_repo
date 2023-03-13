@@ -1,12 +1,13 @@
 package com.example.web.security;
 
+import com.example.web.model.enums.RoleType;
 import com.example.web.model.requestDto.AuthenticationRequestDTO;
 import com.example.web.model.requestDto.UserRegistrationRequestDTO;
 import com.example.web.model.responseDTO.AuthenticationResponseDTO;
+import com.example.web.util.ValidatorUtil;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,13 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth")
 public class AuthController {
 
+  private final ValidatorUtil validatorUtil;
   private final AuthService authService;
 
   @PostMapping("/signup")
-  public ResponseEntity<AuthenticationResponseDTO> registerUser
+  public ResponseEntity<?> registerUser
       (@Valid @RequestBody UserRegistrationRequestDTO registrationDTO) {
 
-    return this.authService.registerUser(registrationDTO);
+    return this.validatorUtil.responseEntity(
+        this.authService.registerUser(registrationDTO, RoleType.user));
   }
 
   @PostMapping("/authenticate")
@@ -33,10 +36,5 @@ public class AuthController {
       (@Valid @RequestBody AuthenticationRequestDTO authRequest) {
 
     return this.authService.authenticate(authRequest);
-  }
-
-  @GetMapping
-  public ResponseEntity<?> helloMethod(){
-    return ResponseEntity.ok("Hello");
   }
 }

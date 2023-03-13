@@ -19,7 +19,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     UserEntity userEntity = this.userRepository.findUserEntityByEmail(email)
         .orElseThrow(UserNotFoundException::new);
-//todo to check why bad credentials appears here?????????
+
+    //todo to check why bad credentials appears here?????????
     return new CustomUserDetails(userEntity);
   }
 }
