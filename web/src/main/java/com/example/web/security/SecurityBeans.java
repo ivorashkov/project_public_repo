@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class SecurityBeans {
   //todo check if its using UserDetailsServiceImpl that is configured in the project
+
   private final UserDetailsService userDetailsService;
 
   @Bean
