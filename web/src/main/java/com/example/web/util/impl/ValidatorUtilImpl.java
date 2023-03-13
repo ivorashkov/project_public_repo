@@ -6,6 +6,7 @@ import com.example.web.model.enums.RoleType;
 import com.example.web.util.ValidatorUtil;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,10 +22,10 @@ public class ValidatorUtilImpl implements ValidatorUtil {
   private final ModelMapper mapper;
 
   public ValidatorUtilImpl(ModelMapper mapper) {
+    try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()){
+          this.validator = factory.getValidator();
+    }
     this.mapper = mapper;
-    this.validator = Validation
-        .buildDefaultValidatorFactory()
-        .getValidator();
   }
 
   /**
