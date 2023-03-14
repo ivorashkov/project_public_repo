@@ -23,6 +23,10 @@ public class CustomUserDetails implements UserDetails {
     return List.of(new SimpleGrantedAuthority(this.user.getRole().getRoleName().name()));
   }
 
+  public boolean isActive(){
+  return this.user.isActive();
+  }
+
   @Override
   public String getPassword() {
     return this.user.getPassword();

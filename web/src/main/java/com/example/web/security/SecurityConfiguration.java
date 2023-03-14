@@ -1,5 +1,6 @@
 package com.example.web.security;
 
+import com.example.web.model.enums.RoleType;
 import com.example.web.security.jwt.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +26,16 @@ public class SecurityConfiguration {
   private final JwtAuthFilter jwtAuthFilter;
   private final AuthenticationProvider authenticationProvider;
 
+//todo check if SecurityFilterChain is properly set
 
+  /**
+   *Check if this is correctly set and also if I should make
+   * relation between isActive field and activated_user roleType
+   .requestMatchers("/api/admin/**")
+   .hasAuthority(String.valueOf(RoleType.admin))
+   .requestMatchers("/api/offer/**")
+   .hasAuthority(String.valueOf(RoleType.activated_user))
+   */
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
     httpSecurity
@@ -35,7 +45,9 @@ public class SecurityConfiguration {
         .requestMatchers("/api/home/**","/api/auth/**")
         .permitAll()
         .requestMatchers("/api/admin/**")
-        .hasRole("admin")
+        .hasAuthority(String.valueOf(RoleType.admin))
+        .requestMatchers("/api/offer/**")
+        .hasAuthority(String.valueOf(RoleType.activated_user))
         .anyRequest()
         .authenticated()
         .and()

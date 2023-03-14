@@ -2,5 +2,6 @@ package com.example.web.model.enums;
 
 public enum RoleType {
   admin,
-  user
+  user,
+  activated_user
 }
