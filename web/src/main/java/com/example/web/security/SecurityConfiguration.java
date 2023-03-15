@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -23,12 +24,9 @@ public class SecurityConfiguration {
 //todo check if SecurityFilterChain is properly set
 
   /**
-   *Check if this is correctly set and also if I should make
-   * relation between isActive field and activated_user roleType
-   .requestMatchers("/api/admin/**")
-   .hasAuthority(String.valueOf(RoleType.admin))
-   .requestMatchers("/api/offer/**")
-   .hasAuthority(String.valueOf(RoleType.activated_user))
+   * Check if this is correctly set and also if I should make relation between isActive field and
+   * activated_user roleType .requestMatchers("/api/admin/**") .hasAuthority(String.valueOf(RoleType.admin))
+   * .requestMatchers("/api/offer/**") .hasAuthority(String.valueOf(RoleType.activated_user))
    */
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -36,7 +34,7 @@ public class SecurityConfiguration {
         .csrf()
         .disable()
         .authorizeHttpRequests()
-        .requestMatchers("/api/home/**","/api/auth/**")
+        .requestMatchers("/api/home/**", "/api/auth/**")
         .permitAll()
         .requestMatchers("/api/admin/**")
         .hasAuthority(String.valueOf(RoleType.admin))
@@ -49,7 +47,13 @@ public class SecurityConfiguration {
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .authenticationProvider(authenticationProvider)
-        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+        .logout()
+        .logoutUrl("/api/auth/logout")
+        .addLogoutHandler(null)
+        .logoutSuccessHandler(
+            (request, response, authentication) -> SecurityContextHolder.clearContext())
+    ;
 
     return httpSecurity.build();
   }
