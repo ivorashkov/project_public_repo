@@ -12,6 +12,8 @@ import com.example.web.repository.RoleTypeRepository;
 import com.example.web.repository.UserRepository;
 import com.example.web.security.CustomUserDetails;
 import com.example.web.security.jwt.JwtService;
+import com.example.web.security.repository.TokenRepository;
+import com.example.web.security.token.TokenEntity;
 import com.example.web.util.ValidatorUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.OAuth2AccessToken.TokenType;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -27,11 +30,14 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
   private final ValidatorUtil validatorUtil;
+
+  private final RoleTypeRepository roleTypeRepository;
   private final UserRepository userRepository;
+  private final TokenRepository tokenRepository;
+
+  private final AuthenticationManager authenticationManager;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
-  private final AuthenticationManager authenticationManager;
-  private final RoleTypeRepository roleTypeRepository;
 
   @Override
   public UserRegistrationResponseDTO registerUser
@@ -87,10 +93,27 @@ public class AuthServiceImpl implements AuthService {
         .orElseThrow(UserNotFoundException::new);
 
     var jwtToken = this.jwtService.generateToken(new CustomUserDetails(user));
+
+    saveUserToken(user, jwtToken);
+
     AuthenticationResponseDTO response = AuthenticationResponseDTO.builder()
         .token(jwtToken)
         .build();
+
     return this.validatorUtil.responseEntity(response);
+  }
+
+  private void saveUserToken(UserEntity user, String jwtToken) {
+    log.info("[ INFO ] Loading AuthServiceImpl  { saveUserToken }");
+
+    var token = TokenEntity.builder()
+        .user(user)
+        .token(jwtToken)
+        .tokenType(TokenType.BEARER)
+        .revoked(false)
+        .expired(false)
+        .build();
+    this.tokenRepository.save(token);
   }
 
   private UserEntity setNewUserFields(UserRegistrationRequestDTO registrationDTO) {
