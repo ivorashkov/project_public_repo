@@ -10,10 +10,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class JwtServiceImpl implements JwtService {
 
@@ -23,21 +25,26 @@ public class JwtServiceImpl implements JwtService {
 
   @Override
   public String extractUsername(String jwtToken) {
+    log.info("[ INFO ] Loading JwtServiceImpl { extractUsername } ");
     return extractClaim(jwtToken, Claims::getSubject);
   }
   public <T> T extractClaim(String jwtToken, Function<Claims, T> claimsResolver) {
+    log.info("[ INFO ] Loading JwtServiceImpl { extractClaim } ");
     final Claims claims = extractAllClaims(jwtToken);
+
     return claimsResolver.apply(claims);
   }
 
   @Override
   public String generateToken(UserDetails userDetails) {
+    log.info("[ INFO ] Loading JwtServiceImpl { generateToken } ");
     //generate no extra claims since the HashMap is empty
     return generateToken(new HashMap<>(), userDetails);
   }
 
   @Override
   public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    log.info("[ INFO ] Loading JwtServiceImpl { generateToken } ");
     //adding extra claims with this method
     return Jwts
         .builder()
@@ -52,6 +59,7 @@ public class JwtServiceImpl implements JwtService {
 
   @Override
   public Claims extractAllClaims(String jwtToken) {
+    log.info("[ INFO ] Loading JwtServiceImpl { extractAllClaims } ");
 
     return Jwts.parserBuilder()
         .setSigningKey(getSignInKey())
@@ -62,6 +70,7 @@ public class JwtServiceImpl implements JwtService {
 
   @Override
   public boolean isTokenValid(String jwtToken, UserDetails userDetails) {
+    log.info("[ INFO ] Loading JwtServiceImpl { isTokenValid } ");
     //validate if token is the same within the user.
     final String username = extractUsername(jwtToken);
 
@@ -71,16 +80,22 @@ public class JwtServiceImpl implements JwtService {
 
   @Override
   public boolean isTokenExpired(String jwtToken) {
+    log.info("[ INFO ] Loading JwtServiceImpl { isTokenExpired } ");
+
     return extractExpiration(jwtToken).before(new Date());
   }
 
   @Override
   public Date extractExpiration(String jwtToken) {
+    log.info("[ INFO ] Loading JwtServiceImpl { extractExpiration } ");
+
     return extractClaim(jwtToken, Claims::getExpiration);
   }
 
   @Override
   public Key getSignInKey() {
+    log.info("[ INFO ] Loading JwtServiceImpl { getSignInKey } ");
+
     byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
     return Keys.hmacShaKeyFor(keyBytes);
   }

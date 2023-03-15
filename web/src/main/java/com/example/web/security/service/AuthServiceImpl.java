@@ -108,6 +108,7 @@ public class AuthServiceImpl implements AuthService {
   }
 
   private Map<String, Object> getExtraClaims(UserEntity user) {
+    log.info("[ INFO ] Loading AuthServiceImpl  { getExtraClaims }");
     //todo here we can add additional claims
     Map<String, Object> extraClaims = new HashMap<>();
     extraClaims.put("isActive", user.isActive());
