@@ -1,7 +1,9 @@
 package com.example.web.model.entity;
 
+import com.example.web.security.token.TokenEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,6 +47,9 @@ public class UserEntity extends BaseEntity {
 
   @Column(columnDefinition = "boolean default false")
   private boolean hasStar;
+
+  @OneToMany(mappedBy = "user")
+  private List<TokenEntity> tokens;
 
   public boolean isActive(){
     return this.isActive;
