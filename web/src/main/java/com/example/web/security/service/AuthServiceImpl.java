@@ -15,6 +15,8 @@ import com.example.web.security.jwt.JwtService;
 import com.example.web.security.repository.TokenRepository;
 import com.example.web.security.token.TokenEntity;
 import com.example.web.util.ValidatorUtil;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +63,7 @@ public class AuthServiceImpl implements AuthService {
       var user = setNewUserFields(registrationDTO);
 
       switch (roleType) {
-        case user ->  user.setRole(this.roleTypeRepository.findByRoleName(RoleType.user));
+        case user -> user.setRole(this.roleTypeRepository.findByRoleName(RoleType.user));
         case admin -> user.setRole(this.roleTypeRepository.findByRoleName(RoleType.admin));
         default -> user.setRole(this.roleTypeRepository.findByRoleName(RoleType.user));
       }
@@ -92,7 +94,9 @@ public class AuthServiceImpl implements AuthService {
     var user = this.userRepository.findUserEntityByEmail(authRequest.getEmail())
         .orElseThrow(UserNotFoundException::new);
 
-    var jwtToken = this.jwtService.generateToken(new CustomUserDetails(user));
+    Map<String, Object> extraClaims = getExtraClaims(user);
+
+    var jwtToken = this.jwtService.generateToken(extraClaims, new CustomUserDetails(user));
 
     saveUserToken(user, jwtToken);
 
@@ -101,6 +105,14 @@ public class AuthServiceImpl implements AuthService {
         .build();
 
     return this.validatorUtil.responseEntity(response);
+  }
+
+  private Map<String, Object> getExtraClaims(UserEntity user) {
+    //todo here we can add additional claims
+    Map<String, Object> extraClaims = new HashMap<>();
+    extraClaims.put("isActive", user.isActive());
+
+    return extraClaims;
   }
 
   private void saveUserToken(UserEntity user, String jwtToken) {
