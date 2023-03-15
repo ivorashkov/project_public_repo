@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface TokenRepository extends JpaRepository<TokenEntity, Long> {
 
   //all valid tokens for user
-  Optional<List<TokenEntity>> findAllByUserIdAndExpiredIsFalseAndRevokedIsFalse(Long userId);
+  List<Optional<TokenEntity>> findAllByUserIdAndExpiredIsFalseAndRevokedIsFalse(Long userId);
 
   //find token by token string
   Optional<TokenEntity> findByToken(String token);

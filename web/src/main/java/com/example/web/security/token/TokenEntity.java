@@ -2,7 +2,10 @@ package com.example.web.security.token;
 
 import com.example.web.model.entity.BaseEntity;
 import com.example.web.model.entity.UserEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -11,7 +14,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.oauth2.core.OAuth2AccessToken.TokenType;
 
 @Getter
 @Setter
@@ -24,6 +26,7 @@ public class TokenEntity extends BaseEntity {
 
   private String token;
 
+  @Enumerated(EnumType.STRING)
   private TokenType tokenType;
 
   private boolean expired;

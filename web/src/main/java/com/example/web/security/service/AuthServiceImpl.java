@@ -14,6 +14,7 @@ import com.example.web.security.CustomUserDetails;
 import com.example.web.security.jwt.JwtService;
 import com.example.web.security.repository.TokenRepository;
 import com.example.web.security.token.TokenEntity;
+import com.example.web.security.token.TokenType;
 import com.example.web.util.ValidatorUtil;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +24,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.OAuth2AccessToken.TokenType;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -98,6 +98,7 @@ public class AuthServiceImpl implements AuthService {
 
     var jwtToken = this.jwtService.generateToken(extraClaims, new CustomUserDetails(user));
 
+    revokeAllUserTokens(user);
     saveUserToken(user, jwtToken);
 
     AuthenticationResponseDTO response = AuthenticationResponseDTO.builder()
@@ -127,6 +128,23 @@ public class AuthServiceImpl implements AuthService {
         .expired(false)
         .build();
     this.tokenRepository.save(token);
+  }
+
+  public void revokeAllUserTokens(UserEntity user){
+    var validTokens = this.validatorUtil.getListFromOptionalList(
+        this.tokenRepository.findAllByUserIdAndExpiredIsFalseAndRevokedIsFalse(user.getId())
+    );
+
+    if (validTokens.isEmpty()){
+      return;
+    }
+
+    validTokens.forEach(token -> {
+      token.setExpired(true);
+      token.setRevoked(true);
+    });
+
+    tokenRepository.saveAll(validTokens);
   }
 
   private UserEntity setNewUserFields(UserRegistrationRequestDTO registrationDTO) {
