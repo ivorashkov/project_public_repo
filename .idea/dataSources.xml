@@ -10,7 +10,7 @@
       <jdbc-url>jdbc:mysql://localhost:3306/travel_agency_web_db?useSSL=false&amp;createDatabaseIfNotExist=true</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="@localhost" uuid="9519d78e-e243-4df6-a931-e5c1f18386d9">
+    <data-source source="LOCAL" name="@localhost" uuid="34bbeaad-c167-4d2b-bc91-5ce97d156546">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
