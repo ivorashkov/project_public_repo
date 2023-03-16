@@ -153,7 +153,8 @@ public class TourOfferController {
 
   @GetMapping("/test")
   public TourOfferCreateRequestDTO sendDTO() {
-    UserDTO user = this.userService.findUserDTOById(3L);
+    UserDTO user = this.userService.findUserDTOById(27L);
+
 
     return new TourOfferCreateRequestDTO(
 
