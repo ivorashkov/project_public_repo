@@ -8,3 +8,8 @@
  CREATE INDEX discount_index ON offers(discount);
  CREATE INDEX user_id_index ON offers(user_id);
 
+
+ ***********************************
+ changing role id to active
+ UPDATE users u SET u.role_id=5 WHERE u.first_name='deno';
+

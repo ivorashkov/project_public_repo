@@ -22,8 +22,8 @@ public class ValidatorUtilImpl implements ValidatorUtil {
   private final ModelMapper mapper;
 
   public ValidatorUtilImpl(ModelMapper mapper) {
-    try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()){
-          this.validator = factory.getValidator();
+    try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
+      this.validator = factory.getValidator();
     }
     this.mapper = mapper;
   }
@@ -59,18 +59,27 @@ public class ValidatorUtilImpl implements ValidatorUtil {
   @Override
   public <E> ResponseEntity<E> responseEntity(E entity) {
 
-    if (entity == null) {
-      return ResponseEntity.notFound().build();
-    } else {
+    if (entity != null) {
       return ResponseEntity.ok(entity);
+    } else {
+      return ResponseEntity.notFound().build();
     }
   }
 
   @Override
-  public <E> ResponseEntity<E> responseEntityBoolean(boolean b){
-    if (b){
+  public <E> ResponseEntity<E> responseEntityBoolean(boolean b) {
+    if (b) {
       return ResponseEntity.ok().build();
-    }else{
+    } else {
+      return ResponseEntity.badRequest().build();
+    }
+  }
+
+  @Override
+  public <E> ResponseEntity<List<E>> listResponseEntity(List<E> entities) {
+    if (!entities.isEmpty()) {
+      return ResponseEntity.ok().build();
+    } else {
       return ResponseEntity.badRequest().build();
     }
   }
@@ -135,7 +144,7 @@ public class ValidatorUtilImpl implements ValidatorUtil {
   }
 
   /**
-   *maps DTO to Entity
+   * maps DTO to Entity
    */
   @Override
   public <D, E> E getEntityFromDTO(D dto, Class<E> entityClass) {
