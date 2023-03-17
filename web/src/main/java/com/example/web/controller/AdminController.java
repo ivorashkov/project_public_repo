@@ -24,7 +24,8 @@ public class AdminController {
   public ResponseEntity<List<UserEntity>> getAccountsForApproval(){
     List<UserEntity> users = this.adminService.getAccountsForApproval();
 
-    return this.validatorUtil.listResponseEntity()
+//    return this.validatorUtil.listResponseEntity()
+    return null;
   }
 
 

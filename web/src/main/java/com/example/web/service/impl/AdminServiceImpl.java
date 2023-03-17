@@ -21,7 +21,7 @@ public class AdminServiceImpl implements AdminService {
   @Override
   public List<UserEntity> getAccountsForApproval() {
     List<UserEntity> usersForApproval = this.validatorUtil.getListFromOptionalList(
-        this.userRepository.findAllByActiveFalse());
+        this.userRepository.findAllInactiveUsers());
 
     usersForApproval.forEach(u -> {
       List<AccountInfoEntity> AccountDataProvided = this.validatorUtil.getListFromOptionalList(

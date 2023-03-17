@@ -1,6 +1,7 @@
 package com.example.web.repository;
 
 import com.example.web.model.entity.UserEntity;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,6 +22,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
   boolean existsByEmail(String email);
 
-  List<Optional<UserEntity>> findAllByActiveFalse();
+  @Query("SELECT u from UserEntity u, RoleEntity r WHERE  u.isActive = false")
+  List<Optional<UserEntity>> findAllInactiveUsers();
 
 }
