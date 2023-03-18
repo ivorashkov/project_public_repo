@@ -2,7 +2,6 @@ package com.example.web.security;
 
 import com.example.web.model.enums.RoleType;
 import com.example.web.security.jwt.JwtAuthFilter;
-import com.example.web.security.service.LogoutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,20 +23,19 @@ public class SecurityConfiguration {
   private final AuthenticationProvider authenticationProvider;
   private final LogoutHandler logoutHandler;//LogoutService implimentation. Spring will find that we have impl
 
-//todo check if SecurityFilterChain is properly set
+  //todo check if SecurityFilterChain
+  private static final String[] AUTH_WHITELIST = {
+      "/api/home/**",
+      "/api/auth/**",
+  };
 
-  /**
-   * Check if this is correctly set and also if I should make relation between isActive field and
-   * activated_user roleType .requestMatchers("/api/admin/**") .hasAuthority(String.valueOf(RoleType.admin))
-   * .requestMatchers("/api/offer/**") .hasAuthority(String.valueOf(RoleType.activated_user))
-   */
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
     httpSecurity
         .csrf()
         .disable()
         .authorizeHttpRequests()
-        .requestMatchers("/api/home/**", "/api/auth/**")
+        .requestMatchers(AUTH_WHITELIST)
         .permitAll()
         .requestMatchers("/api/admin/**")
         .hasAuthority(String.valueOf(RoleType.admin))
