@@ -2,28 +2,40 @@ export const registerForm = {
   title: 'Register',
   fields: [
     {
-      type: 'fullName',
-      label: 'Full name',
-      name: 'fullName',
-      testId: 'fullName'
+      type: 'text',
+      label: 'first name',
+      name: 'firstName',
+      testId: 'firstName'
+    },
+    {
+      type: 'text',
+      label: 'last name',
+      name: 'lastName',
+      testId: 'lastName'
     },
     {
       type: 'email',
-      label: 'Email',
+      label: 'email',
       name: 'email',
       testId: 'email'
     },
     {
       type: 'password',
-      label: 'Password',
+      label: 'password',
       name: 'password',
       testId: 'password'
     },
     {
-      type: 're-password',
-      label: 'Repeat Password',
-      name: 're-password',
-      testId: 're-password'
+      type: 'password',
+      label: 'repeat Password',
+      name: 'passwordConfirm',
+      testId: 'passwordConfirm'
+    },
+    {
+      type: 'text',
+      label: 'pehone nubmer',
+      name: 'number',
+      testId: 'number'
     }
   ],
   buttonText: 'submit'

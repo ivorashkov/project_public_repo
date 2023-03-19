@@ -26,8 +26,8 @@ export const Form = ({ title, fields, buttonText, submitHandler }: FormInterface
           } else if (item.type === 'textarea') {
             return (
               <Textarea
-                type={item.type}
                 key={item.type + index}
+                type={item.type}
                 label={item.label}
                 testId={item.testId}
                 name={item.name}
