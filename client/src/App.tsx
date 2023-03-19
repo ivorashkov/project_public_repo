@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import { Header, Wrapper } from './widgets';
 import { Footer } from './widgets/Footer';
+import { AuthProvider } from './context';
 
 const Article = lazy(() => import('./pages').then((module) => ({ default: module.Article })));
 const CreateArticle = lazy(() =>
@@ -18,22 +19,24 @@ const Login = lazy(() => import('./pages').then((module) => ({ default: module.L
 const App = () => {
   return (
     <Suspense fallback={<h2>Loadign...</h2>}>
-      <Header />
+      <AuthProvider>
+        <Header />
 
-      <Wrapper>
-        <Routes>
-          <Route index path="/" element={<Home />} />
-          <Route index path="/register" element={<Register />} />
-          <Route index path="/login" element={<Login />} />
-          <Route index path="/dashboard/*" element={<Dashboard />} />
-          <Route index path="/blogs/edit/:id" element={<EditArticle />} />
-          <Route index path="/blogs/create" element={<CreateArticle />} />
-          <Route index path="/blogs/blog/:id" element={<Article />} />
-          <Route path="*" element={<h1>404</h1>} />
-        </Routes>
-      </Wrapper>
+        <Wrapper>
+          <Routes>
+            <Route index path="/" element={<Home />} />
+            <Route index path="/register" element={<Register />} />
+            <Route index path="/login" element={<Login />} />
+            <Route index path="/dashboard/*" element={<Dashboard />} />
+            <Route index path="/blogs/edit/:id" element={<EditArticle />} />
+            <Route index path="/blogs/create" element={<CreateArticle />} />
+            <Route index path="/blogs/blog/:id" element={<Article />} />
+            <Route path="*" element={<h1>404</h1>} />
+          </Routes>
+        </Wrapper>
 
-      <Footer />
+        <Footer />
+      </AuthProvider>
     </Suspense>
   );
 };
