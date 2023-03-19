@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }: authInterface) => {
 
     useEffect(() => {
         setUserData(user);
-    }, [userData, user])
+    }, [])
 
     const login = (authData: object) => {
         setUserData(authData);

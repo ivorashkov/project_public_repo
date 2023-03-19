@@ -2,7 +2,7 @@ import type { NavItems } from '../../types/';
 import { NavItem } from './NavItem';
 import { AuthContext } from '../../context';
 import { NavLink } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
 export const Nav = ({ links }: NavItems) => {
   const { userData } = useContext(AuthContext);
