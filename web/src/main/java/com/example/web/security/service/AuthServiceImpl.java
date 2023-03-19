@@ -118,6 +118,8 @@ public class AuthServiceImpl implements AuthService {
     //todo here we can add additional claims
     Map<String, Object> extraClaims = new HashMap<>();
     extraClaims.put("isActive", user.isActive());
+    extraClaims.put("id", user.getId());
+    extraClaims.put("status", user.getRole().getRoleName());
 
     return extraClaims;
   }
