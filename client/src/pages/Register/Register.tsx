@@ -1,8 +1,7 @@
 import { Form } from '../../components';
 import { registerForm } from '../../staticData';
 import { FormEvent } from 'react';
-import { RegisterForm as RFI } from '../../types';
-
+import { fetchAPI } from '../../services/fetchAPI';
 
 export const Register = () => {
   const submitHandlerReg = async (e: FormEvent<HTMLFormElement>) => {
@@ -10,7 +9,7 @@ export const Register = () => {
 
     const formData = new FormData(e.currentTarget);  
 
-    const formFields = {
+    const formFields= {
       firstName: formData.get('firstName'), 
       lastName: formData.get('lastName'), 
       email: formData.get('email'), 
@@ -19,15 +18,7 @@ export const Register = () => {
       phoneNumber: formData.get('number'), 
     }
 
-    fetch('http://localhost:8091/api/auth/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formFields)
-    })
-      .then((res) => console.log('ok : ', res))
-      .catch((err) => console.error(err));
+    fetchAPI('api/auth/signup', 'POST', formFields, '/login');
   }
 
   return (
