@@ -2,8 +2,6 @@ import { createContext, useContext } from 'react';
 
 import { getUserDataFromToken } from '../hooks';
 
-export const AuthContext = createContext(null);
-
 interface authInterface {
     children: JSX.Element[];
 }
@@ -17,9 +15,18 @@ const initialAuthState = {
     exp: 0
 }
 
-export const AuthProvider = ({ children }: authInterface) => {
+export const AuthContext = createContext({
+    id: 0,
+    isActive: false,
+    status: '',
+    sub: '',
+    iat: 0,
+    exp: 0
+});
+
+export const AuthProvider = async ({ children }: any) => {
     const token = localStorage.getItem('user');
-    const user: any = getUserDataFromToken(token);
+    const user = await getUserDataFromToken(token);
 
     console.log('user' , user)
 
@@ -30,8 +37,9 @@ export const AuthProvider = ({ children }: authInterface) => {
     );
 };
 
-export const useAuthContext = () => {
-    const authState = useContext(AuthContext);
+// export const useAuthContext = () => {
+//     const authState = useContext(AuthContext);
 
-    return authState;
-}
+//     return authState;
+// }
+

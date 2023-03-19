@@ -21,7 +21,7 @@ export const navItems = [
   },
   {
     path: '/blogs/create',
-    text: 'Create'
+    text: 'Create Offer'
   }
 ];
 
