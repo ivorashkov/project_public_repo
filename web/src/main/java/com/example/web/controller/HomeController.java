@@ -16,7 +16,7 @@ public class HomeController {
   private final TourOfferService tourOfferService;
   private final ValidatorUtil validatorUtil;
 
-  @GetMapping("/search")
+  @GetMapping("/initial")
   public ResponseEntity<Page<TourOfferPagingResponseDTO>> response(
       @RequestParam(name = "page", defaultValue = "0") Integer page,
       @RequestParam(name = "pageSize", defaultValue = "30") Integer size
@@ -28,7 +28,7 @@ public class HomeController {
   }
 
 
-  @GetMapping("/offers")
+  @GetMapping("/filter")
   public ResponseEntity<Page<TourOfferPagingResponseDTO>> findAllAndSort(
       @RequestParam(name = "page", defaultValue = "0") Integer page,
       @RequestParam(name = "pageSize", defaultValue = "30") Integer size,
