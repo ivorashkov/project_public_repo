@@ -1,67 +1,43 @@
-import { FormEvent, SyntheticEvent } from "react";
-import { Section } from "../../components/Section";
-import { register } from "../../services";
-import { UserDetails } from "../../types";
+import { Form } from '../../components';
+import { registerForm } from '../../staticData';
+import { FormEvent } from 'react';
+import { RegisterForm as RFI } from '../../types';
+
 
 export const Register = () => {
-    // const onSubmitHandler  = (e: FormEvent<HTMLFormElement>) => {
-    //     e.preventDefault();
+  const submitHandlerReg = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    //     let { email, password }: FormData<UserDetails> = Object.fromEntries(new FormData(e.currentTarget));
-    //     let email = formData.get('email');
-    //     let password = formData.get('password');
+    const formData = new FormData(e.currentTarget);  
 
-    //     console.log(email)
-    //     console.log(password)
+    const formFields = {
+      firstName: formData.get('firstName'), 
+      lastName: formData.get('lastName'), 
+      email: formData.get('email'), 
+      password: formData.get('password'), 
+      passwordConfirm: formData.get('passwordConfirm'), 
+      phoneNumber: formData.get('number'), 
+    }
 
-    //     register<FormDataEntryValue | null>({email, password})
-    //         .then(authData => {
-    //             console.log(authData)
-    //             // login(authData);
-    //         })
-    // };
-    const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    fetch('http://localhost:8091/api/auth/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formFields)
+    })
+      .then((res) => console.log('ok : ', res))
+      .catch((err) => console.error(err));
+  }
 
-        const target = e.target as typeof e.target & {
-          email: { value: string };
-          password: { value: string };
-        };
-
-        const email = target.email.value; // typechecks!
-        const password = target.password.value; // typechecks!
-
-        register({email, password})
-                .then(authData => {
-                    console.log(authData)
-                    // login({email, password});
-                })
-      }
-
-
-    return (
-        <Section>
-            <div className="form">
-                <h2>Register</h2>
-                
-                <div className="form__content">
-                    <form action="" onSubmit={onSubmitHandler}>
-                        <div className="form__row">
-                            <label htmlFor="email">email</label>
-                            <input type="email" name="email" id="" required/>
-                        </div>
-
-                        <div className="form__row">
-                            <label htmlFor="password">password</label>
-                            <input type="password" name="password" id="" required/>
-                        </div>
-
-                        <div className="form__actions">
-                            <button>Submit</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </Section>
-    );
+  return (
+    <section>
+      <Form
+        title={registerForm.title}
+        fields={registerForm.fields}
+        buttonText={registerForm.buttonText}
+        submitHandler={submitHandlerReg}
+      />
+    </section>
+  );
 };
