@@ -1,25 +1,14 @@
-import { Link } from 'react-router-dom';
+import type { NavItems } from '../../types/';
+import { NavItem } from './NavItem';
 
-export const Nav = () => {
-    return (
-        <nav className="nav">
-            <ul>
-                <li>
-                    <Link to='/'>Home</Link>
-                </li>
-
-                <li>
-                    <Link to='/register'>Register</Link>
-                </li>
-
-                <li>
-                    <Link to='/login'>Login</Link>
-                </li>
-
-                <li>
-                    <Link to='/offer/create'>Create an offer</Link>
-                </li>
-            </ul>
-        </nav>
-    );
-}
+export const Nav = ({ links }: NavItems) => {
+  return (
+    <nav>
+      <ul>
+        {links.map((item) => (
+          <NavItem path={item.path} text={item.text} />
+        ))}
+      </ul>
+    </nav>
+  );
+};

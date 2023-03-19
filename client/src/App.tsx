@@ -1,26 +1,41 @@
-import { Routes, Route } from 'react-router-dom';
-import { Wrapper } from './components/Wrapper';
-import { Header } from './components/Header';
-import { Home } from './pages/Home';
-import { Register } from './pages/Register';
-import { CreateOffer } from './pages/CreateOffer';
+import { Route, Routes } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import { Header, Wrapper } from './widgets';
+import { Footer } from './widgets/Footer';
 
-function App() {
+const Article = lazy(() => import('./pages').then((module) => ({ default: module.Article })));
+const CreateArticle = lazy(() =>
+  import('./pages').then((module) => ({ default: module.CreateArticle }))
+);
+const EditArticle = lazy(() =>
+  import('./pages').then((module) => ({ default: module.EditArticle }))
+);
+const Dashboard = lazy(() => import('./pages').then((module) => ({ default: module.Dashboard })));
+const Home = lazy(() => import('./pages').then((module) => ({ default: module.Home })));
+const Register = lazy(() => import('./pages').then((module) => ({ default: module.Register })));
+const Login = lazy(() => import('./pages').then((module) => ({ default: module.Login })));
+
+const App = () => {
   return (
-   <Wrapper>
-    <>
-      <Header/>
-    
-      <Routes>
-        <Route path='/' element={<Home/>} />
-        <Route path='/register' element={<Register/>} />
-        <Route path='/offer/create' element={<CreateOffer/>} />
-      </Routes>
+    <Suspense fallback={<h2>Loadign...</h2>}>
+      <Header />
 
-      {/* <Footer/> */}
-    </>
-   </Wrapper>
+      <Wrapper>
+        <Routes>
+          <Route index path="/" element={<Home />} />
+          <Route index path="/register" element={<Register />} />
+          <Route index path="/login" element={<Login />} />
+          <Route index path="/dashboard/*" element={<Dashboard />} />
+          <Route index path="/blogs/edit/:id" element={<EditArticle />} />
+          <Route index path="/blogs/create" element={<CreateArticle />} />
+          <Route index path="/blogs/blog/:id" element={<Article />} />
+          <Route path="*" element={<h1>404</h1>} />
+        </Routes>
+      </Wrapper>
+
+      <Footer />
+    </Suspense>
   );
-}
+};
 
 export default App;
