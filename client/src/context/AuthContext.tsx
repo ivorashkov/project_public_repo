@@ -13,18 +13,23 @@ export const AuthContext = createContext<any>({});
 export const AuthProvider = ({ children }: authInterface) => {
     const [userData, setUserData] = useState<any>();
 
-    const token = localStorage.getItem('user');
+    const token = localStorage.getItem('userAuth');
     const user = getUserDataFromToken(token);
 
-    const login = (authData: object) => {
-        // setUserData(authData);
+    useEffect(() => {
+        setUserData(user)
+    }, [])
+
+    const login = () => {
+        setUserData(user)
+        console.log('login')
     }
 
     const logout = () => {
+        setUserData({})
         localStorage.removeItem("userAuth");
+        console.log('logout')
     };
-
-    console.log(`userData 2`, userData)
 
     return (
         <AuthContext.Provider value={{userData, token, login, logout}}>

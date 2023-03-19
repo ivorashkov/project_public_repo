@@ -17,13 +17,10 @@ export const setLocalUserToken = async (token: string, clear?: boolean) => {
     }
 };
 
-export const getUserDataFromToken = async (token: string | null) => {
+export const getUserDataFromToken = (token: any) => {
     if(token) {
-        const user = await jwt_decode(token);
+        var decoded = jwt_decode(token);
 
-        return {
-            user,
-            token
-        }
+        return decoded
     }
 }
