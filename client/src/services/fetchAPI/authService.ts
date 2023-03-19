@@ -43,8 +43,9 @@ export const register = async (formFields: object) => {
 
 export const logout = async (token: string) => {
     return fetch(`${links.baseUrl+links.logout}`, {
+        method: `${methods.post}`,
         headers: {
-            'X-Authorization': token,
+            'Authorization': `Bearer ${token}`
         }
     })
 }

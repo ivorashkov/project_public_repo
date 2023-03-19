@@ -15,6 +15,7 @@ const Dashboard = lazy(() => import('./pages').then((module) => ({ default: modu
 const Home = lazy(() => import('./pages').then((module) => ({ default: module.Home })));
 const Register = lazy(() => import('./pages').then((module) => ({ default: module.Register })));
 const Login = lazy(() => import('./pages').then((module) => ({ default: module.Login })));
+const Logout = lazy(() => import('./pages').then((module) => ({ default: module.Logout })));
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
             <Route index path="/" element={<Home />} />
             <Route index path="/register" element={<Register />} />
             <Route index path="/login" element={<Login />} />
+            <Route index path="/logout" element={<Logout />} />
             <Route index path="/dashboard/*" element={<Dashboard />} />
             <Route index path="/blogs/edit/:id" element={<EditArticle />} />
             <Route index path="/blogs/create" element={<CreateArticle />} />

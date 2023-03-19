@@ -7,9 +7,7 @@ import { useContext, useEffect } from 'react';
 export const Nav = ({ links }: NavItems) => {
   const data = useContext(AuthContext);
 
-  useEffect(() => {
-    console.log(`U data`, data.userData)
-  }, [data])
+  console.log(`data.userData`, data.userData)
 
   const authNav = <>
     <li><NavLink to='/'>Home</NavLink></li>
