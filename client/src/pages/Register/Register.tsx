@@ -1,9 +1,13 @@
 import { Form } from '../../components';
 import { registerForm } from '../../staticData';
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import { fetchAPI } from '../../services/fetchAPI';
+import { useNavigate } from 'react-router-dom';
 
 export const Register = () => {
+  const navigate = useNavigate();
+  const [errorClass, setErrorClass] = useState('');
+
   const submitHandlerReg = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -18,11 +22,17 @@ export const Register = () => {
       phoneNumber: formData.get('number'), 
     }
 
-    fetchAPI('api/auth/signup', 'POST', formFields, '/login');
+    try {
+      await fetchAPI('api/auth/signup', 'POST', formFields, '/login');  
+
+      navigate('/login')
+    } catch (error) {
+      setErrorClass('error')
+    }
   }
 
   return (
-    <section>
+    <section className={errorClass}>
       <Form
         title={registerForm.title}
         fields={registerForm.fields}
