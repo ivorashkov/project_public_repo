@@ -60,6 +60,11 @@ public class AuthServiceImpl implements AuthService {
         return null;
       }
 
+      if (this.userRepository.existsByPhoneNumber(registrationDTO.getPhoneNumber())){
+        log.error("[ ERROR ] Phone Number already exist");
+        return null;
+      }
+
       var user = setNewUserFields(registrationDTO);
 
       switch (roleType) {

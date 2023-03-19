@@ -25,4 +25,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
   @Query("SELECT u from UserEntity u, RoleEntity r WHERE  u.isActive = false")
   List<Optional<UserEntity>> findAllInactiveUsers();
 
+  boolean existsByPhoneNumber(String phone);
+
 }
