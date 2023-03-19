@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 
 export const Nav = ({ links }: NavItems) => {
-  const { user } = useContext(AuthContext);
+  const { userData } = useContext(AuthContext);
 
   const authNav = <>
     <li><NavLink to='/'>Home</NavLink></li>
@@ -23,7 +23,7 @@ export const Nav = ({ links }: NavItems) => {
   return (
     <nav>
       <ul>
-        {user ? authNav : unauthNav }
+        {userData ? authNav : unauthNav }
       </ul>
     </nav>
   );

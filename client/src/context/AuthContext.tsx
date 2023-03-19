@@ -1,45 +1,43 @@
-import { createContext, useContext } from 'react';
+import { clear } from 'console';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { useAuth } from '../hooks';
 
-import { getUserDataFromToken } from '../hooks';
+import { getUserDataFromToken, setLocalUserToken } from '../hooks';
 
 interface authInterface {
     children: JSX.Element[];
 }
 
-const initialAuthState = {
-    id: 0,
-    isActive: false,
-    status: '',
-    sub: '',
-    iat: 0,
-    exp: 0
-}
+export const AuthContext = createContext<any>({});
 
-export const AuthContext = createContext({
-    id: 0,
-    isActive: false,
-    status: '',
-    sub: '',
-    iat: 0,
-    exp: 0
-});
+export const AuthProvider = ({ children }: authInterface) => {
+    const [userData, setUserData] = useState<any>();
 
-export const AuthProvider = async ({ children }: any) => {
     const token = localStorage.getItem('user');
-    const user = await getUserDataFromToken(token);
+    const user = getUserDataFromToken(token);
 
-    console.log('user' , user)
+    useEffect(() => {
+        setUserData(user);
+    }, [userData, user])
+
+    const login = (authData: object) => {
+        setUserData(authData);
+    }
+
+    const logout = () => {
+        localStorage.removeItem("userAuth");
+    };
 
     return (
-        <AuthContext.Provider value={user}>
+        <AuthContext.Provider value={{userData, token, login, logout}}>
             {children}
         </AuthContext.Provider>
     );
 };
 
-// export const useAuthContext = () => {
-//     const authState = useContext(AuthContext);
+export const useAuthContext = () => {
+    const authState = useContext(AuthContext);
 
-//     return authState;
-// }
+    return authState;
+}
 

@@ -9,22 +9,21 @@ interface UserInterface {
     exp: number
 }
 
-export const setLocalUserToken = (token: string, clear?: boolean) => {
-    const userAuth = localStorage.getItem('user');
+export const setLocalUserToken = async (token: string, clear?: boolean) => {
+    const userAuth = await localStorage.getItem('user');
 
     if(!userAuth) {
         localStorage.setItem('userAuth', token);
-    }
-
-    if(clear) {
-        localStorage.removeItem("userAuth");
     }
 };
 
 export const getUserDataFromToken = async (token: string | null) => {
     if(token) {
-        const userData = await jwt_decode(token);
+        const user = await jwt_decode(token);
 
-        return userData
+        return {
+            user,
+            token
+        }
     }
 }
