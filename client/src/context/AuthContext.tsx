@@ -16,17 +16,15 @@ export const AuthProvider = ({ children }: authInterface) => {
     const token = localStorage.getItem('user');
     const user = getUserDataFromToken(token);
 
-    useEffect(() => {
-        setUserData(user);
-    }, [userData, user])
-
     const login = (authData: object) => {
-        setUserData(authData);
+        // setUserData(authData);
     }
 
     const logout = () => {
         localStorage.removeItem("userAuth");
     };
+
+    console.log(`userData 2`, userData)
 
     return (
         <AuthContext.Provider value={{userData, token, login, logout}}>

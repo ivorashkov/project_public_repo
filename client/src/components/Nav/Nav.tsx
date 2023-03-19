@@ -2,10 +2,14 @@ import type { NavItems } from '../../types/';
 import { NavItem } from './NavItem';
 import { AuthContext } from '../../context';
 import { NavLink } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
 export const Nav = ({ links }: NavItems) => {
-  const { userData } = useContext(AuthContext);
+  const data = useContext(AuthContext);
+
+  useEffect(() => {
+    console.log(`U data`, data.userData)
+  }, [data])
 
   const authNav = <>
     <li><NavLink to='/'>Home</NavLink></li>
@@ -23,7 +27,7 @@ export const Nav = ({ links }: NavItems) => {
   return (
     <nav>
       <ul>
-        {userData ? authNav : unauthNav }
+        {data.userData ? authNav : unauthNav }
       </ul>
     </nav>
   );
