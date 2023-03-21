@@ -16,18 +16,7 @@ public class HomeController {
   private final TourOfferService tourOfferService;
   private final ValidatorUtil validatorUtil;
 
-  @GetMapping("/initial")
-  public ResponseEntity<Page<TourOfferPagingResponseDTO>> response(
-      @RequestParam(name = "page", defaultValue = "0") Integer page,
-      @RequestParam(name = "pageSize", defaultValue = "30") Integer size
-  ) {
-
-    /** http://localhost:8091/search?criteria=France **/
-    return this.validatorUtil.responseEntity(tourOfferService.initialSearchResult(page, size));
-    //should redirect to TourOfferController "/tourOffers" for more filters etc.
-  }
-
-  @GetMapping("/filter")
+  @GetMapping("/offers")
   public ResponseEntity<Page<TourOfferPagingResponseDTO>> findAllAndSort(
       @RequestParam(name = "page", defaultValue = "0") Integer page,
       @RequestParam(name = "pageSize", defaultValue = "30") Integer size,
