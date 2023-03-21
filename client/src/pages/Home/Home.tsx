@@ -1,66 +1,21 @@
 import { FormEvent, useEffect, useState } from "react";
 import { getAllOffersPaging } from '../../services';
 
-const dummyData = {
-  content : [
-    {
-      id: 1,
-      title: "Byala Offer",
-      date: "2023-03-21T19:51:34",
-      country: "Bulgaria",
-      city: "Byala",
-      duration: 1,
-      stars: 1.0,
-      price: 10.00,
-      description: "Byala test",
-      discount: 0.0,
-      transportType: "bus",
-      paths: []
-    },
-    {
-      id: 2,
-      title: "Byala Offer 2",
-      date: "2023-03-21T19:52:34",
-      country: "Bulgaria",
-      city: "Byala",
-      duration: 1,
-      stars: 1.0,
-      price: 10.00,
-      description: "Byala test",
-      discount: 0.0,
-      transportType: "bus",
-      paths: []
-    },
-    {
-      id: 3,
-      title: "Byala Offer 3",
-      date: "2023-03-21T19:53:34",
-      country: "Bulgaria",
-      city: "Byala",
-      duration: 1,
-      stars: 1.0,
-      price: 10.00,
-      description: "Byala test",
-      discount: 0.0,
-      transportType: "bus",
-      paths: []
-    }
-  ]
-}
-
 export const Home = () => {
   const [searchValue, setSearchValue] = useState<string>('');
-  const [content, setContent] = useState<object>({});
+  const [offers, setOffers] = useState();
 
   useEffect(() => {
-    getAllOffersPaging().then(res =>  res.json()).then(el => console.log("el", el))
-
-    console.log(getAllOffersPaging())
+    getAllOffersPaging().then(el => {
+      setOffers(el.content)
+      console.log(el.content)
+      console.log(offers)
+    })
   }, [])
 
-  useEffect(() => {
-
-  }, [searchValue])
+  // useEffect(() => {
+  //
+  // }, [searchValue])
 
   return (
     <section>
@@ -89,9 +44,9 @@ export const Home = () => {
       <div className="section__grid">
         <div className="grid">
           <div className="grid__items">
-            <div className="grid__item">
-              <div className="offer"></div>
-            </div>
+            <ul>
+              {/*{content.map((of) => <li><div className="offer"></div></li> )}  */}
+            </ul>
           </div>
         </div>
       </div>
