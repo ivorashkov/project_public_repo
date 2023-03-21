@@ -8,10 +8,12 @@ import org.springframework.data.domain.Page;
 
 public interface TourOfferService {
 
-  Page<TourOfferPagingResponseDTO> initialSearchResult(Integer pageNumber, Integer pageSize);
-
-  Page<TourOfferPagingResponseDTO> searchAndFilterOffers(Integer pageNumber, Integer pageSize, String country,
-      String city, String... sorts);
+  Page<TourOfferPagingResponseDTO> searchAndFilterOffers(
+      Integer pageNumber,
+      Integer pageSize,
+      String location,
+      String... sorts
+  );
 
   TourOfferFullDTO findByIdAndUserId(Long offerId, Long userId);
 

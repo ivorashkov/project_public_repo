@@ -96,12 +96,11 @@ public class ValidatorUtilImpl implements ValidatorUtil {
    * Works
    **/
   @Override
-  public <E> E getCriteriaParam(E country, E city) {
-    if (country != null) {
-      return country;
-    } else if (city != null) {
-      return city;
+  public <E> E getCriteriaParam(E location) {
+    if (location != null) {
+      return location;
     }
+
     return null;
   }
 

@@ -1,6 +1,5 @@
 package com.example.web.service.impl;
 
-import com.example.web.exception.MapEntityPageIntoDtoPageException;
 import com.example.web.exception.PageWithOffersNotFoundException;
 import com.example.web.exception.TourOfferNotFoundException;
 import com.example.web.model.requestDto.TourOfferCreateRequestDTO;
@@ -38,39 +37,10 @@ public class TourOfferServiceImpl implements TourOfferService {
   private final ValidatorUtil validatorUtil;
 
   @Override
-  public Page<TourOfferPagingResponseDTO> initialSearchResult(Integer pageNumber, Integer pageSize) {
-
-    Page<TourOfferEntity> offerEntity = null;
-    try {
-      log.info(" [INFO]  TourOfferServiceImpl { initialSearchResult }  {find offers page}");
-      offerEntity = this.tourOfferRepository
-          .findAll_TourOffers_ByDate(PageRequest.of(pageNumber, pageSize));
-
-    } catch (PageWithOffersNotFoundException e) {
-      log.error(" [ERROR] Issue while trying to extract Offers initialSearchResult {}",
-          e.getMessage());
-    }
-
-    try {
-      log.info(" [INFO]  TourOfferServiceImpl { initialSearchResult }  { mapToDTO Page }");
-
-      return this.validatorUtil.mapEntityPageIntoDtoPage(offerEntity,
-          TourOfferPagingResponseDTO.class);
-
-    } catch (MapEntityPageIntoDtoPageException e) {
-      log.error(" [ERROR] Issue while trying to extract Offers initialSearchResult {}",
-          e.getMessage());
-
-      throw e;
-    }
-  }
-
-  @Override
   public Page<TourOfferPagingResponseDTO> searchAndFilterOffers(
       Integer pageNumber,
       Integer pageSize,
-      String country,
-      String city,
+      String location,
       String... sorts
   ) {
     log.info(" [INFO] Loading TourOfferServiceImpl {searchAndFilterOffers}");
@@ -81,7 +51,7 @@ public class TourOfferServiceImpl implements TourOfferService {
 
       final Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(orders));
 
-      final String criteria = getCriteriaParam(country, city);
+      final String criteria = getCriteriaParam(location);
 
       final Page<TourOfferEntity> offerEntities;
 
@@ -233,7 +203,7 @@ public class TourOfferServiceImpl implements TourOfferService {
     return null;
   }
 
-  private String getCriteriaParam(String country, String city) {
-    return this.validatorUtil.getCriteriaParam(country, city);
+  private String getCriteriaParam(String location) {
+    return this.validatorUtil.getCriteriaParam(location);
   }
 }
