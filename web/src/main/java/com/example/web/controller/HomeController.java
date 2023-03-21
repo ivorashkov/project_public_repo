@@ -23,6 +23,7 @@ public class HomeController {
       @RequestParam(name = "location", required = false) String location,
       @RequestParam(defaultValue = "date;desc") String... sort
   ) {
+    System.out.println();
 
     /** http://localhost:8091/offers?sort=column1,direction1&sort=column2,direction2 provides
      * with 2 columns column1,direction1 */

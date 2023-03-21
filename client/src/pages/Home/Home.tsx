@@ -53,7 +53,7 @@ export const Home = () => {
   const [content, setContent] = useState<object>({});
 
   useEffect(() => {
-    getAllOffersPaging(); 
+    getAllOffersPaging().then(res =>  res.json()).then(el => console.log("el", el))
 
     console.log(getAllOffersPaging())
   }, [])
