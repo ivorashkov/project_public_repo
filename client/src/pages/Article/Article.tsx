@@ -7,18 +7,23 @@ export const Article = () => {
   const { offerId } = useParams();
 
   useEffect(() => {
-    getAnOffer(offerId).then(el => setDetails(el));
+    getAnOffer(offerId).then(el => {
+      setDetails(el)
+      console.log(el)
+    });
+
   }, [])
+
 
   return (
     <article>
-        <h1>{offer?.title}</h1>
-        <p>{offer?.country}</p>
-        <p>{offer?.city}</p>
-        <p>{offer?.date}</p>
-        <p>{offer?.price}</p>
-        <p>{offer?.description}</p>
-        <p>{offer?.transportation}</p>
+        <h1>{details?.title}</h1>
+        <p>{details?.country}</p>
+        <p>{details?.city}</p>
+        <p>{details?.date}</p>
+        <p>{details?.price}</p>
+        <p>{details?.description}</p>
+        <p>{details?.transportation}</p>
     </article>
   );
 };

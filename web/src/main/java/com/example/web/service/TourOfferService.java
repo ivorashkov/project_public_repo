@@ -6,7 +6,6 @@ import com.example.web.model.responseDTO.TourOfferByIdResponseDTO;
 import com.example.web.model.responseDTO.TourOfferPagingResponseDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 
 public interface TourOfferService {
 
@@ -27,5 +26,5 @@ public interface TourOfferService {
 
   TourOfferFullDTO setNewProperties(TourOfferEditRequestDTO editDTO, TourOfferFullDTO fullDTO);
 
-  ResponseEntity<TourOfferByIdResponseDTO> findByOfferId(Long offerId);
+  TourOfferByIdResponseDTO findByOfferId(Long offerId);
 }

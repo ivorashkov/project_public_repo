@@ -22,7 +22,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -182,13 +181,11 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public ResponseEntity<TourOfferByIdResponseDTO> findByOfferId(Long offerId) {
+  public TourOfferByIdResponseDTO findByOfferId(Long offerId) {
 
-    return this.validatorUtil.responseEntity(
-        this.validatorUtil.getDTOFromEntity(
-            this.tourOfferRepository.findById(offerId).orElseThrow(TourOfferNotFoundException::new),
-            TourOfferByIdResponseDTO.class
-        )
+    return this.validatorUtil.getDTOFromEntity(
+        this.tourOfferRepository.findById(offerId).orElseThrow(TourOfferNotFoundException::new),
+        TourOfferByIdResponseDTO.class
     );
   }
 

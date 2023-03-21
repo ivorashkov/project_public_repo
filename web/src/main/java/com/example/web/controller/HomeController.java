@@ -35,8 +35,10 @@ public class HomeController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<TourOfferByIdResponseDTO> getOfferById(@RequestParam Long offerId) {
-    return this.validatorUtil.responseEntity(this.tourOfferService.findByOfferId(offerId));
+  public ResponseEntity<TourOfferByIdResponseDTO> getOfferById(@PathVariable Long id) {
+
+    System.out.println();
+    return this.validatorUtil.responseEntity(this.tourOfferService.findByOfferId(id));
   }
 
 }
