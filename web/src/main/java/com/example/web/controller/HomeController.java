@@ -27,7 +27,6 @@ public class HomeController {
     //should redirect to TourOfferController "/tourOffers" for more filters etc.
   }
 
-
   @GetMapping("/filter")
   public ResponseEntity<Page<TourOfferPagingResponseDTO>> findAllAndSort(
       @RequestParam(name = "page", defaultValue = "0") Integer page,

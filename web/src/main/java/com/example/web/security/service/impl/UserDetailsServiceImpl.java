@@ -1,4 +1,4 @@
-package com.example.web.security.service;
+package com.example.web.security.service.impl;
 
 import com.example.web.exception.UserNotFoundException;
 import com.example.web.model.entity.UserEntity;
