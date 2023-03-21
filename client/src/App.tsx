@@ -30,9 +30,9 @@ const App = () => {
             <Route index path="/login" element={<Login />} />
             <Route index path="/logout" element={<Logout />} />
             <Route index path="/dashboard/*" element={<Dashboard />} />
-            <Route index path="/blogs/edit/:id" element={<EditArticle />} />
-            <Route index path="/blogs/create" element={<CreateArticle />} />
-            <Route index path="/blogs/blog/:id" element={<Article />} />
+            <Route index path="/offers/create" element={<CreateArticle />} />
+            <Route index path="/offers/edit/:id" element={<EditArticle />} />
+            <Route index path="/offers/offer/:offerId" element={<Article />} />
             <Route path="*" element={<h1>404</h1>} />
           </Routes>
         </Wrapper>

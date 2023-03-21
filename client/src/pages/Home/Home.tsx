@@ -1,6 +1,8 @@
 import {FormEvent, useEffect, useState} from "react";
 import {getAllOffersPaging} from '../../services';
 
+import { Offer } from '../../components/'
+
 export const Home = () => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [offers, setOffers] = useState([]);
@@ -10,9 +12,6 @@ export const Home = () => {
       setOffers(el.content)
     })
   }, [])
-  // useEffect(() => {
-  //
-  // }, [searchValue])
 
   return (
       <section>
@@ -43,7 +42,7 @@ export const Home = () => {
           <div className="grid">
             <div className="grid__items">
               <ul>
-                {offers.map((of) => <li><div className="offer"></div></li> )}
+                {offers.map((offer) => <li key={offer?.id}><Offer id={offer.id} date={offer.date} price={offer.price} title={offer.title} /></li> )}
               </ul>
             </div>
           </div>
