@@ -4,6 +4,7 @@ import com.example.web.exception.PageWithOffersNotFoundException;
 import com.example.web.exception.TourOfferNotFoundException;
 import com.example.web.model.requestDto.TourOfferCreateRequestDTO;
 import com.example.web.model.requestDto.TourOfferEditRequestDTO;
+import com.example.web.model.responseDTO.TourOfferByIdResponseDTO;
 import com.example.web.model.responseDTO.TourOfferPagingResponseDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.entity.TourOfferEntity;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -131,7 +133,8 @@ public class TourOfferServiceImpl implements TourOfferService {
           this.tourOfferRepository.findByIdAndUserId(offerId, userId)
               .orElseThrow(TourOfferNotFoundException::new);
 
-      TourOfferDeleteRequestDTO dto = this.validatorUtil.getDTOFromEntity(offer, TourOfferDeleteRequestDTO.class);
+      TourOfferDeleteRequestDTO dto = this.validatorUtil.getDTOFromEntity(offer,
+          TourOfferDeleteRequestDTO.class);
 
       if (this.tourOfferFilePathService.deleteOfferFilePaths(dto)) {
         offer.setDeleted(true);
@@ -163,7 +166,8 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public TourOfferFullDTO setNewProperties(TourOfferEditRequestDTO editDTO, TourOfferFullDTO fullDTO){
+  public TourOfferFullDTO setNewProperties(TourOfferEditRequestDTO editDTO,
+      TourOfferFullDTO fullDTO) {
     fullDTO.setDiscount(editDTO.getDiscount());
     fullDTO.setTitle(editDTO.getTitle());
     fullDTO.setCountry(editDTO.getCountry());
@@ -175,6 +179,17 @@ public class TourOfferServiceImpl implements TourOfferService {
     fullDTO.setDiscount(editDTO.getDiscount());
     fullDTO.setTransportType(editDTO.getTransportType());
     return fullDTO;
+  }
+
+  @Override
+  public ResponseEntity<TourOfferByIdResponseDTO> findByOfferId(Long offerId) {
+
+    return this.validatorUtil.responseEntity(
+        this.validatorUtil.getDTOFromEntity(
+            this.tourOfferRepository.findById(offerId).orElseThrow(TourOfferNotFoundException::new),
+            TourOfferByIdResponseDTO.class
+        )
+    );
   }
 
   private List<Sort.Order> getOrderList(String[] sort) {

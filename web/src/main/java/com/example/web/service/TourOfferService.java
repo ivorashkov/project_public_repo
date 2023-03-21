@@ -2,9 +2,11 @@ package com.example.web.service;
 
 import com.example.web.model.requestDto.TourOfferCreateRequestDTO;
 import com.example.web.model.requestDto.TourOfferEditRequestDTO;
+import com.example.web.model.responseDTO.TourOfferByIdResponseDTO;
 import com.example.web.model.responseDTO.TourOfferPagingResponseDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 
 public interface TourOfferService {
 
@@ -24,4 +26,6 @@ public interface TourOfferService {
   boolean deleteOfferFilePaths(TourOfferFullDTO offerFullDTO);
 
   TourOfferFullDTO setNewProperties(TourOfferEditRequestDTO editDTO, TourOfferFullDTO fullDTO);
+
+  ResponseEntity<TourOfferByIdResponseDTO> findByOfferId(Long offerId);
 }

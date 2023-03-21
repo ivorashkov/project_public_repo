@@ -1,5 +1,7 @@
 package com.example.web.controller;
 
+import com.example.web.model.dto.TourOfferFullDTO;
+import com.example.web.model.responseDTO.TourOfferByIdResponseDTO;
 import com.example.web.model.responseDTO.TourOfferPagingResponseDTO;
 import com.example.web.service.TourOfferService;
 import com.example.web.util.ValidatorUtil;
@@ -30,6 +32,11 @@ public class HomeController {
 
     return this.validatorUtil.responseEntity(
         this.tourOfferService.searchAndFilterOffers(page, size, location, sort));
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<TourOfferByIdResponseDTO> getOfferById(@RequestParam Long offerId) {
+    return this.validatorUtil.responseEntity(this.tourOfferService.findByOfferId(offerId));
   }
 
 }
