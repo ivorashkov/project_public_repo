@@ -27,11 +27,23 @@ public class SecurityConfiguration {
   private final AuthenticationProvider authenticationProvider;
   private final LogoutHandler logoutHandler;//LogoutService implimentation. Spring will find that we have impl
 
-  //todo check if SecurityFilterChain
   private static final String[] AUTH_WHITELIST = {
       "/api/home/**",
       "/api/auth/**",
   };
+
+  private static final String[] AUTH_ADMIN_LIST = {
+      "/api/admin/register",
+  };
+
+  private static final String[] AUTH_ACTIVE_USER_LIST = {
+      "/api/offer/save",
+      "/api/offer/edit",
+      "/api/offer/delete",
+      "/api/offer/create"
+  };
+
+  private static final String LOGOUT_URL = "/api/auth/logout";
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -40,9 +52,9 @@ public class SecurityConfiguration {
         .authorizeHttpRequests()
         .requestMatchers(AUTH_WHITELIST)
         .permitAll()
-        .requestMatchers("/api/admin/**")
+        .requestMatchers(AUTH_ADMIN_LIST)
         .hasAuthority(String.valueOf(RoleType.admin))
-        .requestMatchers("/api/offer/**")
+        .requestMatchers(AUTH_ACTIVE_USER_LIST)
         .hasAuthority(String.valueOf(RoleType.activated_user))
         .anyRequest()
         .authenticated()
@@ -54,7 +66,7 @@ public class SecurityConfiguration {
         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
         .addFilterAt(corsFilter, LogoutFilter.class)
         .logout()
-        .logoutUrl("/api/auth/logout") //using default Spring logout without implimentation
+        .logoutUrl(LOGOUT_URL) //using default Spring logout without implimentation
         .addLogoutHandler(logoutHandler)
         .logoutSuccessHandler(
             (request, response, authentication) ->
