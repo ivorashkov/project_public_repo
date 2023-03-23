@@ -5,6 +5,7 @@ import com.example.web.model.requestDto.TourOfferEditRequestDTO;
 import com.example.web.model.responseDTO.TourOfferByIdResponseDTO;
 import com.example.web.model.responseDTO.TourOfferPagingResponseDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
+import java.util.List;
 import org.springframework.data.domain.Page;
 
 public interface TourOfferService {
@@ -27,4 +28,8 @@ public interface TourOfferService {
   TourOfferFullDTO setNewProperties(TourOfferEditRequestDTO editDTO, TourOfferFullDTO fullDTO);
 
   TourOfferByIdResponseDTO findByOfferId(Long offerId);
+
+  List<String> findAllCountries();
+
+  List<String> findAllCitiesByCountryName(String countryName);
 }

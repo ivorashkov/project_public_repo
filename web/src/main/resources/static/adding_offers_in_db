@@ -17,3 +17,5 @@ VALUES ('Byala', 'Bulgaria', NOW(), 'Byala test', 0, 1, 10, 1,'Byala Offer', 'bu
  ('Turkey', 'Istanbul', NOW(), 'Istanbul test', 40, 40, 40, 2,'Istanbul Offer', 'bus',27),
  ('Turkey', 'Ankara', NOW(), 'Ankara test', 0, 1, 900, 3,'Ankara Offer', 'airplane',21),
  ('Turkey', 'Antalya', NOW(), 'Antalya test', 0, 1, 40, 40,'Antalya Offer', 'bus',21);
+
+ ----------------------------------

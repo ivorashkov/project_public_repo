@@ -76,9 +76,9 @@ public class ValidatorUtilImpl implements ValidatorUtil {
   }
 
   @Override
-  public <E> ResponseEntity<List<E>> listResponseEntity(List<E> entities) {
+  public <E> ResponseEntity<List<E>> responseEntityList(List<E> entities) {
     if (!entities.isEmpty()) {
-      return ResponseEntity.ok().build();
+      return ResponseEntity.ok(entities);
     } else {
       return ResponseEntity.badRequest().build();
     }

@@ -1,6 +1,7 @@
 package com.example.web.repository;
 
 import com.example.web.model.entity.TourOfferEntity;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -32,4 +33,13 @@ public interface TourOfferRepository extends PagingAndSortingRepository<TourOffe
   Optional<TourOfferEntity> save(TourOfferEntity tourOfferEntity);
 
   Optional<TourOfferEntity> findById(Long offerId);
+
+  @Query("SELECT DISTINCT t.country FROM TourOfferEntity t")
+  List<Optional<String>> findDistinctByCountry();
+
+  @Query("SELECT DISTINCT t.city "
+      + " FROM TourOfferEntity t "
+      + " WHERE t.country LIKE CONCAT('%', :name, '%')")
+  List<Optional<String>> findDistinctCitiesByCountryName(@Param("name") String name);
+
 }

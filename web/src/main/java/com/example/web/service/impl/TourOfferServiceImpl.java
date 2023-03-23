@@ -189,6 +189,21 @@ public class TourOfferServiceImpl implements TourOfferService {
     );
   }
 
+
+  @Override
+  public List<String> findAllCountries() {
+
+    return this.validatorUtil.getListFromOptionalList(
+        this.tourOfferRepository.findDistinctByCountry());
+  }
+
+  @Override
+  public List<String> findAllCitiesByCountryName(String countryName) {
+
+    return this.validatorUtil.getListFromOptionalList(
+        this.tourOfferRepository.findDistinctCitiesByCountryName(countryName));
+  }
+
   private List<Sort.Order> getOrderList(String[] sort) {
     List<Sort.Order> orders = new ArrayList<>();
 

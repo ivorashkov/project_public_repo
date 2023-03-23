@@ -1,10 +1,10 @@
 package com.example.web.controller;
 
-import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.responseDTO.TourOfferByIdResponseDTO;
 import com.example.web.model.responseDTO.TourOfferPagingResponseDTO;
 import com.example.web.service.TourOfferService;
 import com.example.web.util.ValidatorUtil;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -34,11 +34,26 @@ public class HomeController {
         this.tourOfferService.searchAndFilterOffers(page, size, location, sort));
   }
 
+  @GetMapping("/countrylist")
+  public ResponseEntity<List<String>> getAllCountries() {
+
+    return this.validatorUtil.responseEntityList(this.tourOfferService.findAllCountries());
+  }
+
   @GetMapping("/{id}")
   public ResponseEntity<TourOfferByIdResponseDTO> getOfferById(@PathVariable Long id) {
 
-    System.out.println();
     return this.validatorUtil.responseEntity(this.tourOfferService.findByOfferId(id));
   }
+
+  @GetMapping("/citylist")
+  public ResponseEntity<List<String>> getAllCitiesForCountryName(
+      @RequestParam(name = "country") String countryName
+  ) {
+
+    return this.validatorUtil.responseEntityList(
+        this.tourOfferService.findAllCitiesByCountryName(countryName));
+  }
+
 
 }

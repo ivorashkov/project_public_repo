@@ -19,7 +19,7 @@ public interface ValidatorUtil {
 
   <E> ResponseEntity<E> responseEntityBoolean(boolean b);
 
-  <E> ResponseEntity<List<E>> listResponseEntity(List<E> entities);
+  <E> ResponseEntity<List<E>> responseEntityList(List<E> entities);
 
   <T, D> Page<D> mapEntityPageIntoDtoPage(Page<T> entities, Class<D> dtoClass);
 
