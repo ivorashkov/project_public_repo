@@ -1,8 +1,8 @@
-import { FormEvent, useEffect, useState } from 'react';
-import { getAllData, getAllOffersPaging } from '../../services';
+import {FormEvent, useEffect, useState} from 'react';
+import {getAllData, getAllOffersPaging} from '../../services';
 
-import { Offer } from '../../components/';
-import { PaginatedItems } from '../../components/PagesLink';
+import {Offer} from '../../components/';
+import {PaginatedItems} from '../../components/PagesLink';
 
 export const Home = () => {
   // const [searchValue, setSearchValue] = useState<string>('');
@@ -20,11 +20,11 @@ export const Home = () => {
 
   useEffect(() => {
     getAllOffersPaging(
-      filter.pageSize,
-      filter.sort,
-      filter.location,
-      filter.order,
-      filter.pages
+        filter.pages,
+        filter.pageSize,
+        filter.sort,
+        filter.location,
+        filter.order,
     ).then((el) => {
       // const array = Array.from({ length: el.totalPages }, (_, i) => i);
 
@@ -41,55 +41,56 @@ export const Home = () => {
   };
 
   const getPageNumber = (data: any) => {
-    console.log(`getPageNumber`, getPageNumber);
+    console.log(`getPageNumber`, data);
   };
 
   return (
-    <section>
-      <h1>home</h1>
-      <div className="section__form">
-        <form action="">
-          <div className="form__row">
-            <label htmlFor="location">Location</label>
+      <section>
+        <h1>home</h1>
+        <div className="section__form">
+          <form action="">
+            <div className="form__row">
+              <label htmlFor="location">Location</label>
 
-            <select name="location" id="location">
-              <input
-                type="text"
-                name="location"
-                id="location"
-                // onChange={(e) => setSearchValue(e.target.value)}
+              <select name="location" id="location">
+                <input
+                    type="text"
+                    name="location"
+                    id="location"
+                    // onChange={(e) => setSearchValue(e.target.value)}
+                />
+              </select>
+            </div>
+
+            <div className="form__row">
+              <label htmlFor="city">City</label>
+
+              <select name="city" id="city">
+                <option value="City">City</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div className="section__grid">
+          <div className="grid">
+            <div className="grid__items">
+              <ul>
+                {offers.map((offer) => (
+                    <li key={offer.id}>
+                      <Offer id={offer.id} date={offer.date} price={offer.price}
+                             title={offer.title}/>
+                    </li>
+                ))}
+              </ul>
+
+              <PaginatedItems
+                  pages={pages}
+                  total={totalNumberOfElements}
+                  getPageNumber={getPageNumber}
               />
-            </select>
-          </div>
-
-          <div className="form__row">
-            <label htmlFor="city">City</label>
-
-            <select name="city" id="city">
-              <option value="City">City</option>
-            </select>
-          </div>
-        </form>
-      </div>
-      <div className="section__grid">
-        <div className="grid">
-          <div className="grid__items">
-            <ul>
-              {offers.map((offer) => (
-                <li key={offer.id}>
-                  <Offer id={offer.id} date={offer.date} price={offer.price} title={offer.title} />
-                </li>
-              ))}
-            </ul>
-
-            <PaginatedItems
-              pages={pages}
-              total={totalNumberOfElements}
-              clickHandler={getPageNumber}
-            />
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
   );
 };

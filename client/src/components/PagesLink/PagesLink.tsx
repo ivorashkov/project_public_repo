@@ -9,8 +9,6 @@ export const PaginatedItems = ({ pages, total, getPageNumber }: any) => {
         nextLabel="next >"
         onPageChange={(event) => {
           const newOffset = (event.selected * pages) % total;
-
-          console.log(`newOffset`, newOffset);
           getPageNumber(newOffset);
         }}
         pageRangeDisplayed={5}
