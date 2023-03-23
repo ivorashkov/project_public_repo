@@ -20,7 +20,7 @@ public class AdminController {
   private final UserRepository userRepository;
   private final ValidatorUtil validatorUtil;
 
-  @GetMapping("")
+  @GetMapping("/register")
   public ResponseEntity<List<UserEntity>> getAccountsForApproval(){
     List<UserEntity> users = this.adminService.getAccountsForApproval();
 

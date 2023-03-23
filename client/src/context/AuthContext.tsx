@@ -1,30 +1,38 @@
-import { createContext, useContext } from 'react';
+import { clear } from 'console';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { useAuth } from '../hooks';
 
-import { getUserDataFromToken } from '../hooks';
-
-export const AuthContext = createContext(null);
+import { getUserDataFromToken, setLocalUserToken } from '../hooks';
 
 interface authInterface {
     children: JSX.Element[];
 }
 
-const initialAuthState = {
-    id: 0,
-    isActive: false,
-    status: '',
-    sub: '',
-    iat: 0,
-    exp: 0
-}
+export const AuthContext = createContext<any>({});
 
 export const AuthProvider = ({ children }: authInterface) => {
-    const token = localStorage.getItem('user');
-    const user: any = getUserDataFromToken(token);
+    const [userData, setUserData] = useState<any>();
 
-    console.log('user' , user)
+    const token = localStorage.getItem('userAuth');
+    const user = getUserDataFromToken(token);
+
+    useEffect(() => {
+        setUserData(user)
+    }, [])
+
+    const login = () => {
+        setUserData(user)
+        console.log('login')
+    }
+
+    const logout = () => {
+        setUserData({})
+        localStorage.removeItem("userAuth");
+        console.log('logout')
+    };
 
     return (
-        <AuthContext.Provider value={user}>
+        <AuthContext.Provider value={{userData, token, login, logout}}>
             {children}
         </AuthContext.Provider>
     );
@@ -35,3 +43,4 @@ export const useAuthContext = () => {
 
     return authState;
 }
+

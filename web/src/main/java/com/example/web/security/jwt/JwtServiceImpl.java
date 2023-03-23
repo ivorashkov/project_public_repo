@@ -75,7 +75,6 @@ public class JwtServiceImpl implements JwtService {
     final String username = extractUsername(jwtToken);
 
     return (username.equals(userDetails.getUsername())) && !isTokenExpired(jwtToken);
-
   }
 
   @Override

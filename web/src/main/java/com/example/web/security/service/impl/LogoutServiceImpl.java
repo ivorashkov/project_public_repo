@@ -1,7 +1,8 @@
-package com.example.web.security.service;
+package com.example.web.security.service.impl;
 
 import com.example.web.constant.SpringSecurityConstants;
 import com.example.web.security.repository.TokenRepository;
+import com.example.web.security.service.LogoutService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+
 public class LogoutServiceImpl implements LogoutService {
   private final TokenRepository tokenRepository;
 

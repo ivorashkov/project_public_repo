@@ -57,14 +57,6 @@ public class TourOfferController {
 //TO BE TESTED
     //todo да говоря с кольо дали ще ми подава директно JSON обект или допълнително offerId, userId
     //TODO TO FINISH, HOW TO RECEIVE JSON OR PROCESS IT CORRECTLY
-/**
- * Получаваме променения обект
- * 1.Намираме го и го запазваме в ДТО
- * 2.променяме uri към новите снимки
- * 3.запазваме обекта в базата
- * 4.връщаме го.
- */
-
 
     //1. Получаваме новия обект
     TourOfferFullDTO incoming = this.tourOfferService.findByIdAndUserId(7L, 3L);
@@ -154,7 +146,6 @@ public class TourOfferController {
   @GetMapping("/test")
   public TourOfferCreateRequestDTO sendDTO() {
     UserDTO user = this.userService.findUserDTOById(27L);
-
 
     return new TourOfferCreateRequestDTO(
 

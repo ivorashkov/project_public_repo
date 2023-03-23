@@ -1,4 +1,4 @@
-package com.example.web.security.service;
+package com.example.web.security.service.impl;
 
 import com.example.web.constant.UserRegistrationConstants;
 import com.example.web.exception.UserNotFoundException;
@@ -13,6 +13,7 @@ import com.example.web.repository.UserRepository;
 import com.example.web.security.CustomUserDetails;
 import com.example.web.security.jwt.JwtService;
 import com.example.web.security.repository.TokenRepository;
+import com.example.web.security.service.AuthService;
 import com.example.web.security.token.TokenEntity;
 import com.example.web.security.token.TokenType;
 import com.example.web.util.ValidatorUtil;
