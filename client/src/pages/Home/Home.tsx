@@ -26,10 +26,10 @@ export const Home = () => {
       filter.order,
       filter.pages
     ).then((el) => {
-      const array = Array.from({ length: el.totalPages }, (_, i) => i);
+      // const array = Array.from({ length: el.totalPages }, (_, i) => i);
 
       setOffers(el.content);
-      setPages(array);
+      setPages(el.totalPages);
       setTotalNumberOfElements(el.numberOfElements);
     });
   }, []);
@@ -71,7 +71,6 @@ export const Home = () => {
           </div>
         </form>
       </div>
-      3
       <div className="section__grid">
         <div className="grid">
           <div className="grid__items">
@@ -83,20 +82,11 @@ export const Home = () => {
               ))}
             </ul>
 
-            <ul>
-              {pages.length != 1
-                ? pages.map((el) => (
-                    <li key={el}>
-                      <PaginatedItems
-                        pages={pages.length}
-                        page={el}
-                        total={totalNumberOfElements}
-                        clickHandler={handleClick}
-                      />
-                    </li>
-                  ))
-                : ''}
-            </ul>
+            <PaginatedItems
+              pages={pages}
+              total={totalNumberOfElements}
+              clickHandler={getPageNumber}
+            />
           </div>
         </div>
       </div>

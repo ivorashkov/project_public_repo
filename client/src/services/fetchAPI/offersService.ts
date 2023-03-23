@@ -28,7 +28,8 @@ export const getAllOffersPaging = async <getAllData>(
   order = 'desc'
 ) => {
   return await fetch(
-    `localhost:8091/api/home/offers?page=${pages}&pageSize=${pageSize}&location=${location}&sort=${sort};${order}`,
+    `http://localhost:8091/api/home/offers?page=${pages}&pageSize=${pageSize}&location=${location}&sort=${sort};${order},
+    `,
     {
       method: methods.get
     }
