@@ -28,15 +28,20 @@ public class SecurityConfiguration {
   private final LogoutHandler logoutHandler;//LogoutService implimentation. Spring will find that we have impl
 
   private static final String[] AUTH_WHITELIST = {
-      "/api/home/**",
-      "/api/auth/**",
+      "/api/home/offers",
+      "/api/home/country/list",
+      "/api/home/city/list",
+      "/api/home/{id}",
+      "/api/auth/signup",
+      "/api/auth/authenticate"
   };
 
   private static final String[] AUTH_ADMIN_LIST = {
-      "/api/admin/register",
+      "/api/admin/request"
   };
 
   private static final String[] AUTH_ACTIVE_USER_LIST = {
+      "/api/user/upload/all",
       "/api/offer/save",
       "/api/offer/edit",
       "/api/offer/delete",

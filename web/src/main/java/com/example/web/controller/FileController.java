@@ -30,6 +30,7 @@ public class FileController {
   public ResponseEntity<Object> handleAllFilesUpload(
       @RequestParam("file") List<MultipartFile> files,
       @RequestParam(name = "userId") Long userId,
+//      @RequestBody @Valid Request
       @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
   ) {
     //localhost:8091/user/upload/all?userId=1&offerId=3

@@ -34,7 +34,7 @@ public class HomeController {
         this.tourOfferService.searchAndFilterOffers(page, size, location, sort));
   }
 
-  @GetMapping("/countrylist")
+  @GetMapping("/country/list")
   public ResponseEntity<List<String>> getAllCountries() {
 
     return this.validatorUtil.responseEntityList(this.tourOfferService.findAllCountries());
@@ -46,7 +46,7 @@ public class HomeController {
     return this.validatorUtil.responseEntity(this.tourOfferService.findByOfferId(id));
   }
 
-  @GetMapping("/citylist")
+  @GetMapping("/city/list")
   public ResponseEntity<List<String>> getAllCitiesForCountryName(
       @RequestParam(name = "country") String countryName
   ) {
