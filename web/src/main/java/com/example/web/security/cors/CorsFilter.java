@@ -1,6 +1,5 @@
 package com.example.web.security.cors;
 
-
 import com.example.web.constant.CorsFilterConstants;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;

@@ -5,7 +5,6 @@ import com.example.web.payload.request.AuthenticationRequestDTO;
 import com.example.web.payload.request.UserRegistrationRequestDTO;
 import com.example.web.payload.response.AuthenticationResponseDTO;
 import com.example.web.security.service.AuthService;
-import com.example.web.security.service.LogoutService;
 import com.example.web.util.ValidatorUtil;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

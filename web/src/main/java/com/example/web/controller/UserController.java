@@ -1,6 +1,5 @@
 package com.example.web.controller;
 
-import com.example.web.model.dto.UserDTO;
 import com.example.web.model.requestDto.UserEditRequestDTO;
 import com.example.web.model.responseDTO.UserEditResponseDTO;
 import com.example.web.service.UserService;
