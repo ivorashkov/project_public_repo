@@ -1,6 +1,7 @@
 package com.example.web.security.cors;
 
 
+import com.example.web.constant.CorsFilterConstants;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
@@ -23,12 +24,16 @@ public class CorsFilter implements Filter {
   public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
       FilterChain filterChain) throws IOException, ServletException {
     HttpServletResponse response = (HttpServletResponse) servletResponse;
-    response.setHeader("Access-Control-Allow-Origin", "http://localhost:3001");
-    response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE, PATCH");
-    response.setHeader("Access-Control-Max-Age", "3600");
-    response.setHeader("Access-Control-Allow-Headers", "*");
-    response.setHeader("Access-Control-Expose-Headers", "*");
-    response.setHeader("Access-Control-Allow-Headers", "*");
+
+    response.setHeader(CorsFilterConstants.HEADER_ACCESS_CONTROL_ALLOW_ORIGIN
+        , CorsFilterConstants.VALUE_ORIGIN);
+    response.setHeader(CorsFilterConstants.HEADER_ACCESS_CONTROL_ALLOW_METHODS,
+        CorsFilterConstants.VALUE_METHODS);
+    response.setHeader(CorsFilterConstants.HEADER_ACCESS_CONTROL_ALLOW_HEADERS,
+        CorsFilterConstants.VALUE_WILD_CARD);
+    response.setHeader(CorsFilterConstants.HEADER_ACCESS_CONTROL_EXPOSE_HEADERS
+        , CorsFilterConstants.VALUE_WILD_CARD);
+
     filterChain.doFilter(servletRequest, servletResponse);
   }
 

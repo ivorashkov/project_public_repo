@@ -1,6 +1,6 @@
 package com.example.web.security.service.impl;
 
-import com.example.web.constant.SpringSecurityConstants;
+import com.example.web.constant.JwtAuthFilterConstants;
 import com.example.web.security.repository.TokenRepository;
 import com.example.web.security.service.LogoutService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,13 +22,13 @@ public class LogoutServiceImpl implements LogoutService {
       Authentication authentication
   ) {
 
-    final String authHeader = request.getHeader(SpringSecurityConstants.JWT_REQUEST_HEADER);
+    final String authHeader = request.getHeader(JwtAuthFilterConstants.JWT_REQUEST_HEADER);
     final String jwtToken;
 
-    if (authHeader == null || !authHeader.startsWith(SpringSecurityConstants.JWT_TOKEN_BEARER)) {
+    if (authHeader == null || !authHeader.startsWith(JwtAuthFilterConstants.JWT_TOKEN_BEARER)) {
       return;
     }
-    jwtToken = authHeader.substring(SpringSecurityConstants.JWT_TOKEN_BEARER.length());
+    jwtToken = authHeader.substring(JwtAuthFilterConstants.JWT_TOKEN_BEARER.length());
     var storedToken = this.tokenRepository.findByToken(jwtToken)
         .orElse(null);
 

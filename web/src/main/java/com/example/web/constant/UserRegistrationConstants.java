@@ -1,8 +1,5 @@
 package com.example.web.constant;
 
-import com.example.web.model.entity.RoleEntity;
-import com.example.web.model.enums.RoleType;
-
 public class UserRegistrationConstants {
 
   public static final boolean NOT_ACTIVE = false;

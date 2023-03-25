@@ -1,8 +1,8 @@
 package com.example.web.service.impl;
 
-import com.example.web.constant.FileConstants;
+import com.example.web.constant.FileServiceConstants;
 import com.example.web.exception.StorageException;
-import com.example.web.constant.MainDataDirectoryConstants;
+import com.example.web.constant.DataDirectoryConstants;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.service.AccountActivationDataService;
@@ -37,7 +37,7 @@ public class FileServiceImpl implements FileService {
       (
           TourOfferService tourOfferService,
           UserService userService, TourOfferFilePathService offerDataService,
-          MainDataDirectoryConstants properties,
+          DataDirectoryConstants properties,
           AccountActivationDataService additionalInfoService
       ) {
     this.tourOfferService = tourOfferService;
@@ -72,9 +72,9 @@ public class FileServiceImpl implements FileService {
 
     /** http://localhost:8091/home/upload?userId=1&offerId=-1 */
     Path initPath = pathInitialization(userId, offerId,
-        FileConstants.FORMAT_ADDON_TEMPLATE);
+        FileServiceConstants.FORMAT_ADDON_TEMPLATE);
 
-    return store(file, initPath);
+    return storeFile(file, initPath);
   }
 
   private Path pathInitialization(Long userId, Long offerId, String stringFormat) {
@@ -82,8 +82,8 @@ public class FileServiceImpl implements FileService {
 
     stringDirectory
         .append(rootLocation)
-        .append(FileConstants.DIRECTORY_SEPARATOR)
-        .append(String.format(stringFormat, FileConstants.USER, userId));
+        .append(FileServiceConstants.DIRECTORY_SEPARATOR)
+        .append(String.format(stringFormat, FileServiceConstants.USER, userId));
 
     if (!Files.exists(Paths.get(stringDirectory.toString()))) {
       /** if the user has no directory already -> \\ creating folders using template %s_%d **/
@@ -94,8 +94,8 @@ public class FileServiceImpl implements FileService {
     if (offerId >= 0) {
       /** then we should create Offer directory with offerId */
       stringDirectory
-          .append(FileConstants.DIRECTORY_SEPARATOR)
-          .append(String.format(stringFormat, FileConstants.OFFER, offerId));
+          .append(FileServiceConstants.DIRECTORY_SEPARATOR)
+          .append(String.format(stringFormat, FileServiceConstants.OFFER, offerId));
 
       new File(stringDirectory.toString()).mkdirs();
     }
@@ -103,7 +103,7 @@ public class FileServiceImpl implements FileService {
     return Paths.get(stringDirectory.toString());
   }
 
-  private Path store(MultipartFile file, Path pathFromInitialization) {
+  private Path storeFile(MultipartFile file, Path pathFromInitialization) {
     Path destinationFile;
     try {
       if (file.isEmpty()) {

@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter
 @Setter
 @ConfigurationProperties("storage")
-public class MainDataDirectoryConstants {
+public class DataDirectoryConstants {
 
   //TODO: PLEASE ENTER YOUR FULL PATH:
   private String location =

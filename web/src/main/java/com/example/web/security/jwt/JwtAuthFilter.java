@@ -1,6 +1,6 @@
 package com.example.web.security.jwt;
 
-import com.example.web.constant.SpringSecurityConstants;
+import com.example.web.constant.JwtAuthFilterConstants;
 import com.example.web.security.repository.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -32,16 +32,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       @NonNull FilterChain filterChain
   ) throws ServletException, IOException {
 
-    final String authHeader = request.getHeader(SpringSecurityConstants.JWT_REQUEST_HEADER);
+    final String authHeader = request.getHeader(JwtAuthFilterConstants.JWT_REQUEST_HEADER);
     final String jwtToken;
     final String userEmail;
 
     //user is not existing or is not logged in yet.
-    if (authHeader == null || !authHeader.startsWith(SpringSecurityConstants.JWT_TOKEN_BEARER)) {
+    if (authHeader == null || !authHeader.startsWith(JwtAuthFilterConstants.JWT_TOKEN_BEARER)) {
       filterChain.doFilter(request, response);
       return;
     }
-    jwtToken = authHeader.substring(SpringSecurityConstants.JWT_TOKEN_BEARER.length());
+    jwtToken = authHeader.substring(JwtAuthFilterConstants.JWT_TOKEN_BEARER.length());
     userEmail = this.jwtService.extractUsername(jwtToken);
 
     if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
