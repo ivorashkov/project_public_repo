@@ -1,5 +1,6 @@
 package com.example.web.util.impl;
 
+import com.example.web.constant.LoggingMessageConstants;
 import com.example.web.model.entity.BaseEntity;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.model.enums.RoleType;
@@ -7,6 +8,7 @@ import com.example.web.util.ValidatorUtil;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -149,4 +151,16 @@ public class ValidatorUtilImpl implements ValidatorUtil {
   public <D, E> E getEntityFromDTO(D dto, Class<E> entityClass) {
     return this.mapper.map(dto, entityClass);
   }
+
+  @Override
+  public <E> String getLogInfo(Class<E> claz, Method method) {
+    return String.format(LoggingMessageConstants.LOG_INFO, claz.getSimpleName(),
+        method);
+  }
+
+//  @Override
+//  public <E> String getErrrorLog(Class<E> claz) {
+//    return String.format(LoggingMessageConstants.LOG_INFO, claz.getSimpleName(),
+//        claz.getEnclosingMethod().getName());
+//  }
 }

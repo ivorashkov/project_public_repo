@@ -2,6 +2,7 @@ package com.example.web.util;
 
 import com.example.web.model.entity.BaseEntity;
 import com.example.web.model.entity.UserEntity;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -34,4 +35,7 @@ public interface ValidatorUtil {
   <E, D> D getDTOFromEntity(E entity, Class<D> dtoClass);
 
   <D, E> E getEntityFromDTO(D dto, Class<E> entityClass);
+
+  <E> String getLogInfo(Class<E> claz, Method method);
+
 }
