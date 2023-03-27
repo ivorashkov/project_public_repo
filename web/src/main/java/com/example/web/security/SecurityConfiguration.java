@@ -33,7 +33,8 @@ public class SecurityConfiguration {
       "/api/home/{id}",
       "/api/auth/signup",
       "/api/auth/authenticate",
-      "/api/auth/logout"
+      "/api/auth/logout",
+      "/api/user/upload/all"
   };
 
   private static final String[] AUTH_ADMIN_LIST = {

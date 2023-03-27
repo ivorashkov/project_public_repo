@@ -107,7 +107,7 @@ export const Home = () => {
         <div className="grid">
           <div className="grid__items">
             <ul>
-              {offers.map((offer) => (
+              {offers?.map((offer) => (
                 <li key={offer.id}>
                   <Offer id={offer.id} date={offer.date} price={offer.price} title={offer.title} />
                 </li>

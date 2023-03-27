@@ -1,10 +1,10 @@
-import type { NavItems } from '../../types/';
-import { NavItem } from './NavItem';
-import { AuthContext } from '../../context';
-import { NavLink } from 'react-router-dom';
-import { useContext, useEffect } from 'react';
+import type {NavItems} from '../../types/';
+import {NavItem} from './NavItem';
+import {AuthContext} from '../../context';
+import {NavLink} from 'react-router-dom';
+import {useContext, useEffect} from 'react';
 
-export const Nav = ({ links }: NavItems) => {
+export const Nav = ({links}: NavItems) => {
   const data = useContext(AuthContext);
 
   console.log(`data.userData`, data.userData)
@@ -12,7 +12,11 @@ export const Nav = ({ links }: NavItems) => {
   const authNav = <>
     <li><NavLink to='/'>Home</NavLink></li>
     <li><NavLink to='/dashboard'>Dashboard</NavLink></li>
-    {<li><NavLink to='/offer/create'>Create an offer</NavLink></li>}
+    {
+      data?.userData?.status == 'inactive'
+        ? ''
+        : <li><NavLink to='/offer/create'>Create an offer</NavLink></li>
+    }
 
     <li><NavLink to='/logout'>Logout</NavLink></li>
   </>
@@ -24,10 +28,10 @@ export const Nav = ({ links }: NavItems) => {
   </>
 
   return (
-    <nav>
-      <ul>
-        {data.userData ? authNav : unauthNav }
-      </ul>
-    </nav>
+      <nav>
+        <ul>
+          {data.userData ? authNav : unauthNav}
+        </ul>
+      </nav>
   );
 };
