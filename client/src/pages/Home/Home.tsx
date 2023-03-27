@@ -1,11 +1,10 @@
 import { FormEvent, useEffect, useState } from 'react';
-import { getAllData, getAllOffersPaging } from '../../services';
+import { getAllData, getAllOffersPaging, getAllCountries, getCityByCountry } from '../../services';
 
 import { Offer } from '../../components/';
 import { PaginatedItems } from '../../components/PagesLink';
 
 export const Home = () => {
-  // const [searchValue, setSearchValue] = useState<string>('');
   const [offers, setOffers] = useState([]);
   const [pages, setPages] = useState<number[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(0);
@@ -13,19 +12,29 @@ export const Home = () => {
 
   const [filterPages, setFilterPages] = useState<number>(0);
   const [filterPageSize, setFilterPageSize] = useState<number>(5);
-  const [filterSort, setFilterSort] = useState<string>('date');
-  const [filterLocation, setFilterLocation] = useState<string>('');
-  const [filterOrder, setFilterOrder] = useState<string>('desc');
+  const [filterCountry, setFilterCountry] = useState<string[]>([]);
+  const [filterCity, setFilterCity] = useState<string[]>([]);
+
+  const [sort, setSort] = useState<string>('date');
+  const [order, setOrder] = useState<string>('desc');
+  const [country, setCountry] = useState<string>('');
+  const [city, setCity] = useState<string>('');
 
   useEffect(() => {
-    getAllOffersPaging(filterPages, filterPageSize, filterSort, filterLocation, filterOrder).then(
-      (el) => {
-        setOffers(el.content);
-        setPages(el.totalPages);
-        setTotalNumberOfElements(el.numberOfElements);
-      }
-    );
-  }, [filterPages, filterPageSize, filterSort, filterLocation, filterOrder]);
+    getAllOffersPaging(filterPages, sort, country, city, order).then((el) => {
+      setOffers(el.content);
+      setPages(el.totalPages);
+      setTotalNumberOfElements(el.numberOfElements);
+    });
+  }, [filterPages, order, sort, city, country]);
+
+  useEffect(() => {
+    getAllCountries().then((el) => setFilterCountry(el));
+  }, []);
+
+  useEffect(() => {
+    getCityByCountry(country).then((el) => setFilterCity(el));
+  }, [country]);
 
   const getPageNumber = (data: any) => {
     console.log(`getPageNumber`, data);
@@ -37,16 +46,49 @@ export const Home = () => {
       <div className="section__form">
         <form action="">
           <div className="form__row">
-            <label htmlFor="location">Location</label>
+            <label htmlFor="country">Country</label>
 
-            <select name="" id=""></select>
+            <select name="country" id="country" onChange={(e) => setCountry(e.target.value)}>
+              {filterCountry.map((country) => (
+                <option key={country} value={country}>
+                  {country}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="form__row">
             <label htmlFor="city">City</label>
 
-            <select name="city" id="city">
-              <option value="City">City</option>
+            <select name="city" id="city" onChange={(e) => setCity(e.target.value)}>
+              {filterCity.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form__row">
+            <label htmlFor="sort">Sort</label>
+
+            <select name="sort" id="sort" onChange={(e) => setSort(e.target.value)} multiple>
+              <option value="date" selected>
+                date
+              </option>
+              <option value="price">price</option>
+              <option value="stars">stars</option>
+            </select>
+          </div>
+
+          <div className="form__row">
+            <label htmlFor="order">Order</label>
+
+            <select name="order" id="order" onChange={(e) => setOrder(e.target.value)}>
+              <option value="asc">asc</option>
+              <option value="desc" selected>
+                desc
+              </option>
             </select>
           </div>
         </form>
