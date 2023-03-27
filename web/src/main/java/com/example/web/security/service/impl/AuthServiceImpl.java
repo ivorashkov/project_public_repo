@@ -117,7 +117,6 @@ public class AuthServiceImpl implements AuthService {
     log.info("[ INFO ] Loading AuthServiceImpl  { getExtraClaims }");
     //todo here we can add additional claims
     Map<String, Object> extraClaims = new HashMap<>();
-    extraClaims.put("isActive", user.isActive());
     extraClaims.put("id", user.getId());
     extraClaims.put("status", user.getRole().getRoleName());
 
@@ -163,7 +162,6 @@ public class AuthServiceImpl implements AuthService {
         .email(registrationDTO.getEmail())
         .password(passwordEncoder.encode(registrationDTO.getPassword()))
         .phoneNumber(registrationDTO.getPhoneNumber())
-        .isActive(UserRegistrationConstants.NOT_ACTIVE)
         .approvedBy(UserRegistrationConstants.APPROVED_BY_INITIAL_ID)
         .hasStar(UserRegistrationConstants.HAS_NO_STAR)
         .build();

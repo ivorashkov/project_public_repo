@@ -12,7 +12,8 @@ export const Nav = ({ links }: NavItems) => {
   const authNav = <>
     <li><NavLink to='/'>Home</NavLink></li>
     <li><NavLink to='/dashboard'>Dashboard</NavLink></li>
-    <li><NavLink to='/offer/create'>Create an offer</NavLink></li>
+    {<li><NavLink to='/offer/create'>Create an offer</NavLink></li>}
+
     <li><NavLink to='/logout'>Logout</NavLink></li>
   </>
 

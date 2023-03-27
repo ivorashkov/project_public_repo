@@ -20,9 +20,6 @@ import lombok.Setter;
 @Table(name = "users")
 public class UserEntity extends BaseEntity {
 
-  @Column(columnDefinition = "boolean default false")
-  private boolean isActive;
-
   @Column(nullable = false)
   private String password;
 
@@ -51,7 +48,4 @@ public class UserEntity extends BaseEntity {
   @OneToMany(mappedBy = "user")
   private List<TokenEntity> tokens;
 
-  public boolean isActive(){
-    return this.isActive;
-  }
 }

@@ -51,15 +51,6 @@ public class ValidatorUtilImpl implements ValidatorUtil {
    * Works
    **/
   @Override
-  public <E extends UserEntity> boolean isActive(E entity) {
-    return entity.isActive();
-  }
-
-
-  /**
-   * Works
-   **/
-  @Override
   public <E> ResponseEntity<E> responseEntity(E entity) {
 
     if (entity != null) {

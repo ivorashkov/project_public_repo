@@ -14,8 +14,6 @@ public interface ValidatorUtil {
 
   <E extends UserEntity> boolean isAdmin(E entity);
 
-  <E extends UserEntity> boolean isActive(E entity);
-
   <E> ResponseEntity<E> responseEntity(E entity);
 
   <E> ResponseEntity<E> responseEntityBoolean(boolean b);
