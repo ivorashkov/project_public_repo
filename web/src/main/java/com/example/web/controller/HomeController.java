@@ -1,5 +1,7 @@
 package com.example.web.controller;
 
+import com.example.web.model.responseDTO.CityListResponseDTO;
+import com.example.web.model.responseDTO.CountryListResponseDTO;
 import com.example.web.model.responseDTO.TourOfferByIdResponseDTO;
 import com.example.web.model.responseDTO.TourOfferPagingResponseDTO;
 import com.example.web.service.TourOfferService;
@@ -36,9 +38,11 @@ public class HomeController {
   }
 
   @GetMapping("/country/list")
-  public ResponseEntity<List<String>> getAllCountries() {
+  public ResponseEntity<CountryListResponseDTO> getAllCountries() {
 
-    return this.validatorUtil.responseEntityList(this.tourOfferService.findAllCountries());
+    return this.validatorUtil.responseEntity(CountryListResponseDTO.builder()
+        .countries(this.tourOfferService.findAllCountries())
+        .build());
   }
 
   @GetMapping("/{id}")
@@ -48,12 +52,13 @@ public class HomeController {
   }
 
   @GetMapping("/city/list")
-  public ResponseEntity<List<String>> getAllCitiesForCountryName(
+  public ResponseEntity<CityListResponseDTO> getAllCitiesForCountryName(
       @RequestParam(name = "country") String countryName
   ) {
 
-    return this.validatorUtil.responseEntityList(
-        this.tourOfferService.findAllCitiesByCountryName(countryName));
+    return this.validatorUtil.responseEntity(CityListResponseDTO.builder()
+        .cities(this.tourOfferService.findAllCitiesByCountryName(countryName))
+        .build());
   }
 
 

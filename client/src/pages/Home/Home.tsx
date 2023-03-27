@@ -29,11 +29,14 @@ export const Home = () => {
   }, [filterPages, order, sort, city, country]);
 
   useEffect(() => {
-    getAllCountries().then((el) => setFilterCountry(el));
+    // getAllCountries().then((el) => setFilterCountry(el));
+    getAllCountries().then((el) => console.log(el));
+
   }, []);
 
   useEffect(() => {
-    getCityByCountry(country).then((el) => setFilterCity(el));
+    // getCityByCountry(country).then((el) => setFilterCity(el));
+    getCityByCountry(country).then((el) => console.log(el));
   }, [country]);
 
   const getPageNumber = (data: any) => {
@@ -72,7 +75,7 @@ export const Home = () => {
           <div className="form__row">
             <label htmlFor="sort">Sort</label>
 
-            <select name="sort" id="sort" onChange={(e) => setSort(e.target.value)} multiple>
+            <select name="sort" id="sort" onChange={(e) => setSort(e.target.value)}>
               <option value="date" selected>
                 date
               </option>

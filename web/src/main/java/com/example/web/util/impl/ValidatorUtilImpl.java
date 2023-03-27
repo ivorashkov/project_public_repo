@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.Builder;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -157,6 +158,8 @@ public class ValidatorUtilImpl implements ValidatorUtil {
     return String.format(LoggingMessageConstants.LOG_INFO, claz.getSimpleName(),
         method);
   }
+
+
 
 //  @Override
 //  public <E> String getErrrorLog(Class<E> claz) {

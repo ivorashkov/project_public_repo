@@ -46,10 +46,11 @@ export const getAnOffer = async (id: any) => {
 };
 
 export const getAllCountries = async () => {
-  return await fetch('localhost:8091/api/home/country/lis', {
+  return await fetch('localhost:8091/api/home/country/list', {
     method: methods.get
   })
-    .then((res) => res.json())
+    // .then((res) => res.json())
+    .then((res) => console.log(res))
     .catch((err) => console.error(err));
 };
 
