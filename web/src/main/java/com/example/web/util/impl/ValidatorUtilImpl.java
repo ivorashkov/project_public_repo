@@ -98,9 +98,9 @@ public class ValidatorUtilImpl implements ValidatorUtil {
    * Works
    **/
   @Override
-  public <E> E getCriteriaParam(E location) {
-    if (location != null) {
-      return location;
+  public List<String> getCriteriaParam(String country, String city) {
+    if (country != null && city != null) {
+      return List.of(country, city);
     }
 
     return null;

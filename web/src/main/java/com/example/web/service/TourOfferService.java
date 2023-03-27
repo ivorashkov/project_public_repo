@@ -13,7 +13,8 @@ public interface TourOfferService {
   Page<TourOfferPagingResponseDTO> searchAndFilterOffers(
       Integer pageNumber,
       Integer pageSize,
-      String location,
+      String country,
+      String city,
       String... sorts
   );
 

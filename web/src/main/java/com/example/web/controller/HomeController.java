@@ -22,7 +22,8 @@ public class HomeController {
   public ResponseEntity<Page<TourOfferPagingResponseDTO>> findAllAndSort(
       @RequestParam(name = "page", defaultValue = "0") Integer page,
       @RequestParam(name = "pageSize", defaultValue = "5") Integer size,
-      @RequestParam(name = "location", required = false) String location,
+      @RequestParam(name = "country", required = false) String country,
+      @RequestParam(name = "city", required = false) String city,
       @RequestParam(defaultValue = "date;desc") String... sort
   ) {
     System.out.println();
@@ -31,7 +32,7 @@ public class HomeController {
      * with 2 columns column1,direction1 */
 
     return this.validatorUtil.responseEntity(
-        this.tourOfferService.searchAndFilterOffers(page, size, location, sort));
+        this.tourOfferService.searchAndFilterOffers(page, size, country, city, sort));
   }
 
   @GetMapping("/country/list")

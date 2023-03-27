@@ -17,13 +17,17 @@ public interface TourOfferRepository extends PagingAndSortingRepository<TourOffe
   @Query("SELECT t FROM TourOfferEntity t ORDER BY t.date")
   Page<TourOfferEntity> findAll_TourOffers_ByDate(Pageable pageable);
 
+//  @Query("SELECT t FROM TourOfferEntity t " +
+//      " WHERE t.title LIKE CONCAT('%',:query, '%')" +
+//      " OR t.description LIKE CONCAT('%', :query, '%')" +
+//      " OR t.city LIKE CONCAT('%', :query, '%')" +
+//      " OR t.country LIKE CONCAT('%', :query, '%')")
+
   @Query("SELECT t FROM TourOfferEntity t " +
-      " WHERE t.title LIKE CONCAT('%',:query, '%')" +
-      " OR t.description LIKE CONCAT('%', :query, '%')" +
-      " OR t.city LIKE CONCAT('%', :query, '%')" +
-      " OR t.country LIKE CONCAT('%', :query, '%')")
+      " WHERE t.country LIKE CONCAT('%',:country, '%')" +
+      " AND t.city LIKE CONCAT('%', :city, '%')")
   Page<TourOfferEntity> findAllByCriteria(
-      @Param("query") String criteria, Pageable pageable);
+      @Param("country") String country, @Param("city") String city, Pageable pageable);
 
   @Query("SELECT t FROM TourOfferEntity t"
       + " WHERE t.id=:offerId AND t.user.id=:userId AND t.isDeleted=false")

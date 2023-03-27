@@ -24,7 +24,7 @@ public interface ValidatorUtil {
 
   <T, D> Page<D> mapEntityPageIntoDtoPage(Page<T> entities, Class<D> dtoClass);
 
-  <E> E getCriteriaParam(E location);
+  List<String> getCriteriaParam(String country, String city);
 
   <E extends BaseEntity> E isDeleted(E entity);
 

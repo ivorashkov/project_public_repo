@@ -41,7 +41,8 @@ public class TourOfferServiceImpl implements TourOfferService {
   public Page<TourOfferPagingResponseDTO> searchAndFilterOffers(
       Integer pageNumber,
       Integer pageSize,
-      String location,
+      String country,
+      String city,
       String... sorts
   ) {
     log.info(" [INFO] Loading TourOfferServiceImpl {searchAndFilterOffers}");
@@ -52,7 +53,7 @@ public class TourOfferServiceImpl implements TourOfferService {
 
       final Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(orders));
 
-      final String criteria = getCriteriaParam(location);
+      final List<String> criteria = getCriteriaParam(country, city);
 
       final Page<TourOfferEntity> offerEntities;
 
@@ -63,7 +64,7 @@ public class TourOfferServiceImpl implements TourOfferService {
             TourOfferPagingResponseDTO.class);
       } else {
 
-        offerEntities = tourOfferRepository.findAllByCriteria(criteria, pageable);
+        offerEntities = tourOfferRepository.findAllByCriteria(criteria.get(0),criteria.get(1), pageable);
         offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities,
             TourOfferPagingResponseDTO.class);
       }
@@ -230,7 +231,7 @@ public class TourOfferServiceImpl implements TourOfferService {
     return null;
   }
 
-  private String getCriteriaParam(String location) {
-    return this.validatorUtil.getCriteriaParam(location);
+  private List<String> getCriteriaParam(String country, String city) {
+    return this.validatorUtil.getCriteriaParam(country, city);
   }
 }
