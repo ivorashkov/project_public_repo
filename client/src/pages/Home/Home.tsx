@@ -29,18 +29,15 @@ export const Home = () => {
   }, [filterPages, order, sort, city, country]);
 
   useEffect(() => {
-    // getAllCountries().then((el) => setFilterCountry(el));
-    getAllCountries().then((el) => console.log(el));
-
+    getAllCountries().then((el) => setFilterCountry(el.countries));
   }, []);
 
   useEffect(() => {
-    // getCityByCountry(country).then((el) => setFilterCity(el));
-    getCityByCountry(country).then((el) => console.log(el));
+    getCityByCountry(country).then((el) => setFilterCity(el.cities));
   }, [country]);
 
   const getPageNumber = (data: any) => {
-    console.log(`getPageNumber`, data);
+    setFilterPages(data)
   };
 
   return (
@@ -52,7 +49,11 @@ export const Home = () => {
             <label htmlFor="country">Country</label>
 
             <select name="country" id="country" onChange={(e) => setCountry(e.target.value)}>
-              {filterCountry.map((country) => (
+              <option value='' selected>
+                All countries
+              </option>
+
+              {filterCountry?.map((country) => (
                 <option key={country} value={country}>
                   {country}
                 </option>
@@ -64,7 +65,11 @@ export const Home = () => {
             <label htmlFor="city">City</label>
 
             <select name="city" id="city" onChange={(e) => setCity(e.target.value)}>
-              {filterCity.map((city) => (
+              <option value='' selected>
+                All cities
+              </option>
+
+              {filterCity?.map((city) => (
                 <option key={city} value={city}>
                   {city}
                 </option>
@@ -80,6 +85,8 @@ export const Home = () => {
                 date
               </option>
               <option value="price">price</option>
+              <option value="duration">duration</option>
+              <option value="discount">discount</option>
               <option value="stars">stars</option>
             </select>
           </div>

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@CrossOrigin(origins = "http://localhost:3001")
+//@CrossOrigin(origins = "http://localhost:3001")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/auth")
@@ -30,7 +30,7 @@ public class AuthController {
       (@Valid @RequestBody UserRegistrationRequestDTO registrationDTO) {
 
     return this.validatorUtil.responseEntity(
-        this.authService.registerUser(registrationDTO, RoleType.user));
+        this.authService.registerUser(registrationDTO, RoleType.inactive));
   }
 
   @PostMapping("/authenticate")

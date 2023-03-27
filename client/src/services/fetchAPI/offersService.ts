@@ -46,16 +46,15 @@ export const getAnOffer = async (id: any) => {
 };
 
 export const getAllCountries = async () => {
-  return await fetch('localhost:8091/api/home/country/list', {
+  return await fetch('http://localhost:8091/api/home/country/list', {
     method: methods.get
   })
-    // .then((res) => res.json())
-    .then((res) => console.log(res))
+    .then((res) => res.json())
     .catch((err) => console.error(err));
 };
 
 export const getCityByCountry = async (country: string) => {
-  return await fetch(`localhost:8091/api/home/city/list?country=${country}`, {
+  return await fetch(`http://localhost:8091/api/home/city/list?country=${country}`, {
     method: methods.get
   })
     .then((res) => res.json())

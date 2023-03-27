@@ -32,7 +32,8 @@ public class SecurityConfiguration {
       "/api/home/city/list",
       "/api/home/{id}",
       "/api/auth/signup",
-      "/api/auth/authenticate"
+      "/api/auth/authenticate",
+      "/api/auth/logout"
   };
 
   private static final String[] AUTH_ADMIN_LIST = {
@@ -59,7 +60,7 @@ public class SecurityConfiguration {
         .requestMatchers(AUTH_ADMIN_LIST)
         .hasAuthority(String.valueOf(RoleType.admin))
         .requestMatchers(AUTH_ACTIVE_USER_LIST)
-        .hasAuthority(String.valueOf(RoleType.activated_user))
+        .hasAuthority(String.valueOf(RoleType.active))
         .anyRequest()
         .authenticated()
         .and()

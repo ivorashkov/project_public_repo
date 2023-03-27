@@ -69,9 +69,8 @@ public class AuthServiceImpl implements AuthService {
       var user = setNewUserFields(registrationDTO);
 
       switch (roleType) {
-        case user -> user.setRole(this.roleTypeRepository.findByRoleName(RoleType.user));
         case admin -> user.setRole(this.roleTypeRepository.findByRoleName(RoleType.admin));
-        default -> user.setRole(this.roleTypeRepository.findByRoleName(RoleType.user));
+        default -> user.setRole(this.roleTypeRepository.findByRoleName(RoleType.inactive));
       }
       userRepository.saveAndFlush(user);
 

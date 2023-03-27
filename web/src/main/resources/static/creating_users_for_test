@@ -8,7 +8,7 @@ CREATE INDEX price_index ON offers(price);
 CREATE INDEX discount_index ON offers(discount);
 CREATE INDEX user_id_index ON offers(user_id);
 
-insert into roles (role_name) values('admin'),('user');
+insert into roles (role_name) values('admin'),('inactive'),('active');
 
 insert into users
 (email_address, first_name, last_name, password, phone_number, username, approved_by, role_id)
