@@ -31,6 +31,8 @@ export const AuthProvider = ({ children }: authInterface) => {
         console.log('logout')
     };
 
+    console.log('render header')
+
     return (
         <AuthContext.Provider value={{userData, token, login, logout}}>
             {children}

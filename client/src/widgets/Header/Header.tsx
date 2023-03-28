@@ -1,13 +1,13 @@
 import { memo } from 'react';
 import { Logo, Nav } from '../../components';
-import { navItems, navItemsAuthenticated } from '../../staticData';
 
 export const Header = memo(() => {
+  console.log('render header')
   return (
     <header>
       <Logo />
 
-      <Nav links={navItems} />
+      <Nav />
     </header>
   );
 });

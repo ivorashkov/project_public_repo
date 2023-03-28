@@ -22,7 +22,7 @@ const App = () => {
     <Suspense fallback={<h2>Loadign...</h2>}>
       <AuthProvider>
         <Header />
-
+      
         <Wrapper>
           <Routes>
             <Route index path="/" element={<Home />} />
