@@ -26,15 +26,17 @@ public class FileController {
     return this.validatorUtil.responseEntity(userService.findUserDTOById(userId));
   }
 
-  @PatchMapping("/upload/all")
+  @PostMapping("/upload/all/{userId}")
   public ResponseEntity<Object> handleAllFilesUpload(
-      @RequestParam("file") List<MultipartFile> files,
-      @RequestParam(name = "userId") Long userId,
+      @RequestPart("file") List<MultipartFile> files,
+//      @RequestParam("file") MultipartFile file,
+      @PathVariable("userId") Long userId,
 //      @RequestBody @Valid Request
       @RequestParam(name = "offerId", defaultValue = "-1") Long offerId
   ) {
     //localhost:8091/user/upload/all?userId=1&offerId=3
     //localhost:8091/user/upload/all?userId=1
+    System.out.println();
 
     return this.validatorUtil.responseEntityBoolean
         (this.fileService.handleAllFilesUpload(files, userId, offerId));

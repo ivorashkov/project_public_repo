@@ -34,7 +34,7 @@ public class SecurityConfiguration {
       "/api/auth/signup",
       "/api/auth/authenticate",
       "/api/auth/logout",
-      "/api/user/upload/all"
+      "/api/user/upload/all/*"
   };
 
   private static final String[] AUTH_ADMIN_LIST = {
@@ -42,7 +42,7 @@ public class SecurityConfiguration {
   };
 
   private static final String[] AUTH_ACTIVE_USER_LIST = {
-      "/api/user/upload/all",
+//      "/api/user/upload/all",
       "/api/offer/save",
       "/api/offer/edit",
       "/api/offer/delete",
