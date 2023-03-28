@@ -15,10 +15,6 @@ public class UserDTO extends BaseDTO {
   @Expose
   private Long id;
 
-//  @JsonIgnore
-  @Expose
-  private boolean isActive;
-
   @Expose
   private String firstName;
 
