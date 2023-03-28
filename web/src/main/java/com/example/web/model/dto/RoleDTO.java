@@ -14,9 +14,6 @@ import lombok.Setter;
 public class RoleDTO {
 
   @Expose
-  private Long id;
-
-  @Expose
   private RoleType roleName;
 
 }
