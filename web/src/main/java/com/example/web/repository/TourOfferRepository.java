@@ -46,4 +46,6 @@ public interface TourOfferRepository extends PagingAndSortingRepository<TourOffe
       + " WHERE t.country LIKE CONCAT('%', :name, '%')")
   List<Optional<String>> findDistinctCitiesByCountryName(@Param("name") String name);
 
+  List<Optional<TourOfferEntity>> findAllByUserId(Long userId);
+
 }

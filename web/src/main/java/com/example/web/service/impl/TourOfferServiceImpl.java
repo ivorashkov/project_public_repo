@@ -10,6 +10,7 @@ import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.entity.TourOfferEntity;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.model.requestDto.TourOfferDeleteRequestDTO;
+import com.example.web.model.responseDTO.TourOfferShortResponseDTO;
 import com.example.web.repository.TourOfferRepository;
 import com.example.web.service.TourOfferFilePathService;
 import com.example.web.service.TourOfferService;
@@ -64,7 +65,8 @@ public class TourOfferServiceImpl implements TourOfferService {
             TourOfferPagingResponseDTO.class);
       } else {
 
-        offerEntities = tourOfferRepository.findAllByCriteria(criteria.get(0),criteria.get(1), pageable);
+        offerEntities = tourOfferRepository.findAllByCriteria(criteria.get(0), criteria.get(1),
+            pageable);
         offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities,
             TourOfferPagingResponseDTO.class);
       }
@@ -203,6 +205,15 @@ public class TourOfferServiceImpl implements TourOfferService {
 
     return this.validatorUtil.getListFromOptionalList(
         this.tourOfferRepository.findDistinctCitiesByCountryName(countryName));
+  }
+
+  @Override
+  public List<TourOfferShortResponseDTO> findAllByUserId(Long userId) {
+
+    return this.validatorUtil.getDTOList(
+        this.validatorUtil.getListFromOptionalList(this.tourOfferRepository.findAllByUserId(userId)),
+        TourOfferShortResponseDTO.class
+    );
   }
 
   private List<Sort.Order> getOrderList(String[] sort) {

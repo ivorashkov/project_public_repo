@@ -5,6 +5,7 @@ import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.model.enums.TransportType;
 import com.example.web.model.requestDto.TourOfferEditRequestDTO;
+import com.example.web.model.responseDTO.TourOfferShortResponseDTO;
 import com.example.web.service.FileService;
 import com.example.web.service.TourOfferFilePathService;
 import com.example.web.service.TourOfferService;
@@ -20,7 +21,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/offer")
@@ -32,6 +32,13 @@ public class TourOfferController {
   private final TourOfferService tourOfferService;
 
   private final ValidatorUtil validatorUtil;
+
+  @GetMapping("/all/{id}")
+  public ResponseEntity<List<TourOfferShortResponseDTO>> getAllForUser(
+      @PathVariable(name = "id") Long userId) {
+
+    return this.validatorUtil.responseEntityList(this.tourOfferService.findAllByUserId(userId));
+  }
 
   @PatchMapping("/edit")
   public ResponseEntity<TourOfferFullDTO> editOffer(
