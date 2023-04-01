@@ -22,7 +22,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
   boolean existsByEmail(String email);
 
-  @Query("SELECT u from UserEntity u, RoleEntity r WHERE  u.role.roleName = 'inactive'")
+  @Query("SELECT u from UserEntity u, RoleEntity r WHERE  u.role.id = 2 ")
   List<Optional<UserEntity>> findAllInactiveUsers();
 
   boolean existsByPhoneNumber(String phone);

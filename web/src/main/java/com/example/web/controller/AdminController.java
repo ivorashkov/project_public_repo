@@ -22,10 +22,9 @@ public class AdminController {
 
   @GetMapping("/request")
   public ResponseEntity<List<UserEntity>> getAccountsForApproval(){
-    List<UserEntity> users = this.adminService.getAccountsForApproval();
-
+    List<UserEntity> accountsForApproval = this.adminService.getAccountsForApproval();
 //    return this.validatorUtil.listResponseEntity()
-    return null;
+    return this.validatorUtil.responseEntityList(accountsForApproval);
   }
 
 }

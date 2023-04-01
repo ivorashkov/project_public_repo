@@ -23,13 +23,12 @@ public class AdminServiceImpl implements AdminService {
     List<UserEntity> usersForApproval = this.validatorUtil.getListFromOptionalList(
         this.userRepository.findAllInactiveUsers());
 
-    usersForApproval.forEach(u -> {
-      List<AccountInfoEntity> AccountDataProvided = this.validatorUtil.getListFromOptionalList(
-          this.accountInfoRepository.findAllByUserId(
-              u.getId()));
-
-    });
-
-    return null;
+//    usersForApproval.forEach(u -> {
+//      List<AccountInfoEntity> AccountDataProvided = this.validatorUtil.getListFromOptionalList(
+//          this.accountInfoRepository.findAllByUserId(
+//              u.getId()));
+//    });
+//    Could not write JSON: failed to lazily initialize a collection of role: com.example.web.model.entity.UserEntity.tokens: could not initialize proxy - no Session]
+    return usersForApproval;
   }
 }

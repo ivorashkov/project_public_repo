@@ -38,7 +38,7 @@ export const CreateArticle = () => {
       transportType: formData.get('transportType'),
     }
 
-    fetch(`http://localhost:8091/api/offer/create?userId=${userData.id}`, {
+    fetch(`http://localhost:8091/api/offer/create/?userId=${userData.id}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
