@@ -18,23 +18,19 @@ export const AuthProvider = ({ children }: authInterface) => {
 
     useEffect(() => {
         setUserData(user)
-    }, [])
+    }, [user, token])
 
-    const login = () => {
+    const loginFn = () => {
         setUserData(user)
-        console.log('login')
     }
 
-    const logout = () => {
+    const logoutFn = () => {
         setUserData({})
         localStorage.removeItem("userAuth");
-        console.log('logout')
     };
 
-    console.log('render header')
-
     return (
-        <AuthContext.Provider value={{userData, token, login, logout}}>
+        <AuthContext.Provider value={{userData, token, loginFn, logoutFn}}>
             {children}
         </AuthContext.Provider>
     );

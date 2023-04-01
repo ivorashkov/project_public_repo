@@ -1,8 +1,6 @@
-import { memo } from 'react';
 import { Logo, Nav } from '../../components';
 
-export const Header = memo(() => {
-  console.log('render header')
+export const Header =() => {
   return (
     <header>
       <Logo />
@@ -10,4 +8,4 @@ export const Header = memo(() => {
       <Nav />
     </header>
   );
-});
+};

@@ -1,11 +1,13 @@
 import { Form } from '../../components';
 import { loginForm } from '../../staticData';
 import { login } from '../../services';
-import { FormEvent } from 'react';
+import { FormEvent, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { setLocalUserToken } from '../../hooks';
+import { AuthContext } from '../../context';
 
 export const Login = () => {
+  const {loginFn} = useContext(AuthContext);
   const navigate = useNavigate();
   
   const submitHandlerReg = async (e: FormEvent<HTMLFormElement>) => {
@@ -20,9 +22,8 @@ export const Login = () => {
 
     login(formFields)
       .then(res => {
-        console.log('login ', res);
-
         setLocalUserToken(res.token)
+        loginFn();
         navigate('/');
       });
   }

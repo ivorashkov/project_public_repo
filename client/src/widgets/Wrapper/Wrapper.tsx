@@ -1,4 +1,4 @@
-import { memo, FC, HTMLAttributes, DetailedHTMLProps } from 'react';
+import { FC } from 'react';
 
 interface IWrapper {
   children: React.ReactNode;

@@ -4,17 +4,17 @@ import { useNavigate } from 'react-router-dom';
 import { logout as authLogout } from '../../services'
 
 export const Logout = () => {
-    const {logout, token} = useContext(AuthContext);
+    const {token, logoutFn} = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
         authLogout(token)
             .then(() => {
-                logout();
+                logoutFn();
                 navigate('/');
             })
             .catch(err => console.error(err))
-    }, [])
+    }, [token])
 
     return null;
-}
+} 
