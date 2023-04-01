@@ -3,6 +3,7 @@ package com.example.web.service;
 import com.example.web.model.requestDto.TourOfferCreateRequestDTO;
 import com.example.web.model.requestDto.TourOfferEditRequestDTO;
 import com.example.web.model.responseDTO.TourOfferByIdResponseDTO;
+import com.example.web.model.responseDTO.TourOfferCreateResponseDTO;
 import com.example.web.model.responseDTO.TourOfferPagingResponseDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.responseDTO.TourOfferShortResponseDTO;
@@ -21,7 +22,7 @@ public interface TourOfferService {
 
   TourOfferFullDTO findByIdAndUserId(Long offerId, Long userId);
 
-  TourOfferFullDTO saveOfferAndPath(TourOfferCreateRequestDTO importedOfferDTO);
+  TourOfferFullDTO saveOfferAndPath(Long userId, Long offerId);
 
   boolean deleteOffer(Long userId, Long offerId);
 
@@ -36,4 +37,6 @@ public interface TourOfferService {
   List<String> findAllCitiesByCountryName(String countryName);
 
   List<TourOfferShortResponseDTO> findAllByUserId(Long userId);
+
+  TourOfferCreateResponseDTO createOffer(Long userId, TourOfferCreateRequestDTO createRequestDTO);
 }

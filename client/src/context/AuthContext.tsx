@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }: authInterface) => {
 
     useEffect(() => {
         setUserData(user)
-    }, [user, token])
+    }, [token])
 
     const loginFn = () => {
         setUserData(user)

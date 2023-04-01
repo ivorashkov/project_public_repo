@@ -1,7 +1,6 @@
 import { Link, Outlet } from 'react-router-dom';
 import {FormEvent, SetStateAction, useContext, useState} from "react";
 import {AuthContext} from "../../context";
-import { uploadFile } from '../../services';
 
 export const Dashboard = () => {
   const [files, setFiles] = useState<any>();

@@ -2,9 +2,11 @@ package com.example.web.service.impl;
 
 import com.example.web.exception.PageWithOffersNotFoundException;
 import com.example.web.exception.TourOfferNotFoundException;
+import com.example.web.model.dto.UserDTO;
 import com.example.web.model.requestDto.TourOfferCreateRequestDTO;
 import com.example.web.model.requestDto.TourOfferEditRequestDTO;
 import com.example.web.model.responseDTO.TourOfferByIdResponseDTO;
+import com.example.web.model.responseDTO.TourOfferCreateResponseDTO;
 import com.example.web.model.responseDTO.TourOfferPagingResponseDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.entity.TourOfferEntity;
@@ -16,6 +18,7 @@ import com.example.web.service.TourOfferFilePathService;
 import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -103,16 +106,15 @@ public class TourOfferServiceImpl implements TourOfferService {
   }
 
   @Override
-  public TourOfferFullDTO saveOfferAndPath(TourOfferCreateRequestDTO importedOfferDTO) {
+  public TourOfferFullDTO saveOfferAndPath(Long userId, Long offerId) {
     log.info(" [INFO] TourOfferServiceImpl {saveOfferAndPath}");
 
     try {
 
-      var userEntity = this.validatorUtil.getEntityFromDTO
-          (this.userService.findUserDTOById(importedOfferDTO.getUser().getId()), UserEntity.class);
+      var userEntity = this.validatorUtil.getEntityFromDTO(userId, UserEntity.class);
 
-      var tourOfferEntity = this.validatorUtil.getEntityFromDTO
-          (importedOfferDTO, TourOfferEntity.class);
+      TourOfferEntity tourOfferEntity = this.tourOfferRepository.findById(offerId)
+          .orElseThrow(TourOfferNotFoundException::new);
 
       tourOfferEntity.setUser(userEntity);
 
@@ -211,9 +213,24 @@ public class TourOfferServiceImpl implements TourOfferService {
   public List<TourOfferShortResponseDTO> findAllByUserId(Long userId) {
 
     return this.validatorUtil.getDTOList(
-        this.validatorUtil.getListFromOptionalList(this.tourOfferRepository.findAllByUserId(userId)),
+        this.validatorUtil.getListFromOptionalList(
+            this.tourOfferRepository.findAllByUserId(userId)),
         TourOfferShortResponseDTO.class
     );
+  }
+
+  @Override
+  public TourOfferCreateResponseDTO createOffer(Long userId,
+      TourOfferCreateRequestDTO createRequestDTO) {
+
+    UserDTO userDTO = this.userService.findUserDTOById(userId);
+    TourOfferEntity tourEntity = this.validatorUtil.getEntityFromDTO(createRequestDTO,
+        TourOfferEntity.class);
+
+    tourEntity.setUser(this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class));
+
+    return this.validatorUtil.getDTOFromEntity(this.tourOfferRepository.save(tourEntity),
+        TourOfferCreateResponseDTO.class);
   }
 
   private List<Sort.Order> getOrderList(String[] sort) {

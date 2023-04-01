@@ -5,6 +5,7 @@ import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
 import com.example.web.model.enums.TransportType;
 import com.example.web.model.requestDto.TourOfferEditRequestDTO;
+import com.example.web.model.responseDTO.TourOfferCreateResponseDTO;
 import com.example.web.model.responseDTO.TourOfferShortResponseDTO;
 import com.example.web.service.FileService;
 import com.example.web.service.TourOfferFilePathService;
@@ -12,8 +13,8 @@ import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
 
+import jakarta.validation.Valid;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -113,37 +114,37 @@ public class TourOfferController {
         this.tourOfferService.deleteOffer(userId, offerId));
   }
 
-  @PostMapping(value = "/create", consumes = {"multipart/form-data"})
-  public ResponseEntity<TourOfferFullDTO> createOffer(
-      @RequestPart(value = "file", required = false) List<MultipartFile> files
-      //  ,@RequestPart("json") TourOfferCreateDTO tourOfferCreateDTO
+
+  @PostMapping(value = "/create/{userId}")
+  public ResponseEntity<TourOfferCreateResponseDTO> createOffer(
+      @PathVariable(name = "userId") Long userId,
+      @RequestBody @Valid TourOfferCreateRequestDTO createRequestDTO
   ) {
-//https://stackoverflow.com/questions/49845355/spring-boot-controller-upload-multipart-and-json-to-dto
 
-    /** incoming JSON object ImportCreateOfferInfoDTO */
-
+    //JSON TourOfferCreate
+    //UserID
     UserDTO userDTO = this.userService.findUserDTOById(3L);
 
-    TourOfferCreateRequestDTO createOfferDTO = new TourOfferCreateRequestDTO
-        (
-            "new Title",
-            LocalDateTime.now(),
-            "Testoniq",
-            "Testanqn",
-            5,
-            4.0,
-            BigDecimal.valueOf(110.11),
-            "testche",
-            0,
-            userDTO,
-            TransportType.airplane
-        );
+    //should return responseOfferDTO
+    return this.validatorUtil.responseEntity(
+        this.tourOfferService.createOffer(userId, createRequestDTO));
 
-    /** DTO + FILES **/
-    TourOfferFullDTO tourOfferFullDTO = this.tourOfferService.saveOfferAndPath(createOfferDTO);
+  }
 
-    this.fileService.handleAllFilesUpload(files, tourOfferFullDTO.getUser().getId(),
-        tourOfferFullDTO.getId());
+  @PatchMapping("/create/{userId}/{offerId}")
+  public ResponseEntity<TourOfferFullDTO> finishOfferCreation(
+      @PathVariable(name = "userId") Long userId,
+      @PathVariable(name = "offerId") Long offerId,
+      @RequestPart("file") List<MultipartFile> files
+  ) {
+
+    TourOfferFullDTO tourOfferFullDTO = this.tourOfferService.saveOfferAndPath(userId, offerId);
+
+    this.fileService.handleAllFilesUpload(
+        files,
+        tourOfferFullDTO.getUser().getId(),
+        tourOfferFullDTO.getId()
+    );
 
     tourOfferFullDTO.setPaths(this.tourOfferDataService.getOfferPaths(tourOfferFullDTO));
 
@@ -155,17 +156,14 @@ public class TourOfferController {
     UserDTO user = this.userService.findUserDTOById(27L);
 
     return new TourOfferCreateRequestDTO(
-
         "new Title",
-        LocalDateTime.now(),
-        "Testoniq",
-        "Testanqn",
+        "Country",
+        "city",
         5,
-        4.0,
+        4,
         BigDecimal.valueOf(11.11),
-        "testche",
+        "description",
         0,
-        user,
         TransportType.airplane);
   }
 

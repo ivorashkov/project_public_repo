@@ -2,8 +2,18 @@ import { useState, useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { getAnOffer } from '../../services';
 
+interface detailsInterface {
+  title: string;
+  country: string;
+  city: string;
+  date: string;
+  price: string;
+  description: string;
+  transportation: string;
+}
+
 export const Article = () => {
-  const [details, setDetails] = useState({});
+  const [details, setDetails] = useState<detailsInterface>();
   const { offerId } = useParams();
 
   useEffect(() => {

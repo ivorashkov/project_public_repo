@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 
 export const PaginatedItems = ({ pages, total, getPageNumber }: any) => {

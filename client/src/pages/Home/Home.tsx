@@ -4,6 +4,13 @@ import { getAllData, getAllOffersPaging, getAllCountries, getCityByCountry } fro
 import { Offer } from '../../components/';
 import { PaginatedItems } from '../../components/PagesLink';
 
+interface offerInterface {
+  id: number;
+  date: string;
+  price: number;
+  title: string;
+}
+
 export const Home = () => {
   const [offers, setOffers] = useState([]);
   const [pages, setPages] = useState<number[]>([]);
@@ -115,9 +122,9 @@ export const Home = () => {
       <div className="grid">
         <div className="grid__items">
           <ul>
-            {offers?.map((offer) => (
-              <li key={offer.id}>
-                <Offer id={offer.id} date={offer.date} price={offer.price} title={offer.title} />
+            {offers?.map((offer: offerInterface) => (
+              <li key={offer?.id}>
+                <Offer id={offer?.id} date={offer?.date} price={offer?.price} title={offer?.title} />
               </li>
             ))}
           </ul>

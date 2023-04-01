@@ -8,5 +8,5 @@ public class CorsFilterConstants {
   public static final String HEADER_ACCESS_CONTROL_EXPOSE_HEADERS = "Access-Control-Expose-Headers";
   public static final String VALUE_WILD_CARD = "*";
   public static final String VALUE_METHODS = "POST, GET, PUT, OPTIONS, DELETE, PATCH";
-  public static final String VALUE_ORIGIN = "http://localhost:3001";
+  public static final String VALUE_ORIGIN = "http://localhost:3000";
 }
