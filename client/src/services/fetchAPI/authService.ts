@@ -5,6 +5,8 @@ enum links {
    logout = '/api/auth/logout',
 }
 
+// http://localhost:8091/api/auth/logout
+
 enum methods {
     post =  'POST',
     put =  'PUT',

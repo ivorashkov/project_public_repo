@@ -18,7 +18,7 @@ import com.example.web.service.TourOfferFilePathService;
 import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
-import java.util.Optional;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -228,7 +228,7 @@ public class TourOfferServiceImpl implements TourOfferService {
         TourOfferEntity.class);
 
     tourEntity.setUser(this.validatorUtil.getEntityFromDTO(userDTO, UserEntity.class));
-
+    tourEntity.setDate(LocalDateTime.now());
     return this.validatorUtil.getDTOFromEntity(this.tourOfferRepository.save(tourEntity),
         TourOfferCreateResponseDTO.class);
   }

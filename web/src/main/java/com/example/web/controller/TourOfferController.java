@@ -3,18 +3,16 @@ package com.example.web.controller;
 import com.example.web.model.requestDto.TourOfferCreateRequestDTO;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
-import com.example.web.model.enums.TransportType;
 import com.example.web.model.requestDto.TourOfferEditRequestDTO;
 import com.example.web.model.responseDTO.TourOfferCreateResponseDTO;
 import com.example.web.model.responseDTO.TourOfferShortResponseDTO;
+import com.example.web.security.jwt.JwtService;
 import com.example.web.service.FileService;
 import com.example.web.service.TourOfferFilePathService;
 import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import com.example.web.util.ValidatorUtil;
 
-import jakarta.validation.Valid;
-import java.math.BigDecimal;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -114,27 +112,23 @@ public class TourOfferController {
         this.tourOfferService.deleteOffer(userId, offerId));
   }
 
-
-  @PostMapping(value = "/create/{userId}")
+  @PostMapping(value = "/create/")
   public ResponseEntity<TourOfferCreateResponseDTO> createOffer(
-      @PathVariable(name = "userId") Long userId,
-      @RequestBody @Valid TourOfferCreateRequestDTO createRequestDTO
+      @RequestBody TourOfferCreateRequestDTO createRequestDTO,
+      @RequestParam(name = "userId") Long id
   ) {
 
-    //JSON TourOfferCreate
-    //UserID
-    UserDTO userDTO = this.userService.findUserDTOById(3L);
-
-    //should return responseOfferDTO
     return this.validatorUtil.responseEntity(
-        this.tourOfferService.createOffer(userId, createRequestDTO));
-
+        this.tourOfferService.createOffer(
+            id,
+            createRequestDTO)
+    );
   }
 
-  @PatchMapping("/create/{userId}/{offerId}")
+  @PostMapping("/finish/*")
   public ResponseEntity<TourOfferFullDTO> finishOfferCreation(
-      @PathVariable(name = "userId") Long userId,
-      @PathVariable(name = "offerId") Long offerId,
+      @RequestParam(name = "userId") Long userId,
+      @RequestParam(name = "offerId") Long offerId,
       @RequestPart("file") List<MultipartFile> files
   ) {
 
@@ -150,22 +144,4 @@ public class TourOfferController {
 
     return this.validatorUtil.responseEntity(tourOfferFullDTO);
   }
-
-  @GetMapping("/test")
-  public TourOfferCreateRequestDTO sendDTO() {
-    UserDTO user = this.userService.findUserDTOById(27L);
-
-    return new TourOfferCreateRequestDTO(
-        "new Title",
-        "Country",
-        "city",
-        5,
-        4,
-        BigDecimal.valueOf(11.11),
-        "description",
-        0,
-        TransportType.airplane);
-  }
-
-
 }

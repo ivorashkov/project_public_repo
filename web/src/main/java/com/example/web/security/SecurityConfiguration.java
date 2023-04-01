@@ -1,7 +1,7 @@
 package com.example.web.security;
 
 import com.example.web.model.enums.RoleType;
-import com.example.web.security.cors.CorsFilter;
+import com.example.web.security.corsFilter.CorsFilter;
 import com.example.web.security.jwt.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -42,11 +42,12 @@ public class SecurityConfiguration {
   };
 
   private static final String[] AUTH_ACTIVE_USER_LIST = {
-//      "/api/user/upload/all",
+      "/api/user/upload/all",
       "/api/offer/save",
       "/api/offer/edit",
       "/api/offer/delete",
-      "/api/offer/create"
+      "/api/offer/create/**",
+      "/api/offer/create/finish/**"
   };
 
   private static final String LOGOUT_URL = "/api/auth/logout";
@@ -59,9 +60,11 @@ public class SecurityConfiguration {
         .requestMatchers(AUTH_WHITELIST)
         .permitAll()
         .requestMatchers(AUTH_ADMIN_LIST)
-        .hasAuthority(String.valueOf(RoleType.admin))
+        .hasAnyRole(String.valueOf(RoleType.admin))
+//        .hasAuthority(String.valueOf(RoleType.admin))
         .requestMatchers(AUTH_ACTIVE_USER_LIST)
-        .hasAuthority(String.valueOf(RoleType.active))
+        .hasAnyRole(String.valueOf(RoleType.active))
+//        .hasAuthority(String.valueOf(RoleType.active))
         .anyRequest()
         .authenticated()
         .and()
@@ -69,7 +72,7 @@ public class SecurityConfiguration {
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .authenticationProvider(authenticationProvider)
-        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+        .addFilterAt(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
         .addFilterAt(corsFilter, LogoutFilter.class)
         .logout()
         .logoutUrl(LOGOUT_URL) //using default Spring logout without implimentation
