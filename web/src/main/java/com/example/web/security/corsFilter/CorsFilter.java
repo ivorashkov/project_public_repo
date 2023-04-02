@@ -1,12 +1,12 @@
 package com.example.web.security.corsFilter;
 
-import com.example.web.constant.CorsFilterConstants;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import org.springframework.context.annotation.Configuration;
@@ -21,22 +21,27 @@ public class CorsFilter implements Filter {
 
   @Override
   public void doFilter(
-      ServletRequest servletRequest,
-      ServletResponse servletResponse,
-      FilterChain filterChain
+          ServletRequest servletRequest,
+          ServletResponse servletResponse,
+          FilterChain filterChain
   ) throws IOException, ServletException {
     HttpServletResponse response = (HttpServletResponse) servletResponse;
+    HttpServletRequest request = (HttpServletRequest) servletRequest;
 
-    response.setHeader(CorsFilterConstants.HEADER_ACCESS_CONTROL_ALLOW_ORIGIN
-        , CorsFilterConstants.VALUE_ORIGIN);
-    response.setHeader(CorsFilterConstants.HEADER_ACCESS_CONTROL_ALLOW_METHODS,
-        CorsFilterConstants.VALUE_METHODS);
-    response.setHeader(CorsFilterConstants.HEADER_ACCESS_CONTROL_ALLOW_HEADERS,
-        CorsFilterConstants.VALUE_HEADERS);
-    response.setHeader(CorsFilterConstants.HEADER_ACCESS_CONTROL_MAX_AGE,
-        CorsFilterConstants.VALUE_MAX_AGE);
-    response.setHeader(CorsFilterConstants.HEADER_ACCESS_CONTROL_EXPOSE_HEADERS
-        , CorsFilterConstants.VALUE_WILD_CARD);
+    if ("OPTIONS".equals(request.getMethod())) {
+      response.setStatus(HttpServletResponse.SC_OK);
+      response.setHeader("Access-Control-Allow-Origin", "*");
+      response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+      response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+      response.setHeader("Access-Control-Max-Age", "86400");
+      return;
+    }
+
+    response.setHeader("Access-Control-Allow-Origin", "*");
+    response.setHeader("Access-Control-Allow-Credentials", "true");
+    response.setHeader("Access-Control-Allow-Methods", "*");
+    response.setHeader("Access-Control-Allow-Headers", "*");
+    response.setHeader("Access-Control-Max-Age", "3600");
 
     filterChain.doFilter(servletRequest, servletResponse);
   }
