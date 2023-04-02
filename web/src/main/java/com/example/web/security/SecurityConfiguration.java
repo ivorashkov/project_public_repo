@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
@@ -47,21 +46,29 @@ public class SecurityConfiguration {
       "/api/offer/save",
       "/api/offer/edit",
       "/api/offer/delete",
-      "/api/offer/create/",
-      "/api/offer/finish/"
+      "/api/offer/create/*",
+      "/api/offer/finish/*"
   };
 
   private static final String LOGOUT_URL = "/api/auth/logout";
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    //first step disable csrf
+    httpSecurity = httpSecurity.csrf().disable();
+
+    //set session management to stateless
     httpSecurity
-        .csrf().disable()
+        //authorize HTTP REQUESTS
         .authorizeHttpRequests()
         .requestMatchers(AUTH_WHITELIST)
         .permitAll()
+        .and()
+        .authorizeHttpRequests()
         .requestMatchers(AUTH_ADMIN_LIST)
         .hasAuthority(String.valueOf(RoleType.admin))
+        .anyRequest()
+        .authenticated()
         .and()
         .authorizeHttpRequests()
         .requestMatchers(AUTH_ACTIVE_USER_LIST)
@@ -69,6 +76,7 @@ public class SecurityConfiguration {
         .anyRequest()
         .authenticated()
         .and()
+        //SET SESSION STATELESS
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()

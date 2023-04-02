@@ -44,11 +44,11 @@ public class CorsFilter implements Filter {
     response.setHeader(CorsFilterConstants.HEADER_ACCESS_CONTROL_ALLOW_ORIGIN
         , CorsFilterConstants.VALUE_ORIGIN);
     response.setHeader(CorsFilterConstants.HEADER_ACCESS_CONTROL_ALLOW_METHODS,
-        CorsFilterConstants.VALUE_METHODS);
+        CorsFilterConstants.VALUE_WILD_CARD);
     response.setHeader(CorsFilterConstants.HEADER_ACCESS_CONTROL_ALLOW_HEADERS,
         CorsFilterConstants.VALUE_WILD_CARD);
     response.setHeader(CorsFilterConstants.HEADER_ACCESS_CONTROL_MAX_AGE,
-        CorsFilterConstants.VALUE_MAX_AGE);
+        CorsFilterConstants.VALUE_WILD_CARD);
     response.setHeader(CorsFilterConstants.HEADER_ACCESS_CONTROL_EXPOSE_HEADERS
         , CorsFilterConstants.VALUE_WILD_CARD);
   }

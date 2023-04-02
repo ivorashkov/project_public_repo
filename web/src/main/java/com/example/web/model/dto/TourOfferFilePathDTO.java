@@ -13,6 +13,9 @@ import lombok.Setter;
 public class TourOfferFilePathDTO extends BaseDTO {
 
   @Expose
+  private Long id;
+
+  @Expose
   private String documentLocation;
 
 }
