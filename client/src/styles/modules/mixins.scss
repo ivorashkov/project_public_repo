@@ -5,5 +5,5 @@
 }
 
 @mixin breakpoint-down-tablet {
-	@media (min-width: $tablet) { @content; }
+	@media (max-width: $tablet) { @content; }
 }

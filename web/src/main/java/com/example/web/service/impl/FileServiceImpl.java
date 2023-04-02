@@ -5,13 +5,14 @@ import com.example.web.exception.StorageException;
 import com.example.web.constant.DataDirectoryConstants;
 import com.example.web.model.dto.TourOfferFullDTO;
 import com.example.web.model.dto.UserDTO;
-import com.example.web.service.AccountActivationDataService;
+import com.example.web.service.AccountInfoService;
 import com.example.web.service.FileService;
 import com.example.web.service.TourOfferFilePathService;
 import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class FileServiceImpl implements FileService {
 
   private final TourOfferService tourOfferService;
   private final UserService userService;
-  private final AccountActivationDataService additionalInfoService;
+  private final AccountInfoService additionalInfoService;
   private final TourOfferFilePathService offerDataService;
   private final Path rootLocation;
 
@@ -38,7 +39,7 @@ public class FileServiceImpl implements FileService {
           TourOfferService tourOfferService,
           UserService userService, TourOfferFilePathService offerDataService,
           DataDirectoryConstants properties,
-          AccountActivationDataService additionalInfoService
+          AccountInfoService additionalInfoService
       ) {
     this.tourOfferService = tourOfferService;
     this.userService = userService;
@@ -66,6 +67,18 @@ public class FileServiceImpl implements FileService {
           }
         });
     return true;
+  }
+
+  @Override
+  public Stream<Path> loadAll() {
+    try {
+      return Files.walk(this.rootLocation, 1)
+          .filter(path -> !path.equals(this.rootLocation))
+          .map(this.rootLocation::relativize);
+    }
+    catch (IOException e) {
+      throw new StorageException("Failed to read stored files", e);
+    }
   }
 
   public Path handleSingleFileUpload(MultipartFile file, Long userId, Long offerId) {
@@ -132,4 +145,6 @@ public class FileServiceImpl implements FileService {
       throw s;
     }
   }
+
+
 }

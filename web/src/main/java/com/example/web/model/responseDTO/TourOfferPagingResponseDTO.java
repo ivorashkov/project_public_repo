@@ -49,6 +49,6 @@ public class TourOfferPagingResponseDTO extends BaseDTO {
   private TransportType transportType;
 
   @Expose
-  private List<TourOfferFilePathDTO> paths;
+  private List<String> binaryFiles;
 
 }

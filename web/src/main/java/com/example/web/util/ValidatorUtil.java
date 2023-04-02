@@ -1,6 +1,7 @@
 package com.example.web.util;
 
 import com.example.web.model.entity.BaseEntity;
+import com.example.web.model.entity.TourOfferFilePathEntity;
 import com.example.web.model.entity.UserEntity;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -36,4 +37,5 @@ public interface ValidatorUtil {
 
   <E> String getLogInfo(Class<E> claz, Method method);
 
+  <E extends TourOfferFilePathEntity> List<String> readFileToString(List<E> list);
 }

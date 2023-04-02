@@ -24,8 +24,12 @@
         width: 25%;
         display: flex;
 
-        @include breakpoint-down-mobile {
+        @include breakpoint-down-tablet {
             width: 50%;
+        }
+
+        @include breakpoint-down-mobile {
+            width: 100%;
         }
     }
 }

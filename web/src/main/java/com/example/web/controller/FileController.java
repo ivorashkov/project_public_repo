@@ -27,7 +27,7 @@ public class FileController {
   }
 
   @PostMapping("/upload/all/{userId}")
-  public ResponseEntity<Object> handleAllFilesUpload(
+  public ResponseEntity<?> handleAllFilesUpload(
       @PathVariable("userId") Long userId,
       @RequestPart("file") List<MultipartFile> files,
       @RequestParam(name = "offerId", defaultValue = "-1") Long offerId

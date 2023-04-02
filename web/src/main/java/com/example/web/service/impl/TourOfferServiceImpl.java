@@ -3,6 +3,7 @@ package com.example.web.service.impl;
 import com.example.web.exception.PageWithOffersNotFoundException;
 import com.example.web.exception.TourOfferNotFoundException;
 import com.example.web.model.dto.UserDTO;
+import com.example.web.model.entity.TourOfferFilePathEntity;
 import com.example.web.model.requestDto.TourOfferCreateRequestDTO;
 import com.example.web.model.requestDto.TourOfferEditRequestDTO;
 import com.example.web.model.responseDTO.TourOfferByIdResponseDTO;
@@ -14,6 +15,7 @@ import com.example.web.model.entity.UserEntity;
 import com.example.web.model.requestDto.TourOfferDeleteRequestDTO;
 import com.example.web.model.responseDTO.TourOfferShortResponseDTO;
 import com.example.web.repository.TourOfferRepository;
+import com.example.web.service.FileService;
 import com.example.web.service.TourOfferFilePathService;
 import com.example.web.service.TourOfferService;
 import com.example.web.service.UserService;
@@ -62,8 +64,16 @@ public class TourOfferServiceImpl implements TourOfferService {
       final Page<TourOfferEntity> offerEntities;
 
       if (criteria == null) {
-
+        //find all offers
         offerEntities = tourOfferRepository.findAll_TourOffers_ByDate(pageable);
+        List<TourOfferEntity> content = offerEntities.getContent();
+        content.forEach(e -> {
+          List<TourOfferFilePathEntity> listOfFiles = e.getPaths();
+          if (!listOfFiles.isEmpty()) {
+            List<String> binary = this.validatorUtil.readFileToString(listOfFiles);
+          }
+        });
+
         offers = this.validatorUtil.mapEntityPageIntoDtoPage(offerEntities,
             TourOfferPagingResponseDTO.class);
       } else {

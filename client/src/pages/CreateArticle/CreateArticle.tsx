@@ -56,7 +56,6 @@ export const CreateArticle = () => {
     //   second endpoint PATCH -> ../api/offer/create/{userId}/{offerId} + multipartFiles -> JSON {Full offer Details}
 
     // createAnOffer(formData, userData.id, token);
-  };
 
   return (
     <section>
@@ -104,6 +103,7 @@ export const CreateArticle = () => {
 
           <div className="form__row">
             <label htmlFor="transportType">transport type</label>
+
             <select name="transportType" id="transportType">
               <option value="airplane">airplane</option>
               <option value="bus">bus</option>
@@ -121,4 +121,4 @@ export const CreateArticle = () => {
       </div>
     </section>
   );
-};
+}};

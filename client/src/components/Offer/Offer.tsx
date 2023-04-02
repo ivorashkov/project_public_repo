@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import type { Offer as IOffer } from '../../types';
+import './Offer.scss';
 
 export const Offer = ({id ,title, date, price}: IOffer) => {
     return (

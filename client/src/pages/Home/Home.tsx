@@ -34,6 +34,8 @@ export const Home = () => {
       setPages(el.totalPages);
       setTotalNumberOfElements(el.numberOfElements);
       setElementsPerPage(el.size)
+
+      console.log(el)
     });
   }, [filterPages, order, sort, city, country]);
 
@@ -52,7 +54,8 @@ export const Home = () => {
   const sectionGridAndFilter = <>
 
   {
-    offers.length > elementsPerPage ?
+    // offers.length > elementsPerPage ?
+    offers.length > 1 ?
 
     <div className="section__form">
       <form action="">
@@ -121,13 +124,17 @@ export const Home = () => {
     <div className="section__grid">
       <div className="grid">
         <div className="grid__items">
-          <ul>
-            {offers?.map((offer: offerInterface) => (
-              <li key={offer?.id}>
-                <Offer id={offer?.id} date={offer?.date} price={offer?.price} title={offer?.title} />
-              </li>
-            ))}
-          </ul>
+          <div className="grid">
+            <div className="grid__row">
+            {
+              offers?.map((offer: offerInterface) => (
+                <div key={offer?.id} className="grid__col grid__col--1of4">
+                  <Offer id={offer?.id} date={offer?.date} price={offer?.price} title={offer?.title} />
+                </div>  
+              ))
+            }
+            </div>
+          </div>
 
           { 
             offers.length > elementsPerPage ? 

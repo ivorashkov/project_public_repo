@@ -2,17 +2,22 @@ package com.example.web.util.impl;
 
 import com.example.web.constant.LoggingMessageConstants;
 import com.example.web.model.entity.BaseEntity;
+import com.example.web.model.entity.TourOfferFilePathEntity;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.model.enums.RoleType;
 import com.example.web.util.ValidatorUtil;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.Builder;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -150,7 +155,26 @@ public class ValidatorUtilImpl implements ValidatorUtil {
         method);
   }
 
+  @Override
+  public <E extends TourOfferFilePathEntity> List<String> readFileToString(List<E> list) {
+    List<String> newPaths = new ArrayList<>();
+    list.forEach(TourOfferFilePathEntity -> {
+      //path
+      File file = new File(TourOfferFilePathEntity.getDocumentLocation());
+      try {
+        byte[] bytes = Files.readAllBytes(file.toPath());
+        String string = Arrays.toString(bytes);
+        newPaths.add(string);
 
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      System.out.println();
+      //read
+      //transfer to string
+    });
+    return newPaths;
+  }
 
 //  @Override
 //  public <E> String getErrrorLog(Class<E> claz) {
