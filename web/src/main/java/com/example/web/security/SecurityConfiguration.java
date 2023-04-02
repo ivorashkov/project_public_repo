@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
@@ -60,10 +61,8 @@ public class SecurityConfiguration {
         .requestMatchers(AUTH_WHITELIST)
         .permitAll()
         .requestMatchers(AUTH_ADMIN_LIST)
-//        .hasAnyRole(String.valueOf(RoleType.admin))
         .hasAuthority(String.valueOf(RoleType.admin))
         .requestMatchers(AUTH_ACTIVE_USER_LIST)
-//        .hasAnyRole(String.valueOf(RoleType.active))
         .hasAuthority(String.valueOf(RoleType.active))
         .anyRequest()
         .authenticated()
@@ -73,6 +72,7 @@ public class SecurityConfiguration {
         .and()
         .authenticationProvider(authenticationProvider)
         .addFilterAt(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+        .addFilterAt(jwtAuthFilter, LogoutFilter.class)
         .addFilterAt(corsFilter, LogoutFilter.class)
         .logout()
         .logoutUrl(LOGOUT_URL) //using default Spring logout without implimentation
@@ -83,5 +83,6 @@ public class SecurityConfiguration {
         );
 
     return httpSecurity.build();
+
   }
 }
