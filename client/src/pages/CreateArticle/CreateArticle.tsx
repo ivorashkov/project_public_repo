@@ -21,6 +21,22 @@ export const CreateArticle = () => {
   const [files, setFiles] = useState<any>();
   const { userData, token } = useContext(AuthContext);
 
+  const afterSubmitSendFiles = async (offerId:number) => {
+    const formData = new FormData();
+    formData.append("file", files);
+
+    await fetch(`http://localhost:8091/api/offer/finish/?userId=${userData.id}&offerId=${offerId}`, {
+      method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+    })
+      .then((res) => res)
+      .then((result) => console.log(result))
+      .catch((err) => console.error(err));
+  }
+
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -49,8 +65,10 @@ export const CreateArticle = () => {
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
+        afterSubmitSendFiles(result.id)
       })
       .catch((err) => console.error(err));
+  } 
 
     //   first endpoint POST-> ../api/offer/create/{userId} -> JSON {offerId -> "id"}
     //   second endpoint PATCH -> ../api/offer/create/{userId}/{offerId} + multipartFiles -> JSON {Full offer Details}
@@ -60,11 +78,11 @@ export const CreateArticle = () => {
   return (
     <section>
       <div className="form">
-        <form action="" onSubmit={submitHandler}>
-          {/* <div className="form__row">
+        <form action="" onSubmit={submitHandler} encType="multipart/form-data">
+          <div className="form__row">
             <label htmlFor="file">Images</label>
             <input type="file" name="file" id="file" onChange={(event) => setFiles(event.target.files)} multiple/>
-          </div> */}
+          </div>
 
           <div className="form__row">
             <label htmlFor="title">title</label>
@@ -121,4 +139,4 @@ export const CreateArticle = () => {
       </div>
     </section>
   );
-}};
+};

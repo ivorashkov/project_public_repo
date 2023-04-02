@@ -113,7 +113,6 @@ public class TourOfferController {
   }
 
   @PostMapping(value = "/create/")
-  @CrossOrigin(origins = "*", allowedHeaders = "*")
   public ResponseEntity<TourOfferCreateResponseDTO> createOffer(
       @RequestBody TourOfferCreateRequestDTO createRequestDTO,
       @RequestParam(name = "userId") Long id

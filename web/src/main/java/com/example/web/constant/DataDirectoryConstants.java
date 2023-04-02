@@ -10,8 +10,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class DataDirectoryConstants {
 
   //TODO: PLEASE ENTER YOUR FULL PATH:
-  private String location =
-      "C:\\Users\\User\\Desktop\\Java\\WebProject\\web_progress\\web\\src\\main\\resources\\static\\directory_storage";
+  private String location = "C:\\Users\\User\\Desktop\\Java\\WebProject\\web_progress\\client\\src\\files";
+//      "C:\\Users\\User\\Desktop\\Java\\WebProject\\web_progress\\web\\src\\main\\resources\\static\\directory_storage";
 
 }
 

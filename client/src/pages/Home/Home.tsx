@@ -4,6 +4,7 @@ import { getAllData, getAllOffersPaging, getAllCountries, getCityByCountry } fro
 import { Offer } from '../../components/';
 import { PaginatedItems } from '../../components/PagesLink';
 
+
 interface offerInterface {
   id: number;
   date: string;
@@ -151,7 +152,7 @@ export const Home = () => {
   return (
     <section>
       <h1>home</h1>
-      
+
       { offers.length > 0 ? sectionGridAndFilter : '' }
     </section>
   );
