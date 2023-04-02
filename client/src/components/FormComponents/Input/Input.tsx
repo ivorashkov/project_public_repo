@@ -1,12 +1,24 @@
-import { trimAndCamelCase } from '../../../services';
-import type { Input as InputInterface } from '../../../types';
+import { trimAndCamelCase } from "../../../services";
+import type { Input as InputInterface } from "../../../types";
 
-export const Input = ({ label, type, testId, name, changeHandler }: InputInterface) => {
+export const Input = ({
+  label,
+  type,
+  testId,
+  name,
+  changeHandler,
+}: InputInterface) => {
   return (
-    <div className="formRow">
+    <div className="form__row">
       <label htmlFor={name}>{label}</label>
 
-      <input onChange={changeHandler} type={type} id={name} name={name} data-testid={testId} />
+      <input
+        onChange={changeHandler}
+        type={type}
+        id={name}
+        name={name}
+        data-testid={testId}
+      />
     </div>
   );
 };

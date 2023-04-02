@@ -1,11 +1,15 @@
-import { Logo, Nav } from '../../components';
+import { Logo, Nav } from "../../components";
 
-export const Header =() => {
+export const Header = () => {
   return (
-    <header>
-      <Logo />
+    <header className="header">
+      <div className="shell">
+        <div className="header__inner">
+          <Logo />
 
-      <Nav />
+          <Nav />
+        </div>
+      </div>
     </header>
   );
 };
