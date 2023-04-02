@@ -1,9 +1,9 @@
-import { articleFields } from '../../staticData';
-import { Form } from '../../components';
-import { ChangeEvent, FormEvent, useState } from 'react';
-import {useContext} from 'react';
-import { AuthContext } from '../../context';
-import { createAnOffer } from '../../services/offers';
+import { articleFields } from "../../staticData";
+import { Form } from "../../components";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../../context";
+import { createAnOffer } from "../../services/offers";
 
 interface OfferDetails {
   title: string;
@@ -20,43 +20,43 @@ interface OfferDetails {
 export const CreateArticle = () => {
   const [files, setFiles] = useState<any>();
   const { userData, token } = useContext(AuthContext);
-  
+
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    const formData = new FormData(e.currentTarget);  
+
+    const formData = new FormData(e.currentTarget);
 
     const formFields = {
-      title: formData.get('title'),
-      country: formData.get('country'),
-      city: formData.get('city'),
-      duration: formData.get('duration'),
-      stars: formData.get('stars'),
-      price: formData.get('price'),
-      description: formData.get('description'),
-      discount: formData.get('discount'),
-      transportType: formData.get('transportType'),
-    }
+      title: formData.get("title"),
+      country: formData.get("country"),
+      city: formData.get("city"),
+      duration: formData.get("duration"),
+      stars: formData.get("stars"),
+      price: formData.get("price"),
+      description: formData.get("description"),
+      discount: formData.get("discount"),
+      transportType: formData.get("transportType"),
+    };
 
     fetch(`http://localhost:8091/api/offer/create/?userId=${userData.id}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type':`application/json`
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": `application/json`,
       },
-        body: JSON.stringify(formFields)
+      body: JSON.stringify(formFields),
     })
-    .then((res) => res.json())
-    .then((result) => {
-      console.log(result)
-    })
-    .catch((err => console.error(err)))
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => console.error(err));
 
     //   first endpoint POST-> ../api/offer/create/{userId} -> JSON {offerId -> "id"}
     //   second endpoint PATCH -> ../api/offer/create/{userId}/{offerId} + multipartFiles -> JSON {Full offer Details}
 
     // createAnOffer(formData, userData.id, token);
-  }
+  };
 
   return (
     <section>
@@ -116,7 +116,7 @@ export const CreateArticle = () => {
             <input type="number" name="price" id="price" />
           </div>
 
-          <button>Submit</button>
+          <button className="btn">Submit</button>
         </form>
       </div>
     </section>
