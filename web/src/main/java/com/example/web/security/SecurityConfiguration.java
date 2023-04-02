@@ -47,8 +47,8 @@ public class SecurityConfiguration {
       "/api/offer/save",
       "/api/offer/edit",
       "/api/offer/delete",
-      "/api/offer/create/**",
-      "/api/offer/create/finish/**"
+      "/api/offer/create/",
+      "/api/offer/finish/"
   };
 
   private static final String LOGOUT_URL = "/api/auth/logout";
@@ -62,6 +62,8 @@ public class SecurityConfiguration {
         .permitAll()
         .requestMatchers(AUTH_ADMIN_LIST)
         .hasAuthority(String.valueOf(RoleType.admin))
+        .and()
+        .authorizeHttpRequests()
         .requestMatchers(AUTH_ACTIVE_USER_LIST)
         .hasAuthority(String.valueOf(RoleType.active))
         .anyRequest()
@@ -72,7 +74,6 @@ public class SecurityConfiguration {
         .and()
         .authenticationProvider(authenticationProvider)
         .addFilterAt(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-        .addFilterAt(jwtAuthFilter, LogoutFilter.class)
         .addFilterAt(corsFilter, LogoutFilter.class)
         .logout()
         .logoutUrl(LOGOUT_URL) //using default Spring logout without implimentation

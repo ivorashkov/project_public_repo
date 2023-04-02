@@ -25,8 +25,13 @@ export const CreateArticle = () => {
     const formData = new FormData();
     formData.append("file", files);
 
+    console.log(formData)
+    console.log(files)
+
+    console.log(formData.get("file"))
+
     await fetch(`http://localhost:8091/api/offer/finish/?userId=${userData.id}&offerId=${offerId}`, {
-      method: "POST",
+        method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
         },
