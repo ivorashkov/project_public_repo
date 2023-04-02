@@ -37,5 +37,5 @@ public interface ValidatorUtil {
 
   <E> String getLogInfo(Class<E> claz, Method method);
 
-  <E extends TourOfferFilePathEntity> List<String> readFileToString(List<E> list);
+//  <E extends TourOfferFilePathEntity> List<String> readFileToString(List<E> list);
 }

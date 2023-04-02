@@ -155,26 +155,26 @@ public class ValidatorUtilImpl implements ValidatorUtil {
         method);
   }
 
-  @Override
-  public <E extends TourOfferFilePathEntity> List<String> readFileToString(List<E> list) {
-    List<String> newPaths = new ArrayList<>();
-    list.forEach(TourOfferFilePathEntity -> {
-      //path
-      File file = new File(TourOfferFilePathEntity.getDocumentLocation());
-      try {
-        byte[] bytes = Files.readAllBytes(file.toPath());
-        String string = Arrays.toString(bytes);
-        newPaths.add(string);
-
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-      System.out.println();
-      //read
-      //transfer to string
-    });
-    return newPaths;
-  }
+//  @Override
+//  public <E extends TourOfferFilePathEntity> List<String> readFileToString(List<E> list) {
+//    List<String> newPaths = new ArrayList<>();
+//    list.forEach(TourOfferFilePathEntity -> {
+//      //path
+//      File file = new File(TourOfferFilePathEntity.getDocumentLocation());
+//      try {
+//        byte[] bytes = Files.readAllBytes(file.toPath());
+//        String string = Arrays.toString(bytes);
+//        newPaths.add(string);
+//
+//      } catch (IOException e) {
+//        e.printStackTrace();
+//      }
+//      System.out.println();
+//      //read
+//      //transfer to string
+//    });
+//    return newPaths;
+//  }
 
 //  @Override
 //  public <E> String getErrrorLog(Class<E> claz) {
