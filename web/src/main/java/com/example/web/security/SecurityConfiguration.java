@@ -21,6 +21,7 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
+  private final CustomAuthenticationTrustResolver customAuthenticationTrustResolver;
   private final JwtAuthFilter jwtAuthFilter;
   private final CorsFilter corsFilter;
   private final AuthenticationProvider authenticationProvider;
@@ -52,6 +53,11 @@ public class SecurityConfiguration {
 
   private static final String LOGOUT_URL = "/api/auth/logout";
 
+//  @Bean
+//  public AuthenticationTrustResolver authenticationTrustResolver() {
+//    return CustomAuthenticationTrustResolver();
+//  }
+
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
     //first step disable csrf
@@ -77,6 +83,10 @@ public class SecurityConfiguration {
         .authenticationProvider(authenticationProvider)
         .addFilterAt(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
         .addFilterAt(corsFilter, LogoutFilter.class)
+        .exceptionHandling()
+        .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+        .accessDeniedHandler(new CustomAccessDeniedHandler())
+        .and()
         .logout()
         .logoutUrl(LOGOUT_URL) //using default Spring logout without implimentation
         .addLogoutHandler(logoutHandler)
@@ -84,6 +94,7 @@ public class SecurityConfiguration {
             (request, response, authentication) ->
                 SecurityContextHolder.clearContext()
         );
+
 
     return httpSecurity.build();
 
