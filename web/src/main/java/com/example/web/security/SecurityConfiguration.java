@@ -55,20 +55,14 @@ public class SecurityConfiguration {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
     //first step disable csrf
-    httpSecurity = httpSecurity.csrf().disable();
-
-    //set session management to stateless
     httpSecurity
+        .csrf().disable()
         //authorize HTTP REQUESTS
         .authorizeHttpRequests()
         .requestMatchers(AUTH_WHITELIST)
         .permitAll()
-        .and()
-        .authorizeHttpRequests()
         .requestMatchers(AUTH_ADMIN_LIST)
         .hasAuthority(String.valueOf(RoleType.admin))
-        .anyRequest()
-        .authenticated()
         .and()
         .authorizeHttpRequests()
         .requestMatchers(AUTH_ACTIVE_USER_LIST)

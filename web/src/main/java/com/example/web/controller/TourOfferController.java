@@ -15,11 +15,12 @@ import com.example.web.util.ValidatorUtil;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+@Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/offer")
@@ -117,7 +118,7 @@ public class TourOfferController {
       @RequestBody TourOfferCreateRequestDTO createRequestDTO,
       @RequestParam(name = "userId") Long id
   ) {
-
+    log.info("[ INFO ] Loading TourOfferController /api/offer/create/ { createOffer }");
     return this.validatorUtil.responseEntity(
         this.tourOfferService.createOffer(
             id,
@@ -131,7 +132,7 @@ public class TourOfferController {
       @RequestParam(name = "offerId") Long offerId,
       @RequestPart("file") List<MultipartFile> files
   ) {
-
+    log.info("[ INFO ] Loading TourOfferController /api/offer/finish/ { finishOfferCreation }");
     TourOfferFullDTO tourOfferFullDTO = this.tourOfferService.saveOfferAndPath(userId, offerId);
 
     this.fileService.handleAllFilesUpload(
