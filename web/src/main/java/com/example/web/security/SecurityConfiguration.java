@@ -64,13 +64,10 @@ public class SecurityConfiguration {
     httpSecurity
         .csrf().disable()
         //authorize HTTP REQUESTS
-        .authorizeHttpRequests()
-        .requestMatchers(AUTH_WHITELIST)
-        .permitAll()
-        .and()
-        //set authenticate and authorize on admin/active user
         .authorizeHttpRequests( authorize ->
             authorize
+                .requestMatchers(AUTH_WHITELIST)
+                .permitAll()
                 .requestMatchers(AUTH_ADMIN_LIST)
                 .hasAuthority(String.valueOf(RoleType.admin))
                 .requestMatchers(AUTH_ACTIVE_USER_LIST)
