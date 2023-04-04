@@ -69,8 +69,8 @@ public class SecurityConfiguration {
         .permitAll()
         .and()
         //set authenticate and authorize on admin/active user
-        .authorizeHttpRequests((jwtAuthFilter) ->
-            jwtAuthFilter
+        .authorizeHttpRequests( authorize ->
+            authorize
                 .requestMatchers(AUTH_ADMIN_LIST)
                 .hasAuthority(String.valueOf(RoleType.admin))
                 .requestMatchers(AUTH_ACTIVE_USER_LIST)
