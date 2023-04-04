@@ -47,8 +47,8 @@ public class SecurityConfiguration {
       "/api/offer/save",
       "/api/offer/edit",
       "/api/offer/delete",
-      "/api/offer/create/*",
-      "/api/offer/finish/*"
+      "/api/offer/create/",
+      "/api/offer/finish/"
   };
 
   private static final String LOGOUT_URL = "/api/auth/logout";
@@ -67,21 +67,24 @@ public class SecurityConfiguration {
         .authorizeHttpRequests()
         .requestMatchers(AUTH_WHITELIST)
         .permitAll()
-        .requestMatchers(AUTH_ADMIN_LIST)
-        .hasAuthority(String.valueOf(RoleType.admin))
         .and()
-        .authorizeHttpRequests()
-        .requestMatchers(AUTH_ACTIVE_USER_LIST)
-        .hasAuthority(String.valueOf(RoleType.active))
-        .anyRequest()
-        .authenticated()
-        .and()
+        //set authenticate and authorize on admin/active user
+        .authorizeHttpRequests((jwtAuthFilter) ->
+            jwtAuthFilter
+                .requestMatchers(AUTH_ADMIN_LIST)
+                .hasAuthority(String.valueOf(RoleType.admin))
+                .requestMatchers(AUTH_ACTIVE_USER_LIST)
+                .hasAuthority(String.valueOf(RoleType.active))
+                .anyRequest()
+                .authenticated()
+        )
         //SET SESSION STATELESS
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .authenticationProvider(authenticationProvider)
         .addFilterAt(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+        .addFilterAfter(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
         .addFilterAt(corsFilter, LogoutFilter.class)
         .exceptionHandling()
         .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
@@ -94,7 +97,6 @@ public class SecurityConfiguration {
             (request, response, authentication) ->
                 SecurityContextHolder.clearContext()
         );
-
 
     return httpSecurity.build();
 

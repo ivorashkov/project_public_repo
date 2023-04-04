@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 @Slf4j
 @RestController
 @AllArgsConstructor
@@ -113,7 +114,7 @@ public class TourOfferController {
         this.tourOfferService.deleteOffer(userId, offerId));
   }
 
-  @PostMapping(value = "/create/")
+  @PostMapping(value = "/create")
   public ResponseEntity<TourOfferCreateResponseDTO> createOffer(
       @RequestBody TourOfferCreateRequestDTO createRequestDTO,
       @RequestParam(name = "userId") Long id
@@ -122,11 +123,12 @@ public class TourOfferController {
     return this.validatorUtil.responseEntity(
         this.tourOfferService.createOffer(
             id,
-            createRequestDTO)
+            createRequestDTO
+        )
     );
   }
 
-  @PostMapping("/finish/")
+  @PostMapping("/finish")
   public ResponseEntity<TourOfferFullDTO> finishOfferCreation(
       @RequestParam(name = "userId") Long userId,
       @RequestParam(name = "offerId") Long offerId,
