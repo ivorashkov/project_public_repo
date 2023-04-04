@@ -63,6 +63,11 @@ public class SecurityConfiguration {
     //first step disable csrf
     httpSecurity
         .csrf().disable()
+        //handling exceptions -> seems not working atm.
+        .exceptionHandling()
+        .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+        .accessDeniedHandler(new CustomAccessDeniedHandler())
+        .and()
         //authorize HTTP REQUESTS
         .authorizeHttpRequests( authorize ->
             authorize
@@ -83,10 +88,6 @@ public class SecurityConfiguration {
         .addFilterAt(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
         .addFilterAfter(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
         .addFilterAt(corsFilter, LogoutFilter.class)
-        .exceptionHandling()
-        .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-        .accessDeniedHandler(new CustomAccessDeniedHandler())
-        .and()
         .logout()
         .logoutUrl(LOGOUT_URL) //using default Spring logout without implimentation
         .addLogoutHandler(logoutHandler)
