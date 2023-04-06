@@ -47,21 +47,16 @@ public class SecurityConfiguration {
       "/api/offer/save",
       "/api/offer/edit",
       "/api/offer/delete",
-      "/api/offer/create/",
-      "/api/offer/finish/"
+      "/api/offer/create",
+      "/api/offer/finish"
   };
 
   private static final String LOGOUT_URL = "/api/auth/logout";
 
-//  @Bean
-//  public AuthenticationTrustResolver authenticationTrustResolver() {
-//    return CustomAuthenticationTrustResolver();
-//  }
-
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
     //first step disable csrf
-    httpSecurity
+    return  httpSecurity
         .csrf().disable()
         //handling exceptions -> seems not working atm.
         .exceptionHandling()
@@ -94,9 +89,8 @@ public class SecurityConfiguration {
         .logoutSuccessHandler(
             (request, response, authentication) ->
                 SecurityContextHolder.clearContext()
-        );
-
-    return httpSecurity.build();
-
+        )
+        .and()
+        .build();
   }
 }

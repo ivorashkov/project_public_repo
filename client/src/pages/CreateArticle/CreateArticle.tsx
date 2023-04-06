@@ -30,7 +30,7 @@ export const CreateArticle = () => {
 
     console.log(formData.get("file"))
 
-    await fetch(`http://localhost:8091/api/offer/finish/?userId=${userData.id}&offerId=${offerId}`, {
+    await fetch(`http://localhost:8091/api/offer/finish?userId=${userData.id}&offerId=${offerId}`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -59,7 +59,7 @@ export const CreateArticle = () => {
       transportType: formData.get("transportType"),
     };
 
-    fetch(`http://localhost:8091/api/offer/create/?userId=${userData.id}`, {
+    fetch(`http://localhost:8091/api/offer/create?userId=${userData.id}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

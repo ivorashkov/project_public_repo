@@ -117,9 +117,11 @@ public class TourOfferController {
   @PostMapping(value = "/create")
   public ResponseEntity<TourOfferCreateResponseDTO> createOffer(
       @RequestBody TourOfferCreateRequestDTO createRequestDTO,
+//      @RequestPart List<MultipartFile> files,
       @RequestParam(name = "userId") Long id
   ) {
     log.info("[ INFO ] Loading TourOfferController /api/offer/create/ { createOffer }");
+
     return this.validatorUtil.responseEntity(
         this.tourOfferService.createOffer(
             id,
@@ -135,6 +137,7 @@ public class TourOfferController {
       @RequestPart("file") List<MultipartFile> files
   ) {
     log.info("[ INFO ] Loading TourOfferController /api/offer/finish/ { finishOfferCreation }");
+
     TourOfferFullDTO tourOfferFullDTO = this.tourOfferService.saveOfferAndPath(userId, offerId);
 
     this.fileService.handleAllFilesUpload(
