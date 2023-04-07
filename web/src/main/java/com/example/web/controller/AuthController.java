@@ -9,7 +9,6 @@ import com.example.web.util.ValidatorUtil;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +28,7 @@ public class AuthController {
       (@Valid @RequestBody UserRegistrationRequestDTO registrationDTO) {
 
     return this.validatorUtil.responseEntity(
-        this.authService.registerUser(registrationDTO, RoleType.inactive));
+        this.authService.registerUser(registrationDTO, RoleType.INACTIVE));
   }
 
   @PostMapping("/authenticate")

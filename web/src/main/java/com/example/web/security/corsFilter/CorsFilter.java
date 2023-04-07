@@ -10,8 +10,11 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 
+@Slf4j
 @Configuration
 public class CorsFilter implements Filter {
 
@@ -38,6 +41,8 @@ public class CorsFilter implements Filter {
     setCorsHeaders(response);
 
     filterChain.doFilter(servletRequest, servletResponse);
+
+
   }
 
   private void setCorsHeaders(HttpServletResponse response) {

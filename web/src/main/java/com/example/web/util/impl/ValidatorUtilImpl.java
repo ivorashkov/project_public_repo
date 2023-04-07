@@ -2,19 +2,13 @@ package com.example.web.util.impl;
 
 import com.example.web.constant.LoggingMessageConstants;
 import com.example.web.model.entity.BaseEntity;
-import com.example.web.model.entity.TourOfferFilePathEntity;
 import com.example.web.model.entity.UserEntity;
 import com.example.web.model.enums.RoleType;
 import com.example.web.util.ValidatorUtil;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Method;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -49,7 +43,7 @@ public class ValidatorUtilImpl implements ValidatorUtil {
    **/
   @Override
   public <E extends UserEntity> boolean isAdmin(E entity) {
-    return entity.getRole().getRoleName().equals(RoleType.admin);
+    return entity.getRole().getRoleName().equals(RoleType.ADMIN);
   }
 
   /**

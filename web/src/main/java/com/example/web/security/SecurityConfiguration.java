@@ -21,7 +21,6 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-  private final CustomAuthenticationTrustResolver customAuthenticationTrustResolver;
   private final JwtAuthFilter jwtAuthFilter;
   private final CorsFilter corsFilter;
   private final AuthenticationProvider authenticationProvider;
@@ -58,20 +57,15 @@ public class SecurityConfiguration {
     //first step disable csrf
     return  httpSecurity
         .csrf().disable()
-        //handling exceptions -> seems not working atm.
-        .exceptionHandling()
-        .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-        .accessDeniedHandler(new CustomAccessDeniedHandler())
-        .and()
         //authorize HTTP REQUESTS
         .authorizeHttpRequests( authorize ->
             authorize
                 .requestMatchers(AUTH_WHITELIST)
                 .permitAll()
                 .requestMatchers(AUTH_ADMIN_LIST)
-                .hasAuthority(String.valueOf(RoleType.admin))
+                .hasAuthority(String.valueOf(RoleType.ADMIN))
                 .requestMatchers(AUTH_ACTIVE_USER_LIST)
-                .hasAuthority(String.valueOf(RoleType.active))
+                .hasAuthority(String.valueOf(RoleType.ACTIVE))
                 .anyRequest()
                 .authenticated()
         )
